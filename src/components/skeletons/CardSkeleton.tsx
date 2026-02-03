@@ -9,7 +9,7 @@ interface CardSkeletonProps {
 
 export function CardSkeleton({ hasImage = false, lines = 3 }: CardSkeletonProps) {
   return (
-    <div className="rounded-lg border border-zinc-200 p-4 dark:border-zinc-800">
+    <div className="rounded-lg border border-gray-200 p-4 dark:border-gray-800">
       {hasImage && (
         <BaseSkeleton height="h-40" className="mb-4 rounded-lg" />
       )}

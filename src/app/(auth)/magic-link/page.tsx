@@ -43,10 +43,10 @@ function MagicLinkContent() {
 
   if (isValidating) {
     return (
-      <div className="rounded-xl border border-zinc-200 bg-white p-8 shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
+      <div className="rounded-xl border border-gray-200 bg-white p-8 shadow-sm dark:border-gray-800 dark:bg-gray-900">
         <div className="flex flex-col items-center">
-          <div className="h-8 w-8 animate-spin rounded-full border-2 border-zinc-300 border-t-zinc-900 dark:border-zinc-700 dark:border-t-zinc-100" />
-          <p className="mt-4 text-zinc-600 dark:text-zinc-400">
+          <div className="h-8 w-8 animate-spin rounded-full border-2 border-gray-300 border-t-gray-900 dark:border-gray-700 dark:border-t-gray-100" />
+          <p className="mt-4 text-gray-600 dark:text-gray-400">
             Signing you in...
           </p>
         </div>
@@ -56,7 +56,7 @@ function MagicLinkContent() {
 
   if (state?.error) {
     return (
-      <div className="rounded-xl border border-zinc-200 bg-white p-8 shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
+      <div className="rounded-xl border border-gray-200 bg-white p-8 shadow-sm dark:border-gray-800 dark:bg-gray-900">
         <div className="text-center">
           <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-red-100 dark:bg-red-900/20">
             <svg
@@ -73,7 +73,7 @@ function MagicLinkContent() {
               />
             </svg>
           </div>
-          <p className="mb-6 text-zinc-600 dark:text-zinc-400">
+          <p className="mb-6 text-gray-600 dark:text-gray-400">
             {state.error}
           </p>
           <Button asChild variant="bold">
@@ -91,10 +91,10 @@ export default function MagicLinkPage() {
   return (
     <Suspense
       fallback={
-        <div className="rounded-xl border border-zinc-200 bg-white p-8 shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
+        <div className="rounded-xl border border-gray-200 bg-white p-8 shadow-sm dark:border-gray-800 dark:bg-gray-900">
           <div className="flex flex-col items-center">
-            <div className="h-8 w-8 animate-spin rounded-full border-2 border-zinc-300 border-t-zinc-900 dark:border-zinc-700 dark:border-t-zinc-100" />
-            <p className="mt-4 text-zinc-600 dark:text-zinc-400">
+            <div className="h-8 w-8 animate-spin rounded-full border-2 border-gray-300 border-t-gray-900 dark:border-gray-700 dark:border-t-gray-100" />
+            <p className="mt-4 text-gray-600 dark:text-gray-400">
               Loading...
             </p>
           </div>

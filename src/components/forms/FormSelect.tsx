@@ -42,14 +42,14 @@ export function FormSelect({
         {...register(name)}
         className={`
           block w-full appearance-none rounded-lg border bg-white px-4 py-2.5 pr-10
-          text-zinc-900
+          text-gray-900
           focus:outline-none focus:ring-2 focus:ring-offset-0
-          disabled:cursor-not-allowed disabled:bg-zinc-50 disabled:text-zinc-500
-          dark:bg-zinc-800 dark:text-zinc-100
+          disabled:cursor-not-allowed disabled:bg-gray-50 disabled:text-gray-500
+          dark:bg-gray-800 dark:text-gray-100
           ${
             hasError
               ? 'border-red-500 focus:border-red-500 focus:ring-red-500/20'
-              : 'border-zinc-300 focus:border-zinc-500 focus:ring-zinc-500/20 dark:border-zinc-700 dark:focus:border-zinc-400'
+              : 'border-gray-300 focus:border-gray-500 focus:ring-gray-500/20 dark:border-gray-700 dark:focus:border-gray-400'
           }
         `}
       >

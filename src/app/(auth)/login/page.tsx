@@ -16,12 +16,12 @@ export default function LoginPage() {
   )
 
   return (
-    <div className="rounded-xl border border-zinc-200 bg-white p-8 shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
+    <div className="rounded-xl border border-gray-200 bg-white p-8 shadow-sm dark:border-gray-800 dark:bg-gray-900">
       <div className="mb-8 text-center">
-        <h1 className="text-2xl font-semibold text-zinc-900 dark:text-zinc-100">
+        <h1 className="text-2xl font-semibold text-gray-900 dark:text-gray-100">
           Conductor
         </h1>
-        <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">
+        <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
           Sign in with your email
         </p>
       </div>
@@ -33,7 +33,7 @@ export default function LoginPage() {
           <div>
             <label
               htmlFor="email"
-              className="block text-sm font-medium text-zinc-700 dark:text-zinc-300"
+              className="block text-sm font-medium text-gray-700 dark:text-gray-300"
             >
               Email address
             </label>
@@ -55,11 +55,11 @@ export default function LoginPage() {
               id="rememberMe"
               name="rememberMe"
               type="checkbox"
-              className="h-4 w-4 rounded border-zinc-300 text-zinc-900 focus:ring-zinc-500 dark:border-zinc-600 dark:bg-zinc-800"
+              className="h-4 w-4 rounded border-gray-300 text-gray-900 focus:ring-gray-500 dark:border-gray-600 dark:bg-gray-800"
             />
             <label
               htmlFor="rememberMe"
-              className="ml-2 block text-sm text-zinc-700 dark:text-zinc-300"
+              className="ml-2 block text-sm text-gray-700 dark:text-gray-300"
             >
               Remember me for 30 days
             </label>
@@ -109,7 +109,7 @@ function SuccessMessage({
           />
         </svg>
       </div>
-      <p className="text-zinc-600 dark:text-zinc-400">
+      <p className="text-gray-600 dark:text-gray-400">
         {message || 'Check your email for a magic link'}
       </p>
 

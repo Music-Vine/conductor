@@ -11,7 +11,7 @@ export function TableRowSkeleton({ columns = 4, rows = 5 }: TableRowSkeletonProp
   return (
     <div className="space-y-2">
       {/* Header */}
-      <div className="flex gap-4 border-b border-zinc-200 pb-2 dark:border-zinc-800">
+      <div className="flex gap-4 border-b border-gray-200 pb-2 dark:border-gray-800">
         {Array.from({ length: columns }).map((_, i) => (
           <div key={i} className="flex-1">
             <BaseSkeleton height="h-5" />

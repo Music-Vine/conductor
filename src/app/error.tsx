@@ -31,20 +31,20 @@ export default function Error({
           />
         </svg>
       </div>
-      <h2 className="text-xl font-semibold text-zinc-900 dark:text-zinc-100">
+      <h2 className="text-xl font-semibold text-gray-900 dark:text-gray-100">
         Something went wrong
       </h2>
-      <p className="max-w-md text-center text-zinc-600 dark:text-zinc-400">
+      <p className="max-w-md text-center text-gray-600 dark:text-gray-400">
         {error.message || 'An unexpected error occurred. Please try again.'}
       </p>
       {error.digest && (
-        <p className="text-xs text-zinc-400 dark:text-zinc-500">
+        <p className="text-xs text-gray-400 dark:text-gray-500">
           Error ID: {error.digest}
         </p>
       )}
       <button
         onClick={reset}
-        className="mt-4 rounded-lg bg-zinc-900 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-zinc-800 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-200"
+        className="mt-4 rounded-lg bg-gray-900 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-gray-800 dark:bg-gray-100 dark:text-gray-900 dark:hover:bg-gray-200"
       >
         Try again
       </button>

@@ -9,7 +9,7 @@ export default function GlobalError({
 }) {
   return (
     <html lang="en">
-      <body className="flex min-h-screen items-center justify-center bg-zinc-50 dark:bg-zinc-950">
+      <body className="flex min-h-screen items-center justify-center bg-gray-50 dark:bg-gray-950">
         <div className="flex flex-col items-center gap-4 p-8 text-center">
           <div className="rounded-full bg-red-100 p-4 dark:bg-red-900/20">
             <svg
@@ -26,15 +26,15 @@ export default function GlobalError({
               />
             </svg>
           </div>
-          <h1 className="text-2xl font-bold text-zinc-900 dark:text-zinc-100">
+          <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">
             Application Error
           </h1>
-          <p className="max-w-md text-zinc-600 dark:text-zinc-400">
+          <p className="max-w-md text-gray-600 dark:text-gray-400">
             A critical error has occurred. Please refresh the page or try again later.
           </p>
           <button
             onClick={reset}
-            className="mt-4 rounded-lg bg-zinc-900 px-6 py-3 font-medium text-white transition-colors hover:bg-zinc-800 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-200"
+            className="mt-4 rounded-lg bg-gray-900 px-6 py-3 font-medium text-white transition-colors hover:bg-gray-800 dark:bg-gray-100 dark:text-gray-900 dark:hover:bg-gray-200"
           >
             Try again
           </button>
