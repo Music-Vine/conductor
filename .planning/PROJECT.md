@@ -92,7 +92,7 @@ Enable staff to add and manage assets quickly and reliably through a single admi
 
 ## Constraints
 
-- **Tech stack**: Next.js 16 (App Router), React 19, TypeScript, Tailwind 4, Shadcn UI, Cadence design system (@music-vine/cadence), React Query, React Hook Form, Zod — Company standard, non-negotiable
+- **Tech stack**: Next.js 16 (App Router), React 19, TypeScript, Tailwind 4, Shadcn UI, Cadence design system (@music-vine/cadence), React Query, React Hook Form, Zod, Jotai (UI state management) — Company standard, non-negotiable
 - **API**: .NET backend built by separate team — Frontend-first approach: mock API calls in frontend, use mocks to generate API requirements for backend team
 - **Launch criteria**: Must reach feature parity with existing systems (excluding unused features) before launch — Ensures staff can fully migrate
 - **Migration**: Old systems run in parallel during gradual user migration — Cannot be a big-bang cutover
