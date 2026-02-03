@@ -10,28 +10,28 @@ See: .planning/PROJECT.md (updated 2026-02-03)
 ## Current Position
 
 Phase: 1 of 8 (Foundation & Infrastructure)
-Plan: 6 of 10 in current phase
+Plan: 8 of 10 in current phase
 Status: In progress
-Last activity: 2026-02-03 — Completed 01-06-PLAN.md
+Last activity: 2026-02-03 — Completed 01-08-PLAN.md
 
-Progress: [██████░░░░] 60%
+Progress: [████████░░] 80%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 6
-- Average duration: 1.68 minutes
-- Total execution time: 0.17 hours
+- Total plans completed: 8
+- Average duration: 1.83 minutes
+- Total execution time: 0.24 hours
 
 **By Phase:**
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
-| 1 | 6 | 10.09 min | 1.68 min |
+| 1 | 8 | 14.64 min | 1.83 min |
 
 **Recent Trend:**
-- Last 5 plans: 01-02 (2.00 min), 01-03 (1.61 min), 01-04 (1.61 min), 01-05 (1.58 min), 01-06 (2.52 min)
-- Trend: Slight increase due to auth UI complexity
+- Last 5 plans: 01-04 (1.61 min), 01-05 (1.58 min), 01-06 (2.52 min), 01-07 (1.53 min), 01-08 (2.5 min)
+- Trend: Stable with occasional spikes for complex features
 
 *Updated after each plan completion*
 
@@ -64,6 +64,9 @@ Recent decisions affecting current work:
 - Development mode logs magic link URLs to console for testing - 01-06
 - Mock user sessions with crypto.randomUUID() until database implemented - 01-06
 - Logout supports both POST and GET methods for flexibility - 01-06
+- Blur validation with onChange after first error for optimal UX - 01-08
+- Red border + error icon for invalid fields, green checkmark for valid - 01-08
+- Type assertions for zodResolver due to generic constraint limitations - 01-08
 
 ### Pending Todos
 
@@ -75,6 +78,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-02-03 16:08:14 UTC
-Stopped at: Completed 01-06-PLAN.md
+Last session: 2026-02-03 16:14:40 UTC
+Stopped at: Completed 01-08-PLAN.md
 Resume file: None
