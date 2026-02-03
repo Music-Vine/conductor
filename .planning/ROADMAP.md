@@ -59,13 +59,23 @@ Plans:
 **Success Criteria** (what must be TRUE):
   1. Staff can search and filter 3M+ user accounts with server-side pagination
   2. Staff can view user details including subscription status, licenses, and download history
-  3. Staff can perform account management actions (refunds, ban/suspend, disconnect OAuth)
+  3. Staff can perform account management actions (refunds, suspend, disconnect OAuth)
   4. Staff can view user activity logs and export data to CSV
-  5. Data tables support server-side sorting, filtering, and pagination with advanced faceted filtering
-**Plans**: TBD
+  5. Data tables support server-side sorting, filtering, and pagination
+**Plans**: 11 plans in 5 waves
 
 Plans:
-- [ ] 02-01: TBD
+- [ ] 02-01-PLAN.md — User types and mock API routes
+- [ ] 02-02-PLAN.md — Install Phase 2 dependencies (TanStack Table, Radix UI, Sonner)
+- [ ] 02-03-PLAN.md — User list page with search and filters
+- [ ] 02-04-PLAN.md — User table with TanStack Table pagination
+- [ ] 02-05-PLAN.md — User detail page with Radix tabs
+- [ ] 02-06-PLAN.md — Profile tab and OAuth disconnect
+- [ ] 02-07-PLAN.md — Subscription tab and refunds
+- [ ] 02-08-PLAN.md — Downloads + Licenses tab
+- [ ] 02-09-PLAN.md — Suspend/unsuspend actions and row actions menu
+- [ ] 02-10-PLAN.md — CSV export functionality
+- [ ] 02-11-PLAN.md — Human verification checkpoint
 
 ### Phase 3: Advanced Table Features
 **Goal**: All data tables have advanced filtering, virtualization for large datasets, and power-user features
@@ -164,8 +174,8 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Foundation & Infrastructure | 15/15 | ✓ Complete | 2026-02-03 |
-| 2. User Management | 0/0 | Not started | - |
+| 1. Foundation & Infrastructure | 15/15 | Complete | 2026-02-03 |
+| 2. User Management | 0/11 | Planned | - |
 | 3. Advanced Table Features | 0/0 | Not started | - |
 | 4. Catalog Management | 0/0 | Not started | - |
 | 5. Bulk Operations | 0/0 | Not started | - |
