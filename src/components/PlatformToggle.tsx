@@ -51,8 +51,8 @@ export function PlatformToggle({ className = '', userId }: PlatformToggleProps) 
       role="group"
       aria-label="Platform selector"
       className={`
-        inline-flex rounded-lg bg-zinc-100 p-1
-        dark:bg-zinc-800
+        inline-flex rounded-lg bg-gray-100 p-1
+        dark:bg-gray-800
         ${className}
       `}
     >
@@ -67,7 +67,7 @@ export function PlatformToggle({ className = '', userId }: PlatformToggleProps) 
           ${
             platform === 'music-vine'
               ? 'bg-platform-primary text-white shadow-sm'
-              : 'text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100'
+              : 'text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100'
           }
         `}
       >
@@ -87,7 +87,7 @@ export function PlatformToggle({ className = '', userId }: PlatformToggleProps) 
           ${
             platform === 'uppbeat'
               ? 'bg-platform-primary text-white shadow-sm'
-              : 'text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100'
+              : 'text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100'
           }
         `}
       >
