@@ -110,13 +110,53 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| *To be filled during roadmap creation* | | |
+| AUTH-01 | Phase 1 | Pending |
+| AUTH-02 | Phase 1 | Pending |
+| AUTH-03 | Phase 1 | Pending |
+| AUTH-04 | Phase 1 | Pending |
+| AUTH-05 | Phase 1 | Pending |
+| AUTH-06 | Phase 1 | Pending |
+| USER-01 | Phase 2 | Pending |
+| USER-02 | Phase 2 | Pending |
+| USER-03 | Phase 2 | Pending |
+| USER-04 | Phase 2 | Pending |
+| USER-05 | Phase 2 | Pending |
+| USER-06 | Phase 2 | Pending |
+| USER-07 | Phase 2 | Pending |
+| USER-08 | Phase 2 | Pending |
+| CATA-01 | Phase 4 | Pending |
+| CATA-02 | Phase 4 | Pending |
+| CATA-03 | Phase 4 | Pending |
+| CATA-04 | Phase 4 | Pending |
+| CATA-05 | Phase 4 | Pending |
+| CATA-06 | Phase 4 | Pending |
+| CATA-07 | Phase 4 | Pending |
+| CATA-08 | Phase 4 | Pending |
+| CATA-09 | Phase 4 | Pending |
+| CATA-10 | Phase 4 | Pending |
+| CATA-11 | Phase 4 | Pending |
+| CATA-12 | Phase 4 | Pending |
+| PAYE-01 | Phase 6 | Pending |
+| PAYE-02 | Phase 6 | Pending |
+| PAYE-03 | Phase 6 | Pending |
+| PAYE-04 | Phase 6 | Pending |
+| PAYE-05 | Phase 6 | Pending |
+| UX-01 | Phase 2 | Pending |
+| UX-02 | Phase 2 | Pending |
+| UX-03 | Phase 3 | Pending |
+| UX-04 | Phase 7 | Pending |
+| UX-05 | Phase 1 | Pending |
+| UX-06 | Phase 1 | Pending |
+| UX-07 | Phase 3 | Pending |
+| UX-08 | Phase 5 | Pending |
+| UX-09 | Phase 3 | Pending |
+| UX-10 | Phase 3 | Pending |
 
 **Coverage:**
-- v1 requirements: 0 total
-- Mapped to phases: 0
-- Unmapped: 0 ⚠️
+- v1 requirements: 41 total
+- Mapped to phases: 41
+- Unmapped: 0
 
 ---
 *Requirements defined: 2026-02-03*
-*Last updated: 2026-02-03 after initial definition*
+*Last updated: 2026-02-03 after roadmap creation*
