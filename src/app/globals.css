@@ -4,65 +4,54 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-  --skeleton-base: #e5e7eb;
-  --skeleton-highlight: #f3f4f6;
-
-  /* Platform theme defaults (Music Vine coral) */
-  --platform-primary: #ff5f6e;
-  --platform-accent: #ff5f6e;
-  --platform-primary-foreground: #ffffff;
-}
-
-@media (prefers-color-scheme: dark) {
+@layer base {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-    --skeleton-base: #27272a;
-    --skeleton-highlight: #3f3f46;
+    /* Light mode colors */
+    --background: #ffffff;
+    --foreground: #0f172a;
+    --skeleton-base: #e2e8f0;
+    --skeleton-highlight: #f1f5f9;
+
+    /* Platform colors - default to Music Vine */
+    --platform-primary: #ff5f6e;
+    --platform-primary-foreground: #ffffff;
+    --platform-accent: #ff5f6e;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      /* Dark mode colors */
+      --background: #0f172a;
+      --foreground: #f8fafc;
+      --skeleton-base: #1e293b;
+      --skeleton-highlight: #334155;
+    }
+  }
+
+  /* Platform-specific overrides - set dynamically by ThemeProvider */
+  [data-platform="uppbeat"] {
+    --platform-primary: #F23D75;
+    --platform-accent: #F23D75;
+  }
+
+  [data-platform="music-vine"] {
+    --platform-primary: #ff5f6e;
+    --platform-accent: #ff5f6e;
+  }
+
+  /* Ensure body uses background color */
+  body {
+    @apply bg-background text-foreground;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
-}
-
-/* Platform Theming */
-
-/* Music Vine Theme (coral) */
-[data-platform='music-vine'] {
-  --platform-primary: #ff5f6e;
-  --platform-accent: #ff5f6e;
-  --platform-primary-foreground: #ffffff;
-}
-
-[data-platform='music-vine'] .platform-themed {
+/* Platform utility classes */
+.platform-themed {
   background-color: var(--platform-primary);
   color: var(--platform-primary-foreground);
 }
 
-/* Uppbeat Theme (pink) */
-[data-platform='uppbeat'] {
-  --platform-primary: #F23D75;
-  --platform-accent: #F23D75;
-  --platform-primary-foreground: #ffffff;
-}
-
-[data-platform='uppbeat'] .platform-themed {
-  background-color: var(--platform-primary);
-  color: var(--platform-primary-foreground);
-}
-
-/* Platform-aware accent colors for interactive elements */
-[data-platform='music-vine'] .platform-accent {
-  background-color: var(--platform-accent);
-}
-
-[data-platform='uppbeat'] .platform-accent {
+.platform-accent {
   background-color: var(--platform-accent);
 }
 
