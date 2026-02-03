@@ -6,6 +6,11 @@
   --foreground: #171717;
   --skeleton-base: #e5e7eb;
   --skeleton-highlight: #f3f4f6;
+
+  /* Platform theme defaults (Music Vine) */
+  --platform-primary: #1a1a2e;
+  --platform-accent: #16213e;
+  --platform-primary-foreground: #ffffff;
 }
 
 @theme inline {
@@ -28,4 +33,50 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Platform Theming */
+
+/* Music Vine Theme */
+[data-platform='music-vine'] {
+  --platform-primary: #1a1a2e;
+  --platform-accent: #16213e;
+  --platform-primary-foreground: #ffffff;
+}
+
+[data-platform='music-vine'] .platform-themed {
+  background-color: var(--platform-primary);
+  color: var(--platform-primary-foreground);
+}
+
+/* Uppbeat Theme */
+[data-platform='uppbeat'] {
+  --platform-primary: #0f3460;
+  --platform-accent: #533483;
+  --platform-primary-foreground: #ffffff;
+}
+
+[data-platform='uppbeat'] .platform-themed {
+  background-color: var(--platform-primary);
+  color: var(--platform-primary-foreground);
+}
+
+/* Platform-aware accent colors for interactive elements */
+[data-platform='music-vine'] .platform-accent {
+  background-color: var(--platform-accent);
+}
+
+[data-platform='uppbeat'] .platform-accent {
+  background-color: var(--platform-accent);
+}
+
+/* Sidebar platform indicator bar */
+.platform-indicator {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background-color: var(--platform-accent);
+  transition: background-color 200ms ease-in-out;
 }
