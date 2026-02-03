@@ -1,11 +1,13 @@
 'use client'
 
 import { useActionState } from 'react'
+import { Input, Button } from '@music-vine/cadence/ui'
 import { loginAction, type LoginState } from './actions'
 
 /**
  * Login page - minimal design per CONTEXT.md.
  * Just email field, Remember Me checkbox, clear feedback, fast aesthetic.
+ * Uses Cadence design system components for consistency.
  */
 export default function LoginPage() {
   const [state, formAction, isPending] = useActionState<LoginState | null, FormData>(
@@ -35,14 +37,14 @@ export default function LoginPage() {
             >
               Email address
             </label>
-            <input
+            <Input
               id="email"
               name="email"
               type="email"
               autoComplete="email"
               required
               autoFocus
-              className="mt-1 block w-full rounded-lg border border-zinc-300 px-4 py-2.5 text-zinc-900 placeholder:text-zinc-400 focus:border-zinc-500 focus:outline-none focus:ring-2 focus:ring-zinc-500/20 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-100 dark:placeholder:text-zinc-500 dark:focus:border-zinc-400"
+              className="mt-1"
               placeholder="you@company.com"
             />
           </div>
@@ -69,13 +71,14 @@ export default function LoginPage() {
             </p>
           )}
 
-          <button
+          <Button
             type="submit"
             disabled={isPending}
-            className="w-full rounded-lg bg-zinc-900 px-4 py-2.5 text-sm font-medium text-white transition-colors hover:bg-zinc-800 focus:outline-none focus:ring-2 focus:ring-zinc-500/20 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-200"
+            variant="bold"
+            className="w-full"
           >
             {isPending ? 'Sending...' : 'Send magic link'}
-          </button>
+          </Button>
         </form>
       )}
     </div>

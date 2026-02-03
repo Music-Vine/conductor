@@ -3,6 +3,7 @@
 import { useEffect, useState, Suspense } from 'react'
 import { useSearchParams } from 'next/navigation'
 import Link from 'next/link'
+import { Button } from '@music-vine/cadence/ui'
 import { validateMagicLink, type MagicLinkState } from './actions'
 
 /**
@@ -75,12 +76,9 @@ function MagicLinkContent() {
           <p className="mb-6 text-zinc-600 dark:text-zinc-400">
             {state.error}
           </p>
-          <Link
-            href="/login"
-            className="inline-flex items-center rounded-lg bg-zinc-900 px-4 py-2.5 text-sm font-medium text-white transition-colors hover:bg-zinc-800 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-200"
-          >
-            Back to login
-          </Link>
+          <Button asChild variant="bold">
+            <Link href="/login">Back to login</Link>
+          </Button>
         </div>
       </div>
     )
