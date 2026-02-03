@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, Suspense } from 'react'
 import { useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import { validateMagicLink, type MagicLinkState } from './actions'
@@ -9,7 +9,7 @@ import { validateMagicLink, type MagicLinkState } from './actions'
  * Magic link callback page.
  * Validates the token from URL and creates session.
  */
-export default function MagicLinkPage() {
+function MagicLinkContent() {
   const searchParams = useSearchParams()
   const token = searchParams.get('token')
   const [state, setState] = useState<MagicLinkState | null>(null)
@@ -87,4 +87,23 @@ export default function MagicLinkPage() {
   }
 
   return null
+}
+
+export default function MagicLinkPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="rounded-xl border border-zinc-200 bg-white p-8 shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
+          <div className="flex flex-col items-center">
+            <div className="h-8 w-8 animate-spin rounded-full border-2 border-zinc-300 border-t-zinc-900 dark:border-zinc-700 dark:border-t-zinc-100" />
+            <p className="mt-4 text-zinc-600 dark:text-zinc-400">
+              Loading...
+            </p>
+          </div>
+        </div>
+      }
+    >
+      <MagicLinkContent />
+    </Suspense>
+  )
 }
