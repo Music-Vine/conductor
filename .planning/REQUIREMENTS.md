@@ -9,12 +9,12 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Authentication & Audit
 
-- [ ] **AUTH-01**: Staff can log in with individual credentials (not shared login)
-- [ ] **AUTH-02**: Staff sessions persist for 8 hours and auto-refresh
-- [ ] **AUTH-03**: Staff can log out from any page
-- [ ] **AUTH-04**: All staff actions are logged with audit trail (actor, action, timestamp, resource, before/after state)
-- [ ] **AUTH-05**: Platform context (Music Vine vs Uppbeat) is set at session level and persists
-- [ ] **AUTH-06**: Staff can switch between Music Vine and Uppbeat contexts via toggle
+- [x] **AUTH-01**: Staff can log in with individual credentials (not shared login)
+- [x] **AUTH-02**: Staff sessions persist for 8 hours and auto-refresh
+- [x] **AUTH-03**: Staff can log out from any page
+- [x] **AUTH-04**: All staff actions are logged with audit trail (actor, action, timestamp, resource, before/after state)
+- [x] **AUTH-05**: Platform context (Music Vine vs Uppbeat) is set at session level and persists
+- [x] **AUTH-06**: Staff can switch between Music Vine and Uppbeat contexts via toggle
 
 ### User Management
 
@@ -56,8 +56,8 @@ Requirements for initial release. Each maps to roadmap phases.
 - [ ] **UX-02**: Staff can use advanced faceted filtering on data tables
 - [ ] **UX-03**: Staff can use global search to find users, assets, contributors, or payees
 - [ ] **UX-04**: Staff can export filtered/searched data to CSV
-- [ ] **UX-05**: All forms have real-time validation with clear error messages
-- [ ] **UX-06**: All pages have proper loading states (skeletons) and error boundaries
+- [x] **UX-05**: All forms have real-time validation with clear error messages
+- [x] **UX-06**: All pages have proper loading states (skeletons) and error boundaries
 - [ ] **UX-07**: Staff can use command palette (Cmd+K) for navigation and search
 - [ ] **UX-08**: Staff can perform bulk operations on selected items with progress tracking
 - [ ] **UX-09**: Staff can use keyboard shortcuts for common actions
@@ -110,12 +110,12 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| AUTH-01 | Phase 1 | Pending |
-| AUTH-02 | Phase 1 | Pending |
-| AUTH-03 | Phase 1 | Pending |
-| AUTH-04 | Phase 1 | Pending |
-| AUTH-05 | Phase 1 | Pending |
-| AUTH-06 | Phase 1 | Pending |
+| AUTH-01 | Phase 1 | Complete |
+| AUTH-02 | Phase 1 | Complete |
+| AUTH-03 | Phase 1 | Complete |
+| AUTH-04 | Phase 1 | Complete |
+| AUTH-05 | Phase 1 | Complete |
+| AUTH-06 | Phase 1 | Complete |
 | USER-01 | Phase 2 | Pending |
 | USER-02 | Phase 2 | Pending |
 | USER-03 | Phase 2 | Pending |
@@ -145,8 +145,8 @@ Which phases cover which requirements. Updated during roadmap creation.
 | UX-02 | Phase 2 | Pending |
 | UX-03 | Phase 3 | Pending |
 | UX-04 | Phase 7 | Pending |
-| UX-05 | Phase 1 | Pending |
-| UX-06 | Phase 1 | Pending |
+| UX-05 | Phase 1 | Complete |
+| UX-06 | Phase 1 | Complete |
 | UX-07 | Phase 3 | Pending |
 | UX-08 | Phase 5 | Pending |
 | UX-09 | Phase 3 | Pending |
@@ -159,4 +159,4 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 ---
 *Requirements defined: 2026-02-03*
-*Last updated: 2026-02-03 after roadmap creation*
+*Last updated: 2026-02-03 after Phase 1 completion*

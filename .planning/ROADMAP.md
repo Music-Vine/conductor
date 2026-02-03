@@ -12,7 +12,7 @@ Conductor Admin replaces 4 legacy PHP admin systems with a unified Next.js inter
 
 Decimal phases appear between their surrounding integers in numeric order.
 
-- [ ] **Phase 1: Foundation & Infrastructure** - Authentication, platform context, API client, audit framework
+- [x] **Phase 1: Foundation & Infrastructure** - Authentication, platform context, API client, audit framework
 - [ ] **Phase 2: User Management** - Staff can search, view, and manage user accounts
 - [ ] **Phase 3: Advanced Table Features** - Faceted filtering, virtualization, command palette, keyboard shortcuts
 - [ ] **Phase 4: Catalog Management** - Asset ingestion, metadata editing, approval workflows
@@ -46,8 +46,8 @@ Plans:
 - [x] 01-08-PLAN.md — Form validation components
 - [x] 01-09-PLAN.md — App shell and navigation layout
 - [x] 01-10-PLAN.md — Verification checkpoint
-- [ ] 01-12-PLAN.md — Cadence design system setup
-- [ ] 01-11-PLAN.md — Gap closure with Cadence components
+- [x] 01-12-PLAN.md — Cadence design system setup
+- [x] 01-11-PLAN.md — Gap closure with Cadence components
 
 ### Phase 2: User Management
 **Goal**: Staff can search, view, and manage all user accounts with full CRUD operations
@@ -161,7 +161,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Foundation & Infrastructure | 10/12 | Cadence setup + gap closure pending | - |
+| 1. Foundation & Infrastructure | 12/12 | ✓ Complete | 2026-02-03 |
 | 2. User Management | 0/0 | Not started | - |
 | 3. Advanced Table Features | 0/0 | Not started | - |
 | 4. Catalog Management | 0/0 | Not started | - |
