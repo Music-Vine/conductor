@@ -1,4 +1,7 @@
-@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 @import "@music-vine/cadence/styles";
 
 :root {
@@ -11,13 +14,6 @@
   --platform-primary: #ff5f6e;
   --platform-accent: #ff5f6e;
   --platform-primary-foreground: #ffffff;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
 }
 
 @media (prefers-color-scheme: dark) {
