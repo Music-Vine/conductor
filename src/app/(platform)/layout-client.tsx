@@ -26,7 +26,7 @@ export function PlatformLayoutClient({
     <JotaiProvider>
       <QueryProvider>
         <ThemeProvider>
-          <div className="flex h-screen bg-zinc-50 dark:bg-zinc-950">
+          <div className="flex h-screen bg-gray-50 dark:bg-gray-950">
             <Sidebar userId={userId} />
             <div className="flex flex-1 flex-col overflow-hidden">
               <Header userName={userName} userEmail={userEmail} />

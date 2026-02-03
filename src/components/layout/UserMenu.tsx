@@ -48,34 +48,34 @@ export function UserMenu({ name, email }: UserMenuProps) {
     <div className="relative" ref={menuRef}>
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition-colors hover:bg-zinc-100 dark:hover:bg-zinc-800"
+        className="flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition-colors hover:bg-gray-100 dark:hover:bg-gray-800"
         aria-expanded={isOpen}
         aria-haspopup="true"
       >
         <span className="hidden text-right sm:block">
-          <span className="block font-medium text-zinc-900 dark:text-zinc-100">
+          <span className="block font-medium text-gray-900 dark:text-gray-100">
             {name}
           </span>
-          <span className="block text-xs text-zinc-500 dark:text-zinc-400">
+          <span className="block text-xs text-gray-500 dark:text-gray-400">
             {email}
           </span>
         </span>
-        <span className="flex h-9 w-9 items-center justify-center rounded-full bg-zinc-200 text-sm font-medium text-zinc-700 dark:bg-zinc-700 dark:text-zinc-200">
+        <span className="flex h-9 w-9 items-center justify-center rounded-full bg-gray-200 text-sm font-medium text-gray-700 dark:bg-gray-700 dark:text-gray-200">
           {initials}
         </span>
       </button>
 
       {isOpen && (
-        <div className="absolute right-0 mt-2 w-56 origin-top-right rounded-lg border border-zinc-200 bg-white py-1 shadow-lg dark:border-zinc-700 dark:bg-zinc-800">
-          <div className="border-b border-zinc-200 px-4 py-3 dark:border-zinc-700">
-            <p className="text-sm font-medium text-zinc-900 dark:text-zinc-100">
+        <div className="absolute right-0 mt-2 w-56 origin-top-right rounded-lg border border-gray-200 bg-white py-1 shadow-lg dark:border-gray-700 dark:bg-gray-800">
+          <div className="border-b border-gray-200 px-4 py-3 dark:border-gray-700">
+            <p className="text-sm font-medium text-gray-900 dark:text-gray-100">
               {name}
             </p>
-            <p className="text-xs text-zinc-500 dark:text-zinc-400">{email}</p>
+            <p className="text-xs text-gray-500 dark:text-gray-400">{email}</p>
           </div>
           <button
             onClick={handleLogout}
-            className="flex w-full items-center gap-2 px-4 py-2 text-left text-sm text-zinc-700 hover:bg-zinc-100 dark:text-zinc-300 dark:hover:bg-zinc-700"
+            className="flex w-full items-center gap-2 px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700"
           >
             <svg
               className="h-4 w-4"

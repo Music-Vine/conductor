@@ -31,14 +31,14 @@ export function Sidebar({ userId }: SidebarProps) {
   const pathname = usePathname()
 
   return (
-    <aside className="flex h-screen w-64 flex-col border-r border-zinc-200 bg-white dark:border-zinc-800 dark:bg-zinc-900">
+    <aside className="flex h-screen w-64 flex-col border-r border-gray-200 bg-white dark:border-gray-800 dark:bg-gray-900">
       {/* Platform indicator bar */}
       <div className="platform-indicator" />
 
       {/* Logo/Brand */}
       <div className="flex h-16 items-center px-6">
         <Link href="/" className="flex items-center gap-2">
-          <span className="text-xl font-semibold text-zinc-900 dark:text-zinc-100">
+          <span className="text-xl font-semibold text-gray-900 dark:text-gray-100">
             Conductor
           </span>
         </Link>
@@ -62,8 +62,8 @@ export function Sidebar({ userId }: SidebarProps) {
                 transition-colors
                 ${
                   isActive
-                    ? 'bg-zinc-100 text-zinc-900 dark:bg-zinc-800 dark:text-zinc-100'
-                    : 'text-zinc-600 hover:bg-zinc-50 hover:text-zinc-900 dark:text-zinc-400 dark:hover:bg-zinc-800 dark:hover:text-zinc-100'
+                    ? 'bg-gray-100 text-gray-900 dark:bg-gray-800 dark:text-gray-100'
+                    : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-gray-100'
                 }
               `}
             >
@@ -75,7 +75,7 @@ export function Sidebar({ userId }: SidebarProps) {
       </nav>
 
       {/* Footer area for future expansion */}
-      <div className="p-4 text-xs text-zinc-400 dark:text-zinc-500">
+      <div className="p-4 text-xs text-gray-400 dark:text-gray-500">
         Conductor Admin v0.1
       </div>
     </aside>
