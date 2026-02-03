@@ -66,7 +66,7 @@ export function PlatformToggle({ className = '', userId }: PlatformToggleProps) 
           focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2
           ${
             platform === 'music-vine'
-              ? 'bg-white text-zinc-900 shadow-sm dark:bg-zinc-700 dark:text-zinc-100'
+              ? 'bg-platform-primary text-white shadow-sm'
               : 'text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100'
           }
         `}
@@ -86,7 +86,7 @@ export function PlatformToggle({ className = '', userId }: PlatformToggleProps) 
           focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2
           ${
             platform === 'uppbeat'
-              ? 'bg-white text-zinc-900 shadow-sm dark:bg-zinc-700 dark:text-zinc-100'
+              ? 'bg-platform-primary text-white shadow-sm'
               : 'text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100'
           }
         `}
