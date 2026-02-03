@@ -24,7 +24,6 @@ export function PlatformToggle({ className = '', userId }: PlatformToggleProps) 
 
       // Audit log platform switch per CONTEXT.md (all staff actions logged)
       // Fire-and-forget - uses captureAuditEvent from lib/audit
-      // TODO: Enable when audit module is implemented in Plan 07
       if (userId) {
         import('@/lib/audit')
           .then(({ captureAuditEvent }) => {
@@ -39,9 +38,9 @@ export function PlatformToggle({ className = '', userId }: PlatformToggleProps) 
               },
             })
           })
-          .catch(() => {
-            // Audit module not yet implemented - silent fail
-            // Will be available after Plan 01-07 completes
+          .catch((error) => {
+            // Log audit failures to console - don't throw to avoid breaking toggle
+            console.error('Failed to log platform switch:', error)
           })
       }
     }
