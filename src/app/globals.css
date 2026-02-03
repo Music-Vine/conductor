@@ -7,9 +7,9 @@
   --skeleton-base: #e5e7eb;
   --skeleton-highlight: #f3f4f6;
 
-  /* Platform theme defaults (Music Vine) */
-  --platform-primary: #1a1a2e;
-  --platform-accent: #16213e;
+  /* Platform theme defaults (Music Vine coral) */
+  --platform-primary: #ff5f6e;
+  --platform-accent: #ff5f6e;
   --platform-primary-foreground: #ffffff;
 }
 
@@ -37,10 +37,10 @@ body {
 
 /* Platform Theming */
 
-/* Music Vine Theme */
+/* Music Vine Theme (coral) */
 [data-platform='music-vine'] {
-  --platform-primary: #1a1a2e;
-  --platform-accent: #16213e;
+  --platform-primary: #ff5f6e;
+  --platform-accent: #ff5f6e;
   --platform-primary-foreground: #ffffff;
 }
 
@@ -49,10 +49,10 @@ body {
   color: var(--platform-primary-foreground);
 }
 
-/* Uppbeat Theme */
+/* Uppbeat Theme (pink) */
 [data-platform='uppbeat'] {
-  --platform-primary: #0f3460;
-  --platform-accent: #533483;
+  --platform-primary: #F23D75;
+  --platform-accent: #F23D75;
   --platform-primary-foreground: #ffffff;
 }
 
