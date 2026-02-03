@@ -1,6 +1,5 @@
 @import "tailwindcss";
 @import "@music-vine/cadence/styles";
-@import 'react-loading-skeleton/dist/skeleton.css';
 
 :root {
   --background: #ffffff;
