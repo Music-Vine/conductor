@@ -1,8 +1,11 @@
 @import "tailwindcss";
+@import 'react-loading-skeleton/dist/skeleton.css';
 
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --skeleton-base: #e5e7eb;
+  --skeleton-highlight: #f3f4f6;
 }
 
 @theme inline {
@@ -16,6 +19,8 @@
   :root {
     --background: #0a0a0a;
     --foreground: #ededed;
+    --skeleton-base: #27272a;
+    --skeleton-highlight: #3f3f46;
   }
 }
 
