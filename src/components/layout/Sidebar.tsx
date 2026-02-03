@@ -31,7 +31,7 @@ export function Sidebar({ userId }: SidebarProps) {
   const pathname = usePathname()
 
   return (
-    <aside className="flex h-screen w-64 flex-col border-r border-gray-200 bg-white dark:border-gray-800 dark:bg-gray-900">
+    <aside className="flex h-screen min-w-72 flex-col border-r border-gray-200 bg-white dark:border-gray-800 dark:bg-gray-900">
       {/* Platform indicator bar */}
       <div className="platform-indicator" />
 
