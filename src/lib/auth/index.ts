@@ -5,3 +5,9 @@ export {
   destroySession,
   getSessionPayload,
 } from './session'
+
+export {
+  requestMagicLink,
+  generateMagicLinkToken,
+  validateMagicLinkToken,
+} from './magic-link'
