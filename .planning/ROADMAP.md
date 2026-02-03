@@ -33,19 +33,20 @@ Decimal phases appear between their surrounding integers in numeric order.
   3. All staff actions are logged with audit trail (actor, action, timestamp, resource)
   4. Forms have real-time validation with clear error messages
   5. Pages show proper loading states (skeletons) and error boundaries
-**Plans**: 10 plans in 5 waves
+**Plans**: 11 plans in 6 waves
 
 Plans:
-- [ ] 01-01-PLAN.md — Project setup and core dependencies
-- [ ] 01-02-PLAN.md — Error boundaries and loading skeletons
-- [ ] 01-03-PLAN.md — Session management infrastructure
-- [ ] 01-04-PLAN.md — Platform context and theme switching
-- [ ] 01-05-PLAN.md — API client and React Query setup
-- [ ] 01-06-PLAN.md — Authentication pages (login, magic link, logout)
-- [ ] 01-07-PLAN.md — Audit logging infrastructure
-- [ ] 01-08-PLAN.md — Form validation components
-- [ ] 01-09-PLAN.md — App shell and navigation layout
-- [ ] 01-10-PLAN.md — Verification checkpoint
+- [x] 01-01-PLAN.md — Project setup and core dependencies
+- [x] 01-02-PLAN.md — Error boundaries and loading skeletons
+- [x] 01-03-PLAN.md — Session management infrastructure
+- [x] 01-04-PLAN.md — Platform context and theme switching
+- [x] 01-05-PLAN.md — API client and React Query setup
+- [x] 01-06-PLAN.md — Authentication pages (login, magic link, logout)
+- [x] 01-07-PLAN.md — Audit logging infrastructure
+- [x] 01-08-PLAN.md — Form validation components
+- [x] 01-09-PLAN.md — App shell and navigation layout
+- [x] 01-10-PLAN.md — Verification checkpoint
+- [ ] 01-11-PLAN.md — Gap closure (audit logging, skeletons, form validation)
 
 ### Phase 2: User Management
 **Goal**: Staff can search, view, and manage all user accounts with full CRUD operations
@@ -159,7 +160,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Foundation & Infrastructure | 0/10 | Planning complete | - |
+| 1. Foundation & Infrastructure | 10/11 | Gap closure pending | - |
 | 2. User Management | 0/0 | Not started | - |
 | 3. Advanced Table Features | 0/0 | Not started | - |
 | 4. Catalog Management | 0/0 | Not started | - |
