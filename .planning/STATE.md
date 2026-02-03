@@ -53,6 +53,9 @@ Recent decisions affecting current work:
 - Next.js App Router error boundary conventions (error.tsx, global-error.tsx) - 01-02
 - CSS variables for skeleton theming to support dark mode - 01-02
 - BaseSkeleton wrapper for consistent skeleton styling across components - 01-02
+- atomWithStorage from jotai/utils for platform persistence - 01-04
+- ThemeProvider sets data-platform attribute and CSS custom properties - 01-04
+- Graceful audit logging with dynamic import and catch block - 01-04
 - QueryClient with 60s staleTime, no window focus refetch for admin app - 01-05
 - credentials: include for cookie-based authentication on all API requests - 01-05
 - ApiClientError structure with code, status, details for error handling - 01-05
