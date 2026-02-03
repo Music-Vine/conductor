@@ -33,7 +33,7 @@ Decimal phases appear between their surrounding integers in numeric order.
   3. All staff actions are logged with audit trail (actor, action, timestamp, resource)
   4. Forms have real-time validation with clear error messages
   5. Pages show proper loading states (skeletons) and error boundaries
-**Plans**: 11 plans in 6 waves
+**Plans**: 12 plans in 6 waves
 
 Plans:
 - [x] 01-01-PLAN.md — Project setup and core dependencies
@@ -46,7 +46,8 @@ Plans:
 - [x] 01-08-PLAN.md — Form validation components
 - [x] 01-09-PLAN.md — App shell and navigation layout
 - [x] 01-10-PLAN.md — Verification checkpoint
-- [ ] 01-11-PLAN.md — Gap closure (audit logging, skeletons, form validation)
+- [ ] 01-12-PLAN.md — Cadence design system setup
+- [ ] 01-11-PLAN.md — Gap closure with Cadence components
 
 ### Phase 2: User Management
 **Goal**: Staff can search, view, and manage all user accounts with full CRUD operations
@@ -160,7 +161,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Foundation & Infrastructure | 10/11 | Gap closure pending | - |
+| 1. Foundation & Infrastructure | 10/12 | Cadence setup + gap closure pending | - |
 | 2. User Management | 0/0 | Not started | - |
 | 3. Advanced Table Features | 0/0 | Not started | - |
 | 4. Catalog Management | 0/0 | Not started | - |
