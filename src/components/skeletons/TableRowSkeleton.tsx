@@ -14,7 +14,7 @@ export function TableRowSkeleton({ columns = 4, rows = 5 }: TableRowSkeletonProp
       <div className="flex gap-4 border-b border-zinc-200 pb-2 dark:border-zinc-800">
         {Array.from({ length: columns }).map((_, i) => (
           <div key={i} className="flex-1">
-            <BaseSkeleton height={20} />
+            <BaseSkeleton height="h-5" />
           </div>
         ))}
       </div>
@@ -23,7 +23,7 @@ export function TableRowSkeleton({ columns = 4, rows = 5 }: TableRowSkeletonProp
         <div key={rowIndex} className="flex gap-4 py-2">
           {Array.from({ length: columns }).map((_, colIndex) => (
             <div key={colIndex} className="flex-1">
-              <BaseSkeleton height={16} width={colIndex === 0 ? '80%' : '60%'} />
+              <BaseSkeleton height="h-4" width={colIndex === 0 ? 'w-4/5' : 'w-3/5'} />
             </div>
           ))}
         </div>

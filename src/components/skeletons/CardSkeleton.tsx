@@ -11,14 +11,14 @@ export function CardSkeleton({ hasImage = false, lines = 3 }: CardSkeletonProps)
   return (
     <div className="rounded-lg border border-zinc-200 p-4 dark:border-zinc-800">
       {hasImage && (
-        <BaseSkeleton height={160} className="mb-4 rounded-lg" />
+        <BaseSkeleton height="h-40" className="mb-4 rounded-lg" />
       )}
-      <BaseSkeleton width="60%" height={24} className="mb-2" />
+      <BaseSkeleton width="w-3/5" height="h-6" className="mb-2" />
       {Array.from({ length: lines }).map((_, i) => (
         <BaseSkeleton
           key={i}
-          width={i === lines - 1 ? '80%' : '100%'}
-          height={16}
+          width={i === lines - 1 ? 'w-4/5' : 'w-full'}
+          height="h-4"
           className="mb-1"
         />
       ))}
