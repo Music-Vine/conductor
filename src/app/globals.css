@@ -1,8 +1,8 @@
+@import "@music-vine/cadence/styles";
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-@import "@music-vine/cadence/styles";
 
 :root {
   --background: #ffffff;
