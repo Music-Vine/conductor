@@ -10,6 +10,7 @@ const PUBLIC_PATHS = [
   '/login',
   '/magic-link',
   '/api/auth',
+  '/api/users', // Mock user management API for frontend development
 ]
 
 function isPublicPath(pathname: string): boolean {
