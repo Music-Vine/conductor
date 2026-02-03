@@ -115,13 +115,13 @@ function SuccessMessage({
 
       {/* Development only: Show clickable link */}
       {debugUrl && process.env.NODE_ENV === 'development' && (
-        <div className="mt-6 rounded-lg border border-yellow-200 bg-yellow-50 p-4 dark:border-yellow-900 dark:bg-yellow-900/20">
-          <p className="mb-2 text-xs font-medium text-yellow-800 dark:text-yellow-200">
+        <div className="mt-6 rounded-lg border border-yellow-200 bg-yellow-50 p-4 dark:border-yellow-950 dark:bg-yellow-950/20">
+          <p className="mb-2 text-xs font-medium text-yellow-950 dark:text-yellow-400">
             Development Only
           </p>
           <a
             href={debugUrl}
-            className="text-sm text-yellow-700 underline hover:text-yellow-800 dark:text-yellow-300"
+            className="text-sm text-yellow-500 underline hover:text-yellow-950 dark:text-yellow-400"
           >
             Click here to sign in
           </a>
