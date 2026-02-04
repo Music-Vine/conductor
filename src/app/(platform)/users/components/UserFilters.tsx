@@ -2,7 +2,7 @@
 
 import { useState, useTransition } from 'react'
 import { useRouter, usePathname, useSearchParams } from 'next/navigation'
-import { Input, Button } from '@music-vine/cadence/ui'
+import { Input, Button, Select } from '@music-vine/cadence/ui'
 import type { UserStatus, SubscriptionTier } from '@/types'
 
 interface UserFiltersProps {
@@ -126,6 +126,7 @@ export function UserFilters({ currentParams }: UserFiltersProps) {
           onClick={handleSearch}
           disabled={isPending}
           variant="bold"
+          className="h-full"
         >
           {isPending ? 'Searching...' : 'Search'}
         </Button>
@@ -138,17 +139,16 @@ export function UserFilters({ currentParams }: UserFiltersProps) {
           <label htmlFor="status-filter" className="sr-only">
             Account Status
           </label>
-          <select
+          <Select
             id="status-filter"
             value={currentParams.status}
             onChange={handleStatusChange}
             disabled={isPending}
-            className="w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 focus:border-gray-500 focus:outline-none focus:ring-2 focus:ring-gray-500 disabled:opacity-50 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-100 dark:focus:border-gray-500"
           >
             <option value="all">All Statuses</option>
             <option value="active">Active</option>
             <option value="suspended">Suspended</option>
-          </select>
+          </Select>
         </div>
 
         {/* Tier filter */}
@@ -156,19 +156,18 @@ export function UserFilters({ currentParams }: UserFiltersProps) {
           <label htmlFor="tier-filter" className="sr-only">
             Subscription Tier
           </label>
-          <select
+          <Select
             id="tier-filter"
             value={currentParams.tier}
             onChange={handleTierChange}
             disabled={isPending}
-            className="w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 focus:border-gray-500 focus:outline-none focus:ring-2 focus:ring-gray-500 disabled:opacity-50 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-100 dark:focus:border-gray-500"
           >
             <option value="all">All Tiers</option>
             <option value="free">Free</option>
             <option value="creator">Creator</option>
             <option value="pro">Pro</option>
             <option value="enterprise">Enterprise</option>
-          </select>
+          </Select>
         </div>
       </div>
     </div>

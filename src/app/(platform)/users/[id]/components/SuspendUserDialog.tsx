@@ -99,14 +99,14 @@ export function SuspendUserDialog({
           </AlertDialog.Description>
           <div className="mt-6 flex justify-end gap-3">
             <AlertDialog.Cancel asChild>
-              <Button variant="secondary" size="medium" disabled={mutation.isPending}>
+              <Button variant="secondary" className="px-4 py-2" disabled={mutation.isPending}>
                 Cancel
               </Button>
             </AlertDialog.Cancel>
             <AlertDialog.Action asChild>
               <Button
                 variant={content.actionVariant}
-                size="medium"
+                className="px-4 py-2"
                 onClick={(e) => {
                   e.preventDefault()
                   mutation.mutate()
