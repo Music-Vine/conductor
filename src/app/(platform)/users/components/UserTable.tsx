@@ -29,6 +29,7 @@ const columns = [
   columnHelper.accessor((row) => ({ email: row.email, name: row.name }), {
     id: 'user',
     header: 'User',
+    size: 300,
     cell: (info) => {
       const { email, name } = info.getValue()
       return (
@@ -41,6 +42,7 @@ const columns = [
   }),
   columnHelper.accessor('status', {
     header: 'Status',
+    size: 120,
     cell: (info) => {
       const status = info.getValue()
       const isActive = status === 'active'
@@ -59,6 +61,7 @@ const columns = [
   }),
   columnHelper.accessor('subscriptionTier', {
     header: 'Subscription',
+    size: 150,
     cell: (info) => {
       const tier = info.getValue()
       const tierLabels: Record<string, string> = {
@@ -84,6 +87,7 @@ const columns = [
   }),
   columnHelper.accessor('lastLoginAt', {
     header: 'Last Login',
+    size: 150,
     cell: (info) => {
       const lastLogin = info.getValue()
       if (!lastLogin) return <span className="text-gray-400">Never</span>
@@ -121,6 +125,7 @@ const columns = [
   columnHelper.display({
     id: 'actions',
     header: 'Actions',
+    size: 100,
     cell: (info) => <UserRowActions user={info.row.original} />,
   }),
 ]
@@ -206,31 +211,29 @@ export function UserTable({ data, pagination }: UserTableProps) {
 
   return (
     <div className="overflow-hidden rounded-lg border border-gray-200">
-      {/* Fixed header */}
-      <div className="bg-gray-50 border-b border-gray-200">
-        <table className="w-full border-collapse">
-          <thead>
-            {table.getHeaderGroups().map((headerGroup) => (
-              <tr key={headerGroup.id}>
-                {headerGroup.headers.map((header) => (
-                  <th
-                    key={header.id}
-                    className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-700"
-                    style={{ width: header.getSize() }}
-                  >
-                    {header.isPlaceholder
-                      ? null
-                      : flexRender(
-                          header.column.columnDef.header,
-                          header.getContext()
-                        )}
-                  </th>
-                ))}
-              </tr>
-            ))}
-          </thead>
-        </table>
-      </div>
+      <table className="w-full border-collapse">
+        {/* Fixed header */}
+        <thead className="bg-gray-50 border-b border-gray-200">
+          {table.getHeaderGroups().map((headerGroup) => (
+            <tr key={headerGroup.id}>
+              {headerGroup.headers.map((header) => (
+                <th
+                  key={header.id}
+                  className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-700"
+                  style={{ width: header.getSize() }}
+                >
+                  {header.isPlaceholder
+                    ? null
+                    : flexRender(
+                        header.column.columnDef.header,
+                        header.getContext()
+                      )}
+                </th>
+              ))}
+            </tr>
+          ))}
+        </thead>
+      </table>
 
       {/* Virtualized body */}
       <div
@@ -259,29 +262,26 @@ export function UserTable({ data, pagination }: UserTableProps) {
                 key={row.id}
                 virtualRow={virtualRow}
                 className={`
-                  cursor-pointer transition-colors
+                  cursor-pointer transition-colors border-b border-gray-100
                   ${isFocused ? 'ring-2 ring-inset ring-platform-primary' : ''}
                   ${isSelected ? 'bg-platform-primary/10' : 'hover:bg-gray-50'}
                 `}
               >
-                <table className="w-full border-collapse">
-                  <tbody>
-                    <tr
-                      onClick={(e) => handleRowClick(row.original.id, e)}
-                      className="border-b border-gray-100"
+                <div
+                  onClick={(e) => handleRowClick(row.original.id, e)}
+                  className="flex items-center"
+                  style={{ height: '100%' }}
+                >
+                  {row.getVisibleCells().map((cell) => (
+                    <div
+                      key={cell.id}
+                      className="whitespace-nowrap px-6 py-4 text-sm"
+                      style={{ width: cell.column.getSize() }}
                     >
-                      {row.getVisibleCells().map((cell) => (
-                        <td
-                          key={cell.id}
-                          className="whitespace-nowrap px-6 py-4 text-sm"
-                          style={{ width: cell.column.getSize() }}
-                        >
-                          {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                        </td>
-                      ))}
-                    </tr>
-                  </tbody>
-                </table>
+                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                    </div>
+                  ))}
+                </div>
               </VirtualizedRow>
             )
           })}

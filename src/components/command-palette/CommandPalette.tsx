@@ -63,7 +63,7 @@ export function CommandPalette({ open: controlledOpen, onOpenChange }: CommandPa
             placeholder="Search for actions or pages..."
             value={searchQuery}
             onValueChange={setSearchQuery}
-            className="w-full border-b border-gray-200 px-4 py-3 text-base outline-none placeholder:text-gray-400"
+            className="w-full border-b border-gray-200 px-4 py-3 text-base text-gray-900 outline-none placeholder:text-gray-400"
           />
 
           <Command.List className="max-h-80 overflow-y-auto p-2">
