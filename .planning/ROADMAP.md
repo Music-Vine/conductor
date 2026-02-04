@@ -87,10 +87,20 @@ Plans:
   3. Staff can use keyboard shortcuts for common actions to speed up workflows
   4. Empty states provide clear guidance on what to do next
   5. Large lists (10k+ items) render smoothly with virtualization
-**Plans**: TBD
+**Plans**: 11 plans in 5 waves
 
 Plans:
-- [ ] 03-01: TBD
+- [ ] 03-01-PLAN.md — Install Phase 3 dependencies (TanStack Virtual, cmdk, react-hotkeys-hook, fuse.js)
+- [ ] 03-02-PLAN.md — Keyboard shortcuts infrastructure (definitions, provider, hooks)
+- [ ] 03-03-PLAN.md — Command palette core with navigation
+- [ ] 03-04-PLAN.md — Empty state components
+- [ ] 03-05-PLAN.md — Virtualized table hook
+- [ ] 03-06-PLAN.md — Global search API and hook
+- [ ] 03-07-PLAN.md — Update UserTable with virtualization
+- [ ] 03-08-PLAN.md — Table keyboard navigation
+- [ ] 03-09-PLAN.md — Command palette search integration
+- [ ] 03-10-PLAN.md — Header search button and keyboard cheat sheet
+- [ ] 03-11-PLAN.md — Human verification checkpoint
 
 ### Phase 4: Catalog Management
 **Goal**: Staff can manage complete asset lifecycle from ingestion through approval workflows to publication
@@ -176,7 +186,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8
 |-------|----------------|--------|-----------|
 | 1. Foundation & Infrastructure | 15/15 | Complete | 2026-02-03 |
 | 2. User Management | 11/11 | Complete | 2026-02-04 |
-| 3. Advanced Table Features | 0/0 | Not started | - |
+| 3. Advanced Table Features | 0/11 | Planned | - |
 | 4. Catalog Management | 0/0 | Not started | - |
 | 5. Bulk Operations | 0/0 | Not started | - |
 | 6. Payee & Contributor Management | 0/0 | Not started | - |
