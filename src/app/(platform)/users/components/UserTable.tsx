@@ -9,6 +9,7 @@ import {
 } from '@tanstack/react-table'
 import type { UserListItem } from '@/types/user'
 import type { PaginatedResponse } from '@/types/api'
+import { UserRowActions } from './UserRowActions'
 
 interface UserTableProps {
   data: UserListItem[]
@@ -116,23 +117,7 @@ const columns = [
   columnHelper.display({
     id: 'actions',
     header: 'Actions',
-    cell: () => (
-      <button
-        onClick={(e) => e.stopPropagation()}
-        className="text-gray-400 hover:text-gray-600"
-        aria-label="More actions"
-      >
-        <svg
-          className="h-5 w-5"
-          fill="currentColor"
-          viewBox="0 0 20 20"
-        >
-          <circle cx="10" cy="4" r="1.5" />
-          <circle cx="10" cy="10" r="1.5" />
-          <circle cx="10" cy="16" r="1.5" />
-        </svg>
-      </button>
-    ),
+    cell: (info) => <UserRowActions user={info.row.original} />,
   }),
 ]
 
