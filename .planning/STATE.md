@@ -10,29 +10,29 @@ See: .planning/PROJECT.md (updated 2026-02-03)
 ## Current Position
 
 Phase: 2 of 8 (User Management)
-Plan: 6 of 11 in current phase
-Status: In progress - Profile tab with OAuth disconnect complete
-Last activity: 2026-02-04 — Completed 02-06-PLAN.md (Profile tab with OAuth connections)
+Plan: 8 of 11 in current phase
+Status: In progress - Downloads + Licenses tab complete
+Last activity: 2026-02-04 — Completed 02-08-PLAN.md (Downloads + Licenses tab)
 
-Progress: [████████████████░] 91% (21 of 23 plans completed across all phases)
+Progress: [█████████████████] 96% (22 of 23 plans completed across all phases)
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 21
-- Average duration: 3.21 minutes
-- Total execution time: 1.12 hours
+- Total plans completed: 22
+- Average duration: 3.39 minutes
+- Total execution time: 1.24 hours
 
 **By Phase:**
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
 | 1 | 15 | 47.82 min | 3.19 min |
-| 2 | 6 | 21.32 min | 3.55 min |
+| 2 | 7 | 28.77 min | 4.11 min |
 
 **Recent Trend:**
-- Last 5 plans: 02-04 (3.98 min), 02-05 (3.5 min), 02-06 (4.3 min), 02-07 (3.08 min)
-- Trend: Consistent 3-4 minute execution for implementation tasks
+- Last 5 plans: 02-05 (3.5 min), 02-06 (4.3 min), 02-07 (3.08 min), 02-08 (7.45 min)
+- Trend: Phase 2 averaging 4+ min (includes blocking fixes from incomplete prior plans)
 
 *Updated after each plan completion*
 
@@ -118,6 +118,12 @@ Recent decisions affecting current work:
 - Billing history is mock data (3-5 entries) until backend integration - 02-07
 - Free tier users do not see refund button - 02-07
 - Refund endpoint mocks Stripe processing with 500ms delay - 02-07
+- ActivityItem union type enables combined downloads + licenses timeline - 02-08
+- Parallel queries for downloads/licenses improve perceived performance - 02-08
+- Date grouping (Today/Yesterday/This Week/Older) for timeline scannability - 02-08
+- Load more pagination (not infinite scroll) for explicit user control - 02-08
+- 50 downloads per user, 20 licenses per user in mock data - 02-08
+- 50% of licenses perpetual (null expiry), 50% with expiration dates - 02-08
 
 ### Pending Todos
 
@@ -129,7 +135,7 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-02-04 09:02:18 UTC
-Stopped at: Completed 02-06-PLAN.md (Profile tab with OAuth connections)
+Last session: 2026-02-04 09:05:28 UTC
+Stopped at: Completed 02-08-PLAN.md (Downloads + Licenses tab)
 Resume file: None
-Phase status: Phase 2 in progress - Profile and Subscription tabs complete, Downloads tab next
+Phase status: Phase 2 in progress - Profile, Subscription, and Downloads tabs complete
