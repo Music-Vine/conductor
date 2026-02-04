@@ -1,6 +1,6 @@
 'use client'
 
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import {
   createColumnHelper,
   flexRender,
@@ -8,8 +8,9 @@ import {
   useReactTable,
 } from '@tanstack/react-table'
 import type { UserListItem } from '@/types/user'
-import type { PaginatedResponse } from '@/types/api'
 import { UserRowActions } from './UserRowActions'
+import { useVirtualizedTable, useSmartScrollReset, VirtualizedRow, VIRTUALIZED_TABLE_DEFAULTS } from '@/hooks/useVirtualizedTable'
+import { NoResultsEmptyState } from '@/components/empty-states/EmptyState'
 
 interface UserTableProps {
   data: UserListItem[]
@@ -125,21 +126,30 @@ const columns = [
 
 export function UserTable({ data, pagination }: UserTableProps) {
   const router = useRouter()
+  const searchParams = useSearchParams()
 
-  // Defensive checks
+  // Get current filter state for scroll reset detection
+  const currentQuery = searchParams.get('query') || ''
+  const currentStatus = searchParams.get('status') || ''
+  const currentTier = searchParams.get('tier') || ''
+
+  // Defensive check - show empty state if no data
   if (!data || !Array.isArray(data)) {
-    return (
-      <div className="p-8 text-center text-gray-500">
-        No users data available
-      </div>
-    )
+    return <NoResultsEmptyState />
   }
 
   if (!pagination) {
+    return <NoResultsEmptyState />
+  }
+
+  // Show empty state when no results (replaces full table per best practices)
+  if (data.length === 0) {
+    const hasFilters = currentQuery || currentStatus || currentTier
     return (
-      <div className="p-8 text-center text-gray-500">
-        Pagination data unavailable
-      </div>
+      <NoResultsEmptyState
+        searchQuery={currentQuery || undefined}
+        onClearFilters={hasFilters ? () => router.push('/users') : undefined}
+      />
     )
   }
 
@@ -159,57 +169,99 @@ export function UserTable({ data, pagination }: UserTableProps) {
     },
   })
 
-  function handleRowClick(userId: string) {
+  // Setup virtualization
+  const virtualizedTable = useVirtualizedTable({
+    table,
+    rowHeight: VIRTUALIZED_TABLE_DEFAULTS.rowHeight,
+    overscan: VIRTUALIZED_TABLE_DEFAULTS.overscan,
+    containerHeight: 600,
+  })
+
+  // Smart scroll reset on filter changes
+  useSmartScrollReset(virtualizedTable, [currentQuery, currentStatus, currentTier, pagination.page])
+
+  const { parentRef, virtualRows, totalHeight, rows } = virtualizedTable
+
+  function handleRowClick(userId: string, event: React.MouseEvent) {
+    // Don't navigate if clicking on actions dropdown
+    if ((event.target as HTMLElement).closest('[data-actions]')) {
+      return
+    }
     router.push(`/users/${userId}`)
   }
 
   return (
-    <div className="overflow-x-auto">
-      <table className="w-full border-collapse">
-        <thead>
-          {table.getHeaderGroups().map((headerGroup) => (
-            <tr key={headerGroup.id} className="border-b border-gray-200">
-              {headerGroup.headers.map((header) => (
-                <th
-                  key={header.id}
-                  className="bg-gray-50 px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-700"
-                >
-                  {header.isPlaceholder
-                    ? null
-                    : flexRender(
-                        header.column.columnDef.header,
-                        header.getContext()
-                      )}
-                </th>
-              ))}
-            </tr>
-          ))}
-        </thead>
-        <tbody className="divide-y divide-gray-200 bg-white">
-          {table.getRowModel().rows.map((row) => (
-            <tr
-              key={row.id}
-              onClick={() => handleRowClick(row.original.id)}
-              className="cursor-pointer transition-colors hover:bg-gray-100"
-            >
-              {row.getVisibleCells().map((cell) => (
-                <td
-                  key={cell.id}
-                  className="whitespace-nowrap px-6 py-4 text-sm"
-                >
-                  {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                </td>
-              ))}
-            </tr>
-          ))}
-        </tbody>
-      </table>
+    <div className="overflow-hidden rounded-lg border border-gray-200">
+      {/* Fixed header */}
+      <div className="bg-gray-50 border-b border-gray-200">
+        <table className="w-full border-collapse">
+          <thead>
+            {table.getHeaderGroups().map((headerGroup) => (
+              <tr key={headerGroup.id}>
+                {headerGroup.headers.map((header) => (
+                  <th
+                    key={header.id}
+                    className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-700"
+                    style={{ width: header.getSize() }}
+                  >
+                    {header.isPlaceholder
+                      ? null
+                      : flexRender(
+                          header.column.columnDef.header,
+                          header.getContext()
+                        )}
+                  </th>
+                ))}
+              </tr>
+            ))}
+          </thead>
+        </table>
+      </div>
 
-      {data.length === 0 && (
-        <div className="py-12 text-center text-gray-500">
-          No users found. Try adjusting your search filters.
+      {/* Virtualized body */}
+      <div
+        ref={parentRef}
+        className="overflow-auto bg-white"
+        style={{ height: '600px' }}
+      >
+        <div
+          style={{
+            height: `${totalHeight}px`,
+            width: '100%',
+            position: 'relative',
+          }}
+        >
+          {virtualRows.map((virtualRow) => {
+            const row = rows[virtualRow.index]
+            return (
+              <VirtualizedRow
+                key={row.id}
+                virtualRow={virtualRow}
+                className="cursor-pointer transition-colors hover:bg-gray-50"
+              >
+                <table className="w-full border-collapse">
+                  <tbody>
+                    <tr
+                      onClick={(e) => handleRowClick(row.original.id, e)}
+                      className="border-b border-gray-100"
+                    >
+                      {row.getVisibleCells().map((cell) => (
+                        <td
+                          key={cell.id}
+                          className="whitespace-nowrap px-6 py-4 text-sm"
+                          style={{ width: cell.column.getSize() }}
+                        >
+                          {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                        </td>
+                      ))}
+                    </tr>
+                  </tbody>
+                </table>
+              </VirtualizedRow>
+            )
+          })}
         </div>
-      )}
+      </div>
     </div>
   )
 }
