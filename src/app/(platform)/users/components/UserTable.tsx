@@ -124,6 +124,23 @@ const columns = [
 export function UserTable({ data, pagination }: UserTableProps) {
   const router = useRouter()
 
+  // Defensive checks
+  if (!data || !Array.isArray(data)) {
+    return (
+      <div className="p-8 text-center text-gray-500">
+        No users data available
+      </div>
+    )
+  }
+
+  if (!pagination) {
+    return (
+      <div className="p-8 text-center text-gray-500">
+        Pagination data unavailable
+      </div>
+    )
+  }
+
   const table = useReactTable({
     data,
     columns,
