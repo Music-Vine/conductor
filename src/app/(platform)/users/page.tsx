@@ -1,7 +1,7 @@
 import { Suspense } from 'react'
 import { fetchUsers } from '@/lib/api/users'
 import type { UserStatus, SubscriptionTier } from '@/types'
-import { UserFilters } from './components/UserFilters'
+import { UserFilters, UserTable, UserTablePagination } from './components'
 import { TableRowSkeleton } from '@/components/skeletons/TableRowSkeleton'
 
 interface SearchParamsProps {
@@ -38,13 +38,6 @@ export default async function UsersPage({ searchParams }: SearchParamsProps) {
   // Fetch users server-side
   const data = await fetchUsers(filterParams)
 
-  // Calculate pagination display
-  const startIndex = (data.pagination.page - 1) * data.pagination.pageSize + 1
-  const endIndex = Math.min(
-    data.pagination.page * data.pagination.pageSize,
-    data.pagination.totalItems
-  )
-
   return (
     <div className="space-y-6">
       {/* Page header */}
@@ -68,24 +61,15 @@ export default async function UsersPage({ searchParams }: SearchParamsProps) {
       />
 
       {/* Results */}
-      <Suspense fallback={<TableRowSkeleton columns={5} rows={10} />}>
-        <div className="space-y-4">
-          {/* Pagination info */}
-          <div className="text-sm text-gray-600 dark:text-gray-400">
-            Showing {startIndex}–{endIndex} of {data.pagination.totalItems} users
-          </div>
-
-          {/* Table placeholder - will be built in next plan */}
-          <div className="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-gray-900">
-            <p className="text-sm text-gray-600 dark:text-gray-400">
-              User table component will be implemented in next plan
-            </p>
-            <pre className="mt-4 text-xs text-gray-500">
-              {JSON.stringify(data, null, 2)}
-            </pre>
-          </div>
-        </div>
-      </Suspense>
+      <div className="rounded-lg border border-gray-200 bg-white">
+        <Suspense
+          key={JSON.stringify(params)}
+          fallback={<TableRowSkeleton columns={5} rows={10} />}
+        >
+          <UserTable data={data.data} pagination={data.pagination} />
+        </Suspense>
+        <UserTablePagination pagination={data.pagination} />
+      </div>
     </div>
   )
 }
