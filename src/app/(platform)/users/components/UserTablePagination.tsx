@@ -19,6 +19,11 @@ export function UserTablePagination({ pagination }: UserTablePaginationProps) {
   const searchParams = useSearchParams()
   const [isPending, startTransition] = useTransition()
 
+  // Defensive check for undefined pagination
+  if (!pagination) {
+    return null
+  }
+
   const { page, pageSize, totalPages, totalItems } = pagination
 
   // Calculate display range
