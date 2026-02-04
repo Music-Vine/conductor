@@ -15,6 +15,11 @@ interface ExportUsersButtonProps {
  * Downloads current page/filtered results as CSV file with formatted headers.
  */
 export function ExportUsersButton({ users, disabled }: ExportUsersButtonProps) {
+  // Defensive check for undefined users array
+  if (!users || !Array.isArray(users)) {
+    return null
+  }
+
   const handleExport = () => {
     try {
       exportUsersToCSV(users)
