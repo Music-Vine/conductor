@@ -37,7 +37,15 @@ export function createApiClient(config: Partial<ApiClientConfig> = {}) {
     endpoint: string,
     options: RequestInit = {}
   ): Promise<T> {
-    const url = `${finalConfig.baseUrl}${endpoint}`
+    // Construct absolute URL for server-side requests
+    let url = `${finalConfig.baseUrl}${endpoint}`
+
+    // If running server-side (typeof window === 'undefined'), convert to absolute URL
+    if (typeof window === 'undefined') {
+      // Use environment variable or default to localhost in development
+      const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'
+      url = `${baseUrl}${finalConfig.baseUrl}${endpoint}`
+    }
 
     const headers = new Headers({
       ...finalConfig.headers,
