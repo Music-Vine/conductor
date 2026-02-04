@@ -92,12 +92,23 @@ export function createApiClient(config: Partial<ApiClientConfig> = {}) {
     }
 
     // Return data from successful response
-    // For API responses that follow ApiResponse<T> pattern, extract .data
-    // For responses that ARE the data (like PaginatedResponse), return as-is
-    const successResponse = data as ApiResponse<T>
-    if (successResponse.data !== undefined) {
-      return successResponse.data
+    // Special handling for different response patterns:
+    // 1. PaginatedResponse: { data: T[], pagination: {...} } - return as-is
+    // 2. ApiResponse: { data: T } - unwrap and return T
+    // 3. Direct data: T - return as-is
+    const responseObj = data as any
+
+    // If response has pagination field, it's a PaginatedResponse - return entire object
+    if (responseObj.pagination !== undefined) {
+      return data as T
     }
+
+    // If response has data field (but no pagination), it's an ApiResponse wrapper - unwrap it
+    if (responseObj.data !== undefined) {
+      return responseObj.data
+    }
+
+    // Otherwise return the data as-is
     return data as T
   }
 
