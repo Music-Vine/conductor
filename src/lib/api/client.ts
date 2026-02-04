@@ -92,8 +92,13 @@ export function createApiClient(config: Partial<ApiClientConfig> = {}) {
     }
 
     // Return data from successful response
+    // For API responses that follow ApiResponse<T> pattern, extract .data
+    // For responses that ARE the data (like PaginatedResponse), return as-is
     const successResponse = data as ApiResponse<T>
-    return successResponse.data ?? (data as T)
+    if (successResponse.data !== undefined) {
+      return successResponse.data
+    }
+    return data as T
   }
 
   return {
