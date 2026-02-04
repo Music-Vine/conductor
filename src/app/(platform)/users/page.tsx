@@ -1,7 +1,7 @@
 import { Suspense } from 'react'
 import { fetchUsers } from '@/lib/api/users'
 import type { UserStatus, SubscriptionTier } from '@/types'
-import { UserFilters, UserTable, UserTablePagination } from './components'
+import { UserFilters, UserTable, UserTablePagination, ExportUsersButton } from './components'
 import { TableRowSkeleton } from '@/components/skeletons/TableRowSkeleton'
 
 interface SearchParamsProps {
@@ -59,6 +59,11 @@ export default async function UsersPage({ searchParams }: SearchParamsProps) {
           tier: tier || 'all',
         }}
       />
+
+      {/* Export button */}
+      <div className="flex justify-end">
+        <ExportUsersButton users={data.data} />
+      </div>
 
       {/* Results */}
       <div className="rounded-lg border border-gray-200 bg-white">
