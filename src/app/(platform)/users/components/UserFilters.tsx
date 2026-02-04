@@ -2,7 +2,7 @@
 
 import { useState, useTransition } from 'react'
 import { useRouter, usePathname, useSearchParams } from 'next/navigation'
-import { Input, Button, Select } from '@music-vine/cadence/ui'
+import { Input, Button } from '@music-vine/cadence/ui'
 import type { UserStatus, SubscriptionTier } from '@/types'
 
 interface UserFiltersProps {
@@ -139,16 +139,23 @@ export function UserFilters({ currentParams }: UserFiltersProps) {
           <label htmlFor="status-filter" className="sr-only">
             Account Status
           </label>
-          <Select
+          <select
             id="status-filter"
             value={currentParams.status}
             onChange={handleStatusChange}
             disabled={isPending}
+            className="h-10 w-full appearance-none rounded-lg border border-gray-300 bg-white px-3 py-2 pr-8 text-sm text-gray-900 transition-colors hover:border-gray-400 focus:border-gray-900 focus:outline-none focus:ring-2 focus:ring-gray-900 focus:ring-offset-0 disabled:cursor-not-allowed disabled:opacity-50"
+            style={{
+              backgroundImage: `url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e")`,
+              backgroundPosition: 'right 0.5rem center',
+              backgroundRepeat: 'no-repeat',
+              backgroundSize: '1.5em 1.5em',
+            }}
           >
             <option value="all">All Statuses</option>
             <option value="active">Active</option>
             <option value="suspended">Suspended</option>
-          </Select>
+          </select>
         </div>
 
         {/* Tier filter */}
@@ -156,18 +163,25 @@ export function UserFilters({ currentParams }: UserFiltersProps) {
           <label htmlFor="tier-filter" className="sr-only">
             Subscription Tier
           </label>
-          <Select
+          <select
             id="tier-filter"
             value={currentParams.tier}
             onChange={handleTierChange}
             disabled={isPending}
+            className="h-10 w-full appearance-none rounded-lg border border-gray-300 bg-white px-3 py-2 pr-8 text-sm text-gray-900 transition-colors hover:border-gray-400 focus:border-gray-900 focus:outline-none focus:ring-2 focus:ring-gray-900 focus:ring-offset-0 disabled:cursor-not-allowed disabled:opacity-50"
+            style={{
+              backgroundImage: `url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e")`,
+              backgroundPosition: 'right 0.5rem center',
+              backgroundRepeat: 'no-repeat',
+              backgroundSize: '1.5em 1.5em',
+            }}
           >
             <option value="all">All Tiers</option>
             <option value="free">Free</option>
             <option value="creator">Creator</option>
             <option value="pro">Pro</option>
             <option value="enterprise">Enterprise</option>
-          </Select>
+          </select>
         </div>
       </div>
     </div>
