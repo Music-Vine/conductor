@@ -18,14 +18,14 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### User Management
 
-- [ ] **USER-01**: Staff can search and filter user accounts (3M+ users with server-side pagination)
-- [ ] **USER-02**: Staff can view user account details and subscription status
-- [ ] **USER-03**: Staff can handle refunds and billing issues for users
-- [ ] **USER-04**: Staff can manage user licenses and download history
-- [ ] **USER-05**: Staff can ban or suspend user accounts
-- [ ] **USER-06**: Staff can disconnect Google OAuth from user accounts ("Un-Google")
-- [ ] **USER-07**: Staff can view user activity logs
-- [ ] **USER-08**: Staff can export user data to CSV
+- [x] **USER-01**: Staff can search and filter user accounts (3M+ users with server-side pagination)
+- [x] **USER-02**: Staff can view user account details and subscription status
+- [x] **USER-03**: Staff can handle refunds and billing issues for users
+- [x] **USER-04**: Staff can manage user licenses and download history
+- [x] **USER-05**: Staff can ban or suspend user accounts
+- [x] **USER-06**: Staff can disconnect Google OAuth from user accounts ("Un-Google")
+- [x] **USER-07**: Staff can view user activity logs
+- [x] **USER-08**: Staff can export user data to CSV
 
 ### Catalog Management
 
@@ -52,8 +52,8 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Core UX
 
-- [ ] **UX-01**: All data tables support server-side sorting, filtering, and pagination
-- [ ] **UX-02**: Staff can use advanced faceted filtering on data tables
+- [x] **UX-01**: All data tables support server-side sorting, filtering, and pagination
+- [x] **UX-02**: Staff can use advanced faceted filtering on data tables
 - [ ] **UX-03**: Staff can use global search to find users, assets, contributors, or payees
 - [ ] **UX-04**: Staff can export filtered/searched data to CSV
 - [x] **UX-05**: All forms have real-time validation with clear error messages
