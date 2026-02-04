@@ -66,7 +66,7 @@ export default async function UsersPage({ searchParams }: SearchParamsProps) {
       </div>
 
       {/* Results */}
-      <div className="rounded-lg border border-gray-200 bg-white">
+      <div className="rounded-lg border border-gray-200 bg-white overflow-hidden">
         <Suspense
           key={JSON.stringify(params)}
           fallback={<TableRowSkeleton columns={5} rows={10} />}
