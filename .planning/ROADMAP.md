@@ -13,7 +13,7 @@ Conductor Admin replaces 4 legacy PHP admin systems with a unified Next.js inter
 Decimal phases appear between their surrounding integers in numeric order.
 
 - [x] **Phase 1: Foundation & Infrastructure** - Authentication, platform context, API client, audit framework
-- [ ] **Phase 2: User Management** - Staff can search, view, and manage user accounts
+- [x] **Phase 2: User Management** - Staff can search, view, and manage user accounts
 - [ ] **Phase 3: Advanced Table Features** - Faceted filtering, virtualization, command palette, keyboard shortcuts
 - [ ] **Phase 4: Catalog Management** - Asset ingestion, metadata editing, approval workflows
 - [ ] **Phase 5: Bulk Operations** - Async job queue with progress tracking for large-scale operations
@@ -65,17 +65,17 @@ Plans:
 **Plans**: 11 plans in 5 waves
 
 Plans:
-- [ ] 02-01-PLAN.md — User types and mock API routes
-- [ ] 02-02-PLAN.md — Install Phase 2 dependencies (TanStack Table, Radix UI, Sonner)
-- [ ] 02-03-PLAN.md — User list page with search and filters
-- [ ] 02-04-PLAN.md — User table with TanStack Table pagination
-- [ ] 02-05-PLAN.md — User detail page with Radix tabs
-- [ ] 02-06-PLAN.md — Profile tab and OAuth disconnect
-- [ ] 02-07-PLAN.md — Subscription tab and refunds
-- [ ] 02-08-PLAN.md — Downloads + Licenses tab
-- [ ] 02-09-PLAN.md — Suspend/unsuspend actions and row actions menu
-- [ ] 02-10-PLAN.md — CSV export functionality
-- [ ] 02-11-PLAN.md — Human verification checkpoint
+- [x] 02-01-PLAN.md — User types and mock API routes
+- [x] 02-02-PLAN.md — Install Phase 2 dependencies (TanStack Table, Radix UI, Sonner)
+- [x] 02-03-PLAN.md — User list page with search and filters
+- [x] 02-04-PLAN.md — User table with TanStack Table pagination
+- [x] 02-05-PLAN.md — User detail page with Radix tabs
+- [x] 02-06-PLAN.md — Profile tab and OAuth disconnect
+- [x] 02-07-PLAN.md — Subscription tab and refunds
+- [x] 02-08-PLAN.md — Downloads + Licenses tab
+- [x] 02-09-PLAN.md — Suspend/unsuspend actions and row actions menu
+- [x] 02-10-PLAN.md — CSV export functionality
+- [x] 02-11-PLAN.md — Human verification checkpoint
 
 ### Phase 3: Advanced Table Features
 **Goal**: All data tables have advanced filtering, virtualization for large datasets, and power-user features
