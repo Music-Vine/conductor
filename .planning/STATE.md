@@ -10,18 +10,18 @@ See: .planning/PROJECT.md (updated 2026-02-03)
 ## Current Position
 
 Phase: 3 of 8 (Advanced Table Features)
-Plan: 8 of 11 in current phase
+Plan: 9 of 11 in current phase
 Status: In progress
-Last activity: 2026-02-04 — Completed 03-08-PLAN.md (Table keyboard navigation)
+Last activity: 2026-02-04 — Completed 03-10-PLAN.md (Keyboard shortcuts cheat sheet)
 
-Progress: [████████████████████░] 92% (34 of 37 plans completed across all phases)
+Progress: [████████████████████░] 95% (35 of 37 plans completed across all phases)
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 34
-- Average duration: 4.29 minutes
-- Total execution time: 2.51 hours
+- Total plans completed: 35
+- Average duration: 4.11 minutes
+- Total execution time: 2.54 hours
 
 **By Phase:**
 
@@ -29,10 +29,10 @@ Progress: [████████████████████░] 92% 
 |-------|-------|-------|----------|
 | 1 | 15 | 47.82 min | 3.19 min |
 | 2 | 11 | 70.09 min | 6.37 min |
-| 3 | 8 | 16.84 min | 2.11 min |
+| 3 | 9 | 18.37 min | 2.04 min |
 
 **Recent Trend:**
-- Last 5 plans: 03-04 (2.87 min), 03-06 (2.00 min), 03-07 (0.00 min), 03-08 (4.00 min)
+- Last 5 plans: 03-06 (2.00 min), 03-07 (0.00 min), 03-08 (4.00 min), 03-10 (1.53 min)
 - Trend: Phase 3 maintaining exceptional velocity with focused component tasks
 
 *Updated after each plan completion*
@@ -174,6 +174,10 @@ Recent decisions affecting current work:
 - Ref merging uses callback ref pattern to support both virtualization and keyboard - 03-08
 - Focus ring uses ring-2 ring-inset ring-platform-primary for brand consistency - 03-08
 - Selection background uses bg-platform-primary/10 (10% opacity) for subtle highlight - 03-08
+- Cheat sheet opens on ? (Shift+/) following developer tool conventions - 03-10
+- Shortcuts grouped by category (General, Navigation, Actions, Table) for discoverability - 03-10
+- OS-aware modifier display shows Cmd on Mac, Ctrl on Windows/Linux - 03-10
+- ShortcutProvider wraps layout to provide keyboard context to all components - 03-10
 
 ### Pending Todos
 
@@ -185,7 +189,7 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-02-04 13:19:48 UTC
-Stopped at: Completed 03-08-PLAN.md (Table keyboard navigation)
+Last session: 2026-02-04 13:23:49 UTC
+Stopped at: Completed 03-10-PLAN.md (Keyboard shortcuts cheat sheet)
 Resume file: None
-Phase status: Phase 3 in progress - 8 of 11 plans complete, UserTable with virtualization and keyboard navigation ready for sorting/bulk actions
+Phase status: Phase 3 in progress - 9 of 11 plans complete, Keyboard shortcuts fully discoverable via ? cheat sheet, ready for sorting and bulk actions
