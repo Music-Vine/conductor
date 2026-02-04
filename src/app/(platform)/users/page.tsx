@@ -1,85 +1,91 @@
 import { Suspense } from 'react'
 import { fetchUsers } from '@/lib/api/users'
-import type { UserStatus, SubscriptionTier } from '@/types/user'
+import type { UserStatus, SubscriptionTier } from '@/types'
 import { UserFilters } from './components/UserFilters'
-import { TableRowSkeleton } from '@/components/skeletons'
+import { TableRowSkeleton } from '@/components/skeletons/TableRowSkeleton'
 
-interface SearchParams {
-  query?: string
-  status?: string
-  tier?: string
-  page?: string
-  limit?: string
+interface SearchParamsProps {
+  searchParams: Promise<{
+    query?: string
+    page?: string
+    status?: string
+    tier?: string
+  }>
 }
 
-interface UsersPageProps {
-  searchParams: Promise<SearchParams>
-}
-
-export default async function UsersPage({ searchParams }: UsersPageProps) {
+/**
+ * Users management page.
+ * Server component that handles search and filtering via URL parameters.
+ */
+export default async function UsersPage({ searchParams }: SearchParamsProps) {
+  // Await searchParams (Next.js 15 pattern)
   const params = await searchParams
 
-  // Parse search parameters
+  // Parse query parameters
   const query = params.query || ''
-  const page = parseInt(params.page || '1', 10)
-  const limit = parseInt(params.limit || '50', 10)
-  const status = (params.status === 'active' || params.status === 'suspended')
-    ? params.status
-    : 'all'
-  const tier = (params.tier === 'free' || params.tier === 'creator' || params.tier === 'pro' || params.tier === 'enterprise')
-    ? params.tier
-    : 'all'
+  const page = params.page ? parseInt(params.page, 10) : 1
+  const status = params.status === 'all' ? undefined : (params.status as UserStatus | undefined)
+  const tier = params.tier === 'all' ? undefined : (params.tier as SubscriptionTier | undefined)
+
+  // Build filter params (omit 'all' values)
+  const filterParams = {
+    query: query || undefined,
+    page,
+    status,
+    tier,
+  }
 
   // Fetch users server-side
-  const fetchParams: {
-    query?: string
-    page: number
-    limit: number
-    status?: UserStatus
-    tier?: SubscriptionTier
-  } = { page, limit }
+  const data = await fetchUsers(filterParams)
 
-  if (query) fetchParams.query = query
-  if (status !== 'all') fetchParams.status = status as UserStatus
-  if (tier !== 'all') fetchParams.tier = tier as SubscriptionTier
-
-  const result = await fetchUsers(fetchParams)
-
-  // Calculate range for display
-  const start = (result.pagination.page - 1) * result.pagination.pageSize + 1
-  const end = Math.min(start + result.pagination.pageSize - 1, result.pagination.totalItems)
+  // Calculate pagination display
+  const startIndex = (data.pagination.page - 1) * data.pagination.pageSize + 1
+  const endIndex = Math.min(
+    data.pagination.page * data.pagination.pageSize,
+    data.pagination.totalItems
+  )
 
   return (
     <div className="space-y-6">
-      <h1 className="text-3xl font-bold text-gray-900">Users</h1>
+      {/* Page header */}
+      <div>
+        <h1 className="text-2xl font-semibold text-gray-900 dark:text-gray-100">
+          Users
+        </h1>
+        <p className="mt-1 text-gray-600 dark:text-gray-400">
+          Search and manage user accounts
+        </p>
+      </div>
 
+      {/* Filters */}
       <UserFilters
         currentParams={{
           query,
-          status: status as UserStatus | 'all',
-          tier: tier as SubscriptionTier | 'all',
+          page,
+          status: status || 'all',
+          tier: tier || 'all',
         }}
       />
 
-      <div className="rounded-lg border border-gray-200 bg-white">
-        <Suspense fallback={<TableRowSkeleton columns={5} rows={10} />}>
-          {/* Table placeholder - will be added in plan 02-04 */}
-          <div className="p-8 text-center text-gray-500">
-            <p>Table component coming in next task...</p>
-            <p className="mt-2 text-sm">
-              Found {result.pagination.totalItems} users
-              {result.data.length > 0 && ` (showing ${start}-${end})`}
-            </p>
+      {/* Results */}
+      <Suspense fallback={<TableRowSkeleton columns={5} rows={10} />}>
+        <div className="space-y-4">
+          {/* Pagination info */}
+          <div className="text-sm text-gray-600 dark:text-gray-400">
+            Showing {startIndex}–{endIndex} of {data.pagination.totalItems} users
           </div>
-        </Suspense>
-      </div>
 
-      {/* Pagination info */}
-      {result.pagination.totalItems > 0 && (
-        <div className="text-sm text-gray-600">
-          Showing {start}-{end} of {result.pagination.totalItems} users
+          {/* Table placeholder - will be built in next plan */}
+          <div className="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-gray-900">
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              User table component will be implemented in next plan
+            </p>
+            <pre className="mt-4 text-xs text-gray-500">
+              {JSON.stringify(data, null, 2)}
+            </pre>
+          </div>
         </div>
-      )}
+      </Suspense>
     </div>
   )
 }

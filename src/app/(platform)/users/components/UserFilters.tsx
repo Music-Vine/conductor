@@ -3,19 +3,21 @@
 import { useState, useTransition } from 'react'
 import { useRouter, usePathname, useSearchParams } from 'next/navigation'
 import { Input, Button } from '@music-vine/cadence/ui'
-import type { UserStatus, SubscriptionTier } from '@/types/user'
+import type { UserStatus, SubscriptionTier } from '@/types'
 
 interface UserFiltersProps {
   currentParams: {
     query: string
+    page: number
     status: UserStatus | 'all'
     tier: SubscriptionTier | 'all'
   }
 }
 
 /**
- * Search and filter controls for the users list page.
- * Uses URL state management with search button (not auto-search).
+ * Client component for user search and filtering.
+ * Search requires button click (not auto-search on keystroke per CONTEXT.md).
+ * Filter dropdowns update URL immediately on change.
  */
 export function UserFilters({ currentParams }: UserFiltersProps) {
   const router = useRouter()
@@ -23,19 +25,19 @@ export function UserFilters({ currentParams }: UserFiltersProps) {
   const searchParams = useSearchParams()
   const [isPending, startTransition] = useTransition()
 
-  // Controlled search input state
-  const [searchQuery, setSearchQuery] = useState(currentParams.query)
+  // Controlled search input (NOT debounced)
+  const [searchInput, setSearchInput] = useState(currentParams.query)
 
   /**
    * Update URL with new filter parameters.
-   * Always resets to page 1 when filters change.
+   * Always resets page to 1 when filters change.
    */
   const updateFilters = (updates: {
     query?: string
     status?: UserStatus | 'all'
     tier?: SubscriptionTier | 'all'
   }) => {
-    const params = new URLSearchParams(searchParams.toString())
+    const params = new URLSearchParams(searchParams)
 
     // Update query
     if (updates.query !== undefined) {
@@ -67,23 +69,24 @@ export function UserFilters({ currentParams }: UserFiltersProps) {
     // Always reset to page 1 when filters change
     params.delete('page')
 
-    // Navigate with transition
+    const queryString = params.toString()
+    const newUrl = queryString ? `${pathname}?${queryString}` : pathname
+
     startTransition(() => {
-      router.push(`${pathname}?${params.toString()}`)
+      router.push(newUrl)
     })
   }
 
   /**
    * Handle search button click.
-   * Only executes search when button is clicked (not on keystroke).
+   * CRITICAL: Search only executes when button is clicked (per CONTEXT.md).
    */
   const handleSearch = () => {
-    updateFilters({ query: searchQuery })
+    updateFilters({ query: searchInput })
   }
 
   /**
-   * Handle Enter key in search input.
-   * Alternative to clicking the search button.
+   * Handle Enter key in search input (alternative to button click).
    */
   const handleSearchKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
@@ -92,16 +95,14 @@ export function UserFilters({ currentParams }: UserFiltersProps) {
   }
 
   /**
-   * Handle status filter change.
-   * Triggers immediate URL update.
+   * Handle status filter change (immediate URL update).
    */
   const handleStatusChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     updateFilters({ status: e.target.value as UserStatus | 'all' })
   }
 
   /**
-   * Handle tier filter change.
-   * Triggers immediate URL update.
+   * Handle tier filter change (immediate URL update).
    */
   const handleTierChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     updateFilters({ tier: e.target.value as SubscriptionTier | 'all' })
@@ -109,14 +110,14 @@ export function UserFilters({ currentParams }: UserFiltersProps) {
 
   return (
     <div className="space-y-4">
-      {/* Search input with button - primary control */}
+      {/* Search bar - primary, prominent placement */}
       <div className="flex gap-2">
         <div className="flex-1">
           <Input
             type="text"
             placeholder="Search by email, name, username, or ID..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
+            value={searchInput}
+            onChange={(e) => setSearchInput(e.target.value)}
             onKeyDown={handleSearchKeyDown}
             disabled={isPending}
           />
@@ -124,50 +125,45 @@ export function UserFilters({ currentParams }: UserFiltersProps) {
         <Button
           onClick={handleSearch}
           disabled={isPending}
+          variant="bold"
         >
           {isPending ? 'Searching...' : 'Search'}
         </Button>
       </div>
 
-      {/* Filter dropdowns - secondary controls */}
-      <div className="flex flex-wrap gap-4">
-        {/* Account status filter */}
-        <div className="flex items-center gap-2">
-          <label
-            htmlFor="status-filter"
-            className="text-sm font-medium text-gray-700 dark:text-gray-300"
-          >
-            Status:
+      {/* Filter dropdowns - secondary, less prominent */}
+      <div className="flex flex-col gap-4 sm:flex-row sm:gap-2">
+        {/* Status filter */}
+        <div className="flex-1">
+          <label htmlFor="status-filter" className="sr-only">
+            Account Status
           </label>
           <select
             id="status-filter"
             value={currentParams.status}
             onChange={handleStatusChange}
             disabled={isPending}
-            className="rounded-md border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 focus:border-gray-500 focus:outline-none focus:ring-1 focus:ring-gray-500 disabled:opacity-50 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-100"
+            className="w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 focus:border-gray-500 focus:outline-none focus:ring-2 focus:ring-gray-500 disabled:opacity-50 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-100 dark:focus:border-gray-500"
           >
-            <option value="all">All</option>
+            <option value="all">All Statuses</option>
             <option value="active">Active</option>
             <option value="suspended">Suspended</option>
           </select>
         </div>
 
-        {/* Subscription tier filter */}
-        <div className="flex items-center gap-2">
-          <label
-            htmlFor="tier-filter"
-            className="text-sm font-medium text-gray-700 dark:text-gray-300"
-          >
-            Tier:
+        {/* Tier filter */}
+        <div className="flex-1">
+          <label htmlFor="tier-filter" className="sr-only">
+            Subscription Tier
           </label>
           <select
             id="tier-filter"
             value={currentParams.tier}
             onChange={handleTierChange}
             disabled={isPending}
-            className="rounded-md border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 focus:border-gray-500 focus:outline-none focus:ring-1 focus:ring-gray-500 disabled:opacity-50 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-100"
+            className="w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 focus:border-gray-500 focus:outline-none focus:ring-2 focus:ring-gray-500 disabled:opacity-50 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-100 dark:focus:border-gray-500"
           >
-            <option value="all">All</option>
+            <option value="all">All Tiers</option>
             <option value="free">Free</option>
             <option value="creator">Creator</option>
             <option value="pro">Pro</option>
