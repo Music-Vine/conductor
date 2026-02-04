@@ -4,6 +4,8 @@ import { useState } from 'react'
 import { JotaiProvider, ThemeProvider, QueryProvider } from '@/providers'
 import { Sidebar, Header } from '@/components/layout'
 import { CommandPalette } from '@/components/command-palette/CommandPalette'
+import { ShortcutProvider } from '@/components/keyboard-shortcuts/ShortcutProvider'
+import { ShortcutCheatSheet } from '@/components/keyboard-shortcuts/ShortcutCheatSheet'
 import type { Platform } from '@/types'
 
 interface PlatformLayoutClientProps {
@@ -30,23 +32,26 @@ export function PlatformLayoutClient({
     <JotaiProvider>
       <QueryProvider>
         <ThemeProvider>
-          <div className="flex h-screen bg-gray-50 dark:bg-gray-950">
-            <Sidebar userId={userId} />
-            <div className="flex flex-1 flex-col overflow-hidden">
-              <Header
-                userName={userName}
-                userEmail={userEmail}
-                onOpenCommandPalette={() => setCommandPaletteOpen(true)}
-              />
-              <main className="flex-1 overflow-auto p-6">
-                {children}
-              </main>
+          <ShortcutProvider>
+            <div className="flex h-screen bg-gray-50 dark:bg-gray-950">
+              <Sidebar userId={userId} />
+              <div className="flex flex-1 flex-col overflow-hidden">
+                <Header
+                  userName={userName}
+                  userEmail={userEmail}
+                  onOpenCommandPalette={() => setCommandPaletteOpen(true)}
+                />
+                <main className="flex-1 overflow-auto p-6">
+                  {children}
+                </main>
+              </div>
             </div>
-          </div>
-          <CommandPalette
-            open={commandPaletteOpen}
-            onOpenChange={setCommandPaletteOpen}
-          />
+            <CommandPalette
+              open={commandPaletteOpen}
+              onOpenChange={setCommandPaletteOpen}
+            />
+            <ShortcutCheatSheet />
+          </ShortcutProvider>
         </ThemeProvider>
       </QueryProvider>
     </JotaiProvider>
