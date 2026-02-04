@@ -62,3 +62,46 @@ export interface UserSearchParams {
   page?: number
   limit?: number
 }
+
+/**
+ * Asset type for downloads and licenses.
+ */
+export type AssetType = 'music' | 'sfx' | 'motion' | 'lut' | 'footage'
+
+/**
+ * License type levels.
+ */
+export type LicenseType = 'standard' | 'premium' | 'enterprise'
+
+/**
+ * Download record for a user.
+ */
+export interface Download {
+  id: string
+  assetId: string
+  assetName: string
+  assetType: AssetType
+  downloadedAt: string
+  format: string
+}
+
+/**
+ * License record for a user.
+ */
+export interface License {
+  id: string
+  assetId: string
+  assetName: string
+  licenseType: LicenseType
+  grantedAt: string
+  expiresAt: string | null
+}
+
+/**
+ * Activity item for combined downloads + licenses timeline.
+ */
+export interface ActivityItem {
+  type: 'download' | 'license'
+  timestamp: string
+  data: Download | License
+}
