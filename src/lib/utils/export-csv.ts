@@ -72,5 +72,5 @@ export function exportUsersToCSV(users: UserListItem[]) {
     { key: 'createdAt', header: 'Created' },
   ]
 
-  exportToCSV(users, filename, columns)
+  exportToCSV(users as unknown as Record<string, unknown>[], filename, columns as { key: string; header: string }[])
 }

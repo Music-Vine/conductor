@@ -36,7 +36,7 @@ export function ExportUsersButton({ users, disabled }: ExportUsersButtonProps) {
     <Button
       onClick={handleExport}
       disabled={isDisabled}
-      variant="outline"
+      variant="subtle"
       className="flex items-center gap-2"
     >
       {/* Download icon */}

@@ -70,7 +70,7 @@ export function SuspendUserDialog({
       title: `Unsuspend ${userEmail}?`,
       description: 'This user will regain access to their account.',
       actionLabel: 'Unsuspend Account',
-      actionVariant: 'primary' as const,
+      actionVariant: 'bold' as const,
     },
   }
 
@@ -81,7 +81,7 @@ export function SuspendUserDialog({
       <AlertDialog.Trigger asChild>
         {trigger || (
           <Button
-            variant={action === 'suspend' ? 'error' : 'primary'}
+            variant={action === 'suspend' ? 'error' : 'bold'}
             className="px-4 py-2"
           >
             {content.actionLabel}
