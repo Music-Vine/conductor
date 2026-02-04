@@ -3,6 +3,8 @@
 import { Command } from 'cmdk'
 import { useRouter } from 'next/navigation'
 import { useState, useEffect, useCallback } from 'react'
+import { useGlobalSearch } from '@/hooks/useGlobalSearch'
+import { SearchResults } from './SearchResults'
 
 interface CommandPaletteProps {
   open?: boolean
@@ -14,6 +16,8 @@ export function CommandPalette({ open: controlledOpen, onOpenChange }: CommandPa
   const open = controlledOpen ?? internalOpen
   const setOpen = onOpenChange ?? setInternalOpen
   const router = useRouter()
+  const [searchQuery, setSearchQuery] = useState('')
+  const { results, isLoading, isSearching } = useGlobalSearch(searchQuery)
 
   // Handle Cmd+K to open
   useEffect(() => {
@@ -26,6 +30,13 @@ export function CommandPalette({ open: controlledOpen, onOpenChange }: CommandPa
     document.addEventListener('keydown', handleKeyDown)
     return () => document.removeEventListener('keydown', handleKeyDown)
   }, [open, setOpen])
+
+  // Clear search query when dialog closes
+  useEffect(() => {
+    if (!open) {
+      setSearchQuery('')
+    }
+  }, [open])
 
   const handleSelect = useCallback((path: string) => {
     setOpen(false)
@@ -50,6 +61,8 @@ export function CommandPalette({ open: controlledOpen, onOpenChange }: CommandPa
         <div className="w-full max-w-lg overflow-hidden rounded-xl border border-gray-200 bg-white shadow-2xl">
           <Command.Input
             placeholder="Search for actions or pages..."
+            value={searchQuery}
+            onValueChange={setSearchQuery}
             className="w-full border-b border-gray-200 px-4 py-3 text-base outline-none placeholder:text-gray-400"
           />
 
@@ -57,6 +70,24 @@ export function CommandPalette({ open: controlledOpen, onOpenChange }: CommandPa
             <Command.Empty className="py-6 text-center text-sm text-gray-500">
               No results found.
             </Command.Empty>
+
+            {/* Search Results - appears when query is >= 2 chars */}
+            {searchQuery.length >= 2 && (
+              <SearchResults
+                results={results}
+                isLoading={isLoading || isSearching}
+                onSelect={(result) => {
+                  setOpen(false)
+                  setSearchQuery('')
+                  router.push(result.url)
+                }}
+              />
+            )}
+
+            {/* Separator between search results and navigation */}
+            {searchQuery.length >= 2 && results.length > 0 && (
+              <Command.Separator className="my-2 h-px bg-gray-200" />
+            )}
 
             <Command.Group heading="Navigation" className="px-2 py-1.5">
               <span className="text-xs font-medium text-gray-500">Navigation</span>
