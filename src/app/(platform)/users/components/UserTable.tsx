@@ -11,6 +11,7 @@ import type { UserListItem } from '@/types/user'
 import { UserRowActions } from './UserRowActions'
 import { useVirtualizedTable, useSmartScrollReset, VirtualizedRow, VIRTUALIZED_TABLE_DEFAULTS } from '@/hooks/useVirtualizedTable'
 import { NoResultsEmptyState } from '@/components/empty-states/EmptyState'
+import { useTableKeyboard } from '@/hooks/useTableKeyboard'
 
 interface UserTableProps {
   data: UserListItem[]
@@ -182,6 +183,19 @@ export function UserTable({ data, pagination }: UserTableProps) {
 
   const { parentRef, virtualRows, totalHeight, rows } = virtualizedTable
 
+  // Keyboard navigation
+  const keyboard = useTableKeyboard({
+    items: data,
+    onNavigate: (user, index) => {
+      // Scroll focused row into view
+      virtualizedTable.scrollToIndex(index)
+    },
+    onAction: (user) => {
+      router.push(`/users/${user.id}`)
+    },
+    enabled: data.length > 0,
+  })
+
   function handleRowClick(userId: string, event: React.MouseEvent) {
     // Don't navigate if clicking on actions dropdown
     if ((event.target as HTMLElement).closest('[data-actions]')) {
@@ -220,8 +234,13 @@ export function UserTable({ data, pagination }: UserTableProps) {
 
       {/* Virtualized body */}
       <div
-        ref={parentRef}
-        className="overflow-auto bg-white"
+        ref={(el) => {
+          // Merge refs for both virtualization and keyboard navigation
+          ;(parentRef as React.MutableRefObject<HTMLDivElement | null>).current = el
+          ;(keyboard.tableRef as React.MutableRefObject<HTMLDivElement | null>).current = el
+        }}
+        tabIndex={0}
+        className="overflow-auto bg-white focus:outline-none focus:ring-2 focus:ring-platform-primary focus:ring-inset"
         style={{ height: '600px' }}
       >
         <div
@@ -233,11 +252,17 @@ export function UserTable({ data, pagination }: UserTableProps) {
         >
           {virtualRows.map((virtualRow) => {
             const row = rows[virtualRow.index]
+            const isFocused = keyboard.focusedIndex === virtualRow.index
+            const isSelected = keyboard.selectedIndices.has(virtualRow.index)
             return (
               <VirtualizedRow
                 key={row.id}
                 virtualRow={virtualRow}
-                className="cursor-pointer transition-colors hover:bg-gray-50"
+                className={`
+                  cursor-pointer transition-colors
+                  ${isFocused ? 'ring-2 ring-inset ring-platform-primary' : ''}
+                  ${isSelected ? 'bg-platform-primary/10' : 'hover:bg-gray-50'}
+                `}
               >
                 <table className="w-full border-collapse">
                   <tbody>
