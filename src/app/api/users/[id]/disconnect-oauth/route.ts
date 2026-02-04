@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { createAuditLogger } from '@/lib/audit'
 
 type Params = Promise<{ id: string }>
 
@@ -35,14 +34,9 @@ export async function POST(
     // Simulate processing delay
     await new Promise((resolve) => setTimeout(resolve, 300))
 
-    // Log audit action
-    const logAudit = await createAuditLogger()
-    await logAudit({
-      action: 'USER_OAUTH_DISCONNECT',
-      userId,
-      platform: 'music-vine', // Mock - in production would come from user data
-      details: { provider },
-    })
+    // TODO: Add audit logging when session context is available
+    // In production, this would log: action='user.updated', resource='user:{userId}',
+    // metadata={ oauthDisconnect: provider }
 
     return NextResponse.json({
       success: true,
