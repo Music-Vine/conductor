@@ -3,6 +3,8 @@
 import { useRouter, usePathname, useSearchParams } from 'next/navigation'
 import * as Tabs from '@radix-ui/react-tabs'
 import type { UserDetail } from '@/types'
+import { ProfileTab } from './ProfileTab'
+import { SubscriptionTab } from './SubscriptionTab'
 
 interface UserDetailTabsProps {
   user: UserDetail
@@ -63,14 +65,12 @@ export function UserDetailTabs({ user, activeTab }: UserDetailTabsProps) {
       <div className="mt-6">
         <Tabs.Content value="profile" className="outline-none">
           <div className="rounded-lg border border-gray-200 bg-white p-6">
-            <p className="text-gray-700">Profile content</p>
+            <ProfileTab user={user} />
           </div>
         </Tabs.Content>
 
         <Tabs.Content value="subscription" className="outline-none">
-          <div className="rounded-lg border border-gray-200 bg-white p-6">
-            <p className="text-gray-700">Subscription content</p>
-          </div>
+          <SubscriptionTab user={user} />
         </Tabs.Content>
 
         <Tabs.Content value="downloads" className="outline-none">
