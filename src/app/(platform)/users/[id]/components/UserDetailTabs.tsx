@@ -5,6 +5,7 @@ import * as Tabs from '@radix-ui/react-tabs'
 import type { UserDetail } from '@/types'
 import { ProfileTab } from './ProfileTab'
 import { SubscriptionTab } from './SubscriptionTab'
+import { DownloadsTab } from './DownloadsTab'
 
 interface UserDetailTabsProps {
   user: UserDetail
@@ -74,9 +75,11 @@ export function UserDetailTabs({ user, activeTab }: UserDetailTabsProps) {
         </Tabs.Content>
 
         <Tabs.Content value="downloads" className="outline-none">
-          <div className="rounded-lg border border-gray-200 bg-white p-6">
-            <p className="text-gray-700">Downloads content</p>
-          </div>
+          <DownloadsTab
+            userId={user.id}
+            downloadCount={user.downloadCount}
+            licenseCount={user.licenseCount}
+          />
         </Tabs.Content>
       </div>
     </Tabs.Root>
