@@ -68,8 +68,8 @@ const columns = [
       const tierColors: Record<string, string> = {
         free: 'text-gray-600',
         creator: 'text-blue-600',
-        pro: 'text-purple-600',
-        enterprise: 'text-orange-600',
+        pro: 'text-green-600',
+        enterprise: 'text-gray-900',
       }
       return (
         <span className={`font-medium ${tierColors[tier] || 'text-gray-600'}`}>

@@ -14,7 +14,7 @@ export type SubscriptionTier = 'free' | 'creator' | 'pro' | 'enterprise'
  * OAuth provider connection details.
  */
 export interface OAuthConnection {
-  provider: 'google' | 'facebook'
+  provider: 'google'
   connectedAt: string
   email: string
 }

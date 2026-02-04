@@ -82,7 +82,7 @@ export function SuspendUserDialog({
         {trigger || (
           <Button
             variant={action === 'suspend' ? 'error' : 'primary'}
-            size="medium"
+            className="px-4 py-2"
           >
             {content.actionLabel}
           </Button>

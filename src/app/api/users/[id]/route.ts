@@ -52,9 +52,9 @@ function generateMockUserDetail(id: string): UserDetail {
     ? ['Violation of terms of service', 'Payment fraud detected', 'Suspicious activity', 'DMCA complaint'][idNum % 4]
     : null
 
-  // OAuth connections (0-3 connections)
+  // OAuth connections (0-2 Google connections only - we don't support Facebook)
   const oauthConnections: OAuthConnection[] = []
-  const connectionCount = idNum % 4 // 0, 1, 2, or 3 connections
+  const connectionCount = idNum % 3 // 0, 1, or 2 connections
 
   if (connectionCount >= 1) {
     oauthConnections.push({
@@ -66,16 +66,8 @@ function generateMockUserDetail(id: string): UserDetail {
 
   if (connectionCount >= 2) {
     oauthConnections.push({
-      provider: 'facebook',
-      connectedAt: new Date(now - (idNum * 14 * 24 * 60 * 60 * 1000)).toISOString(),
-      email: `${username}@facebook.com`,
-    })
-  }
-
-  if (connectionCount >= 3) {
-    oauthConnections.push({
       provider: 'google',
-      connectedAt: new Date(now - (idNum * 21 * 24 * 60 * 60 * 1000)).toISOString(),
+      connectedAt: new Date(now - (idNum * 14 * 24 * 60 * 60 * 1000)).toISOString(),
       email: `${username}.work@gmail.com`,
     })
   }
