@@ -46,7 +46,7 @@ export function RefundDialog({ userId, disabled = false }: RefundDialogProps) {
     <AlertDialog.Root open={open} onOpenChange={setOpen}>
       <AlertDialog.Trigger asChild>
         <Button
-          variant="outline"
+          variant="error"
           disabled={disabled || refundMutation.isPending}
         >
           Issue Refund
@@ -74,7 +74,7 @@ export function RefundDialog({ userId, disabled = false }: RefundDialogProps) {
           <div className="mt-6 flex justify-end gap-3">
             <AlertDialog.Cancel asChild>
               <Button
-                variant="ghost"
+                variant="transparent"
                 disabled={refundMutation.isPending}
               >
                 Cancel
@@ -82,7 +82,7 @@ export function RefundDialog({ userId, disabled = false }: RefundDialogProps) {
             </AlertDialog.Cancel>
             <AlertDialog.Action asChild>
               <Button
-                variant="primary"
+                variant="error"
                 onClick={(e) => {
                   e.preventDefault()
                   refundMutation.mutate()

@@ -52,15 +52,15 @@ export function SubscriptionTab({ user }: SubscriptionTabProps) {
   const getTierBadgeVariant = () => {
     switch (subscription.tier) {
       case 'free':
-        return 'neutral'
+        return 'secondary'
       case 'creator':
-        return 'info'
+        return 'primary'
       case 'pro':
         return 'success'
       case 'enterprise':
-        return 'warning'
+        return 'pink'
       default:
-        return 'neutral'
+        return 'secondary'
     }
   }
 
@@ -239,7 +239,7 @@ export function SubscriptionTab({ user }: SubscriptionTabProps) {
                           entry.status === 'Paid'
                             ? 'success'
                             : entry.status === 'Refunded'
-                              ? 'warning'
+                              ? 'secondary'
                               : 'error'
                         }
                       >

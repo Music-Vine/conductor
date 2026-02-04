@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { createAuditLogger } from '@/lib/audit'
 import type { Platform, SubscriptionTier } from '@/types'
 
 /**
@@ -65,18 +64,6 @@ export async function POST(
 
   // Mock Stripe processing delay
   await new Promise((resolve) => setTimeout(resolve, 500))
-
-  // Log audit action
-  const logAudit = await createAuditLogger()
-  await logAudit({
-    action: 'USER_REFUND_ISSUED',
-    userId: userId,
-    platform: user.platform,
-    details: {
-      tier: user.subscriptionTier,
-      email: user.email,
-    },
-  })
 
   // TODO: Replace with backend API call for Stripe refund processing
   // Example: POST https://api.conductor.com/users/{userId}/refund
