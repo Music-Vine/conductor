@@ -61,12 +61,14 @@ const columns = [
       const tier = info.getValue()
       const tierLabels: Record<string, string> = {
         free: 'Free',
+        essentials: 'Essentials',
         creator: 'Creator',
         pro: 'Pro',
         enterprise: 'Enterprise',
       }
       const tierColors: Record<string, string> = {
         free: 'text-gray-600',
+        essentials: 'text-teal-600',
         creator: 'text-blue-600',
         pro: 'text-green-600',
         enterprise: 'text-gray-900',

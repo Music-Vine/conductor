@@ -8,7 +8,7 @@ export type UserStatus = 'active' | 'suspended'
 /**
  * Subscription tier levels.
  */
-export type SubscriptionTier = 'free' | 'creator' | 'pro' | 'enterprise'
+export type SubscriptionTier = 'free' | 'essentials' | 'creator' | 'pro' | 'enterprise'
 
 /**
  * OAuth provider connection details.

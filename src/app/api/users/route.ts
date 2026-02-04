@@ -23,11 +23,12 @@ function generateMockUsers(): UserListItem[] {
     // 90% active, 10% suspended
     const status: UserStatus = Math.random() < 0.9 ? 'active' : 'suspended'
 
-    // 40% free, 30% creator, 20% pro, 10% enterprise
+    // 30% free, 20% essentials, 25% creator, 15% pro, 10% enterprise
     let tier: SubscriptionTier
     const tierRand = Math.random()
-    if (tierRand < 0.4) tier = 'free'
-    else if (tierRand < 0.7) tier = 'creator'
+    if (tierRand < 0.3) tier = 'free'
+    else if (tierRand < 0.5) tier = 'essentials'
+    else if (tierRand < 0.75) tier = 'creator'
     else if (tierRand < 0.9) tier = 'pro'
     else tier = 'enterprise'
 

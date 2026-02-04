@@ -178,6 +178,7 @@ export function UserFilters({ currentParams }: UserFiltersProps) {
           >
             <option value="all">All Tiers</option>
             <option value="free">Free</option>
+            <option value="essentials">Essentials</option>
             <option value="creator">Creator</option>
             <option value="pro">Pro</option>
             <option value="enterprise">Enterprise</option>
