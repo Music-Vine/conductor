@@ -68,7 +68,7 @@ const columns = [
       }
       const tierColors: Record<string, string> = {
         free: 'text-gray-600',
-        essentials: 'text-teal-600',
+        essentials: 'text-cyan-600',
         creator: 'text-blue-600',
         pro: 'text-green-600',
         enterprise: 'text-gray-900',
