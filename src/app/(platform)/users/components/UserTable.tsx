@@ -178,7 +178,7 @@ export function UserTable({ data, pagination }: UserTableProps) {
   // Setup virtualization
   const virtualizedTable = useVirtualizedTable({
     table,
-    rowHeight: VIRTUALIZED_TABLE_DEFAULTS.rowHeight,
+    rowHeight: 72, // Actual row height with py-4 padding
     overscan: VIRTUALIZED_TABLE_DEFAULTS.overscan,
     containerHeight: 600,
   })
