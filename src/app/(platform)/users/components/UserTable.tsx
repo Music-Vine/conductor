@@ -209,35 +209,34 @@ export function UserTable({ data, pagination }: UserTableProps) {
     router.push(`/users/${userId}`)
   }
 
-  // Calculate total width from column sizes
-  const totalWidth = table.getAllColumns().reduce((sum, col) => sum + (col.getSize() || 0), 0)
+  // Grid template columns for consistent layout
+  const gridTemplateColumns = '1fr 120px 150px 150px 100px'
 
   return (
     <div className="overflow-hidden rounded-lg border border-gray-200">
-      <div className="overflow-x-auto">
-        <table className="border-collapse" style={{ width: totalWidth, tableLayout: 'fixed' }}>
-          {/* Fixed header */}
-          <thead className="bg-gray-50 border-b border-gray-200">
-            {table.getHeaderGroups().map((headerGroup) => (
-              <tr key={headerGroup.id}>
-                {headerGroup.headers.map((header) => (
-                  <th
-                    key={header.id}
-                    className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-700"
-                    style={{ width: header.getSize() }}
-                  >
-                    {header.isPlaceholder
-                      ? null
-                      : flexRender(
-                          header.column.columnDef.header,
-                          header.getContext()
-                        )}
-                  </th>
-                ))}
-              </tr>
+      {/* Fixed header */}
+      <div className="bg-gray-50 border-b border-gray-200">
+        {table.getHeaderGroups().map((headerGroup) => (
+          <div
+            key={headerGroup.id}
+            className="grid"
+            style={{ gridTemplateColumns }}
+          >
+            {headerGroup.headers.map((header) => (
+              <div
+                key={header.id}
+                className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-700"
+              >
+                {header.isPlaceholder
+                  ? null
+                  : flexRender(
+                      header.column.columnDef.header,
+                      header.getContext()
+                    )}
+              </div>
             ))}
-          </thead>
-        </table>
+          </div>
+        ))}
       </div>
 
       {/* Virtualized body */}
@@ -254,7 +253,7 @@ export function UserTable({ data, pagination }: UserTableProps) {
         <div
           style={{
             height: `${totalHeight}px`,
-            width: totalWidth,
+            width: '100%',
             position: 'relative',
           }}
         >
@@ -274,14 +273,13 @@ export function UserTable({ data, pagination }: UserTableProps) {
               >
                 <div
                   onClick={(e) => handleRowClick(row.original.id, e)}
-                  className="flex items-center"
-                  style={{ height: '100%' }}
+                  className="grid h-full"
+                  style={{ gridTemplateColumns }}
                 >
                   {row.getVisibleCells().map((cell) => (
                     <div
                       key={cell.id}
-                      className="whitespace-nowrap px-6 py-4 text-sm"
-                      style={{ width: cell.column.getSize() }}
+                      className="px-6 py-4 text-sm flex items-center"
                     >
                       {flexRender(cell.column.columnDef.cell, cell.getContext())}
                     </div>
