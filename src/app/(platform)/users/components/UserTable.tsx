@@ -209,31 +209,36 @@ export function UserTable({ data, pagination }: UserTableProps) {
     router.push(`/users/${userId}`)
   }
 
+  // Calculate total width from column sizes
+  const totalWidth = table.getAllColumns().reduce((sum, col) => sum + (col.getSize() || 0), 0)
+
   return (
     <div className="overflow-hidden rounded-lg border border-gray-200">
-      <table className="w-full border-collapse">
-        {/* Fixed header */}
-        <thead className="bg-gray-50 border-b border-gray-200">
-          {table.getHeaderGroups().map((headerGroup) => (
-            <tr key={headerGroup.id}>
-              {headerGroup.headers.map((header) => (
-                <th
-                  key={header.id}
-                  className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-700"
-                  style={{ width: header.getSize() }}
-                >
-                  {header.isPlaceholder
-                    ? null
-                    : flexRender(
-                        header.column.columnDef.header,
-                        header.getContext()
-                      )}
-                </th>
-              ))}
-            </tr>
-          ))}
-        </thead>
-      </table>
+      <div className="overflow-x-auto">
+        <table className="border-collapse" style={{ width: totalWidth, tableLayout: 'fixed' }}>
+          {/* Fixed header */}
+          <thead className="bg-gray-50 border-b border-gray-200">
+            {table.getHeaderGroups().map((headerGroup) => (
+              <tr key={headerGroup.id}>
+                {headerGroup.headers.map((header) => (
+                  <th
+                    key={header.id}
+                    className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-700"
+                    style={{ width: header.getSize() }}
+                  >
+                    {header.isPlaceholder
+                      ? null
+                      : flexRender(
+                          header.column.columnDef.header,
+                          header.getContext()
+                        )}
+                  </th>
+                ))}
+              </tr>
+            ))}
+          </thead>
+        </table>
+      </div>
 
       {/* Virtualized body */}
       <div
@@ -249,7 +254,7 @@ export function UserTable({ data, pagination }: UserTableProps) {
         <div
           style={{
             height: `${totalHeight}px`,
-            width: '100%',
+            width: totalWidth,
             position: 'relative',
           }}
         >
