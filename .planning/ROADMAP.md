@@ -113,10 +113,23 @@ Plans:
   4. Staff can approve SFX, motion graphics, LUTs, and stock footage through single-stage workflow
   5. Staff can edit asset metadata (titles, tags, genres) and set platform exclusivity
   6. Staff can organize assets into collections and playlists, handle takedowns, and export catalog data
-**Plans**: TBD
+**Plans**: 14 plans in 7 waves
 
 Plans:
-- [ ] 04-01: TBD
+- [ ] 04-01-PLAN.md — Asset types, workflow states, and transition logic
+- [ ] 04-02-PLAN.md — Install Phase 4 dependencies (Uppy, WaveSurfer, react-dropzone)
+- [ ] 04-03-PLAN.md — Mock API routes for assets and workflow actions
+- [ ] 04-04-PLAN.md — Mock upload infrastructure (presigned URLs, multipart)
+- [ ] 04-05-PLAN.md — Client-side file validation and metadata extraction
+- [ ] 04-06-PLAN.md — Upload hooks and components (Uppy, dropzone, file list)
+- [ ] 04-07-PLAN.md — Asset list page with virtualized table and filters
+- [ ] 04-08-PLAN.md — Asset upload page with metadata form
+- [ ] 04-09-PLAN.md — Asset detail page with tabs
+- [ ] 04-10-PLAN.md — Audio waveform player and video player components
+- [ ] 04-11-PLAN.md — Workflow timeline and approval form
+- [ ] 04-12-PLAN.md — Collections management (CRUD, asset membership)
+- [ ] 04-13-PLAN.md — Activity tab and global search integration
+- [ ] 04-14-PLAN.md — Human verification checkpoint
 
 ### Phase 5: Bulk Operations
 **Goal**: Staff can perform large-scale operations on multiple items with async processing and progress tracking
@@ -187,7 +200,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8
 | 1. Foundation & Infrastructure | 15/15 | Complete | 2026-02-03 |
 | 2. User Management | 11/11 | Complete | 2026-02-04 |
 | 3. Advanced Table Features | 11/11 | Complete | 2026-02-04 |
-| 4. Catalog Management | 0/0 | Not started | - |
+| 4. Catalog Management | 0/14 | In Progress | - |
 | 5. Bulk Operations | 0/0 | Not started | - |
 | 6. Payee & Contributor Management | 0/0 | Not started | - |
 | 7. Enhanced UX & Power Features | 0/0 | Not started | - |
