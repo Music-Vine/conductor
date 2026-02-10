@@ -1,5 +1,6 @@
 'use client'
 
+import { useState } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { PlatformToggle } from '@/components/PlatformToggle'
@@ -8,13 +9,14 @@ interface NavItem {
   label: string
   href: string
   icon: React.ReactNode
+  children?: NavItem[]
 }
 
 interface SidebarProps {
   userId?: string // For audit logging platform switches
 }
 
-// Navigation items will be expanded in Phase 2+
+// Navigation items with collapsible sections
 const navItems: NavItem[] = [
   {
     label: 'Dashboard',
@@ -42,6 +44,13 @@ const navItems: NavItem[] = [
         <path strokeLinecap="round" strokeLinejoin="round" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3" />
       </svg>
     ),
+    children: [
+      { label: 'Music', href: '/assets/music', icon: null },
+      { label: 'SFX', href: '/assets/sfx', icon: null },
+      { label: 'Motion Graphics', href: '/assets/motion-graphics', icon: null },
+      { label: 'LUTs', href: '/assets/luts', icon: null },
+      { label: 'Stock Footage', href: '/assets/stock-footage', icon: null },
+    ],
   },
   {
     label: 'Collections',
@@ -53,6 +62,92 @@ const navItems: NavItem[] = [
     ),
   },
 ]
+
+function NavItemComponent({ item, pathname }: { item: NavItem; pathname: string }) {
+  const [isOpen, setIsOpen] = useState(() => {
+    // Auto-expand if any child is active
+    if (item.children) {
+      return item.children.some((child) => pathname.startsWith(child.href))
+    }
+    return false
+  })
+
+  const isActive = pathname === item.href || (item.children && pathname.startsWith(item.href + '/'))
+  const hasChildren = item.children && item.children.length > 0
+
+  if (hasChildren) {
+    return (
+      <div>
+        <button
+          onClick={() => setIsOpen(!isOpen)}
+          className={`
+            flex w-full items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium
+            transition-colors
+            ${
+              isActive
+                ? 'bg-gray-100 text-gray-900 dark:bg-gray-800 dark:text-gray-100'
+                : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-gray-100'
+            }
+          `}
+        >
+          {item.icon}
+          <span className="flex-1 text-left">{item.label}</span>
+          <svg
+            className={`h-4 w-4 transition-transform ${isOpen ? 'rotate-90' : ''}`}
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            strokeWidth={2}
+          >
+            <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+          </svg>
+        </button>
+        {isOpen && (
+          <div className="ml-8 mt-1 space-y-1">
+            {item.children!.map((child) => {
+              const isChildActive = pathname === child.href
+              return (
+                <Link
+                  key={child.href}
+                  href={child.href}
+                  className={`
+                    block rounded-lg px-3 py-1.5 text-sm
+                    transition-colors
+                    ${
+                      isChildActive
+                        ? 'bg-gray-100 font-medium text-gray-900 dark:bg-gray-800 dark:text-gray-100'
+                        : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-gray-100'
+                    }
+                  `}
+                >
+                  {child.label}
+                </Link>
+              )
+            })}
+          </div>
+        )}
+      </div>
+    )
+  }
+
+  return (
+    <Link
+      href={item.href}
+      className={`
+        flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium
+        transition-colors
+        ${
+          isActive
+            ? 'bg-gray-100 text-gray-900 dark:bg-gray-800 dark:text-gray-100'
+            : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-gray-100'
+        }
+      `}
+    >
+      {item.icon}
+      {item.label}
+    </Link>
+  )
+}
 
 export function Sidebar({ userId }: SidebarProps) {
   const pathname = usePathname()
@@ -78,27 +173,9 @@ export function Sidebar({ userId }: SidebarProps) {
 
       {/* Navigation */}
       <nav className="flex-1 space-y-1 px-3">
-        {navItems.map((item) => {
-          const isActive = pathname === item.href
-          return (
-            <Link
-              key={item.href}
-              href={item.href}
-              className={`
-                flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium
-                transition-colors
-                ${
-                  isActive
-                    ? 'bg-gray-100 text-gray-900 dark:bg-gray-800 dark:text-gray-100'
-                    : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-gray-100'
-                }
-              `}
-            >
-              {item.icon}
-              {item.label}
-            </Link>
-          )
-        })}
+        {navItems.map((item) => (
+          <NavItemComponent key={item.href} item={item} pathname={pathname} />
+        ))}
       </nav>
 
       {/* Footer area for future expansion */}

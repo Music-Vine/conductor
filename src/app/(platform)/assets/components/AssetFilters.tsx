@@ -15,6 +15,9 @@ interface AssetFiltersProps {
     platform: Platform | 'both' | 'all'
     genre: string | 'all'
   }
+  hideTypeFilter?: boolean
+  hidePlatformFilter?: boolean
+  hideGenreFilter?: boolean
 }
 
 /**
@@ -22,7 +25,12 @@ interface AssetFiltersProps {
  * Search requires button click (not auto-search on keystroke per CONTEXT.md).
  * Filter dropdowns update URL immediately on change.
  */
-export function AssetFilters({ currentParams }: AssetFiltersProps) {
+export function AssetFilters({
+  currentParams,
+  hideTypeFilter = false,
+  hidePlatformFilter = false,
+  hideGenreFilter = false,
+}: AssetFiltersProps) {
   const router = useRouter()
   const pathname = usePathname()
   const searchParams = useSearchParams()
@@ -172,31 +180,33 @@ export function AssetFilters({ currentParams }: AssetFiltersProps) {
       {/* Filter dropdowns - secondary, less prominent */}
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {/* Type filter */}
-        <div>
-          <label htmlFor="type-filter" className="sr-only">
-            Asset Type
-          </label>
-          <select
-            id="type-filter"
-            value={currentParams.type}
-            onChange={handleTypeChange}
-            disabled={isPending}
-            className="h-10 w-full appearance-none rounded-lg border border-gray-200 bg-white px-3 py-2 pr-8 text-sm text-gray-900 transition-colors hover:border-gray-300 focus:border-gray-900 focus:outline-none focus:ring-2 focus:ring-gray-900 focus:ring-offset-0 disabled:cursor-not-allowed disabled:opacity-50"
-            style={{
-              backgroundImage: `url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e")`,
-              backgroundPosition: 'right 0.5rem center',
-              backgroundRepeat: 'no-repeat',
-              backgroundSize: '1.5em 1.5em',
-            }}
-          >
-            <option value="all">All Types</option>
-            <option value="music">Music</option>
-            <option value="sfx">SFX</option>
-            <option value="motion-graphics">Motion Graphics</option>
-            <option value="lut">LUTs</option>
-            <option value="stock-footage">Stock Footage</option>
-          </select>
-        </div>
+        {!hideTypeFilter && (
+          <div>
+            <label htmlFor="type-filter" className="sr-only">
+              Asset Type
+            </label>
+            <select
+              id="type-filter"
+              value={currentParams.type}
+              onChange={handleTypeChange}
+              disabled={isPending}
+              className="h-10 w-full appearance-none rounded-lg border border-gray-200 bg-white px-3 py-2 pr-8 text-sm text-gray-900 transition-colors hover:border-gray-300 focus:border-gray-900 focus:outline-none focus:ring-2 focus:ring-gray-900 focus:ring-offset-0 disabled:cursor-not-allowed disabled:opacity-50"
+              style={{
+                backgroundImage: `url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e")`,
+                backgroundPosition: 'right 0.5rem center',
+                backgroundRepeat: 'no-repeat',
+                backgroundSize: '1.5em 1.5em',
+              }}
+            >
+              <option value="all">All Types</option>
+              <option value="music">Music</option>
+              <option value="sfx">SFX</option>
+              <option value="motion-graphics">Motion Graphics</option>
+              <option value="lut">LUTs</option>
+              <option value="stock-footage">Stock Footage</option>
+            </select>
+          </div>
+        )}
 
         {/* Status filter */}
         <div>
@@ -233,63 +243,67 @@ export function AssetFilters({ currentParams }: AssetFiltersProps) {
         </div>
 
         {/* Platform filter */}
-        <div>
-          <label htmlFor="platform-filter" className="sr-only">
-            Platform
-          </label>
-          <select
-            id="platform-filter"
-            value={currentParams.platform}
-            onChange={handlePlatformChange}
-            disabled={isPending}
-            className="h-10 w-full appearance-none rounded-lg border border-gray-200 bg-white px-3 py-2 pr-8 text-sm text-gray-900 transition-colors hover:border-gray-300 focus:border-gray-900 focus:outline-none focus:ring-2 focus:ring-gray-900 focus:ring-offset-0 disabled:cursor-not-allowed disabled:opacity-50"
-            style={{
-              backgroundImage: `url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e")`,
-              backgroundPosition: 'right 0.5rem center',
-              backgroundRepeat: 'no-repeat',
-              backgroundSize: '1.5em 1.5em',
-            }}
-          >
-            <option value="all">All Platforms</option>
-            <option value="music-vine">Music Vine</option>
-            <option value="uppbeat">Uppbeat</option>
-            <option value="both">Both</option>
-          </select>
-        </div>
+        {!hidePlatformFilter && (
+          <div>
+            <label htmlFor="platform-filter" className="sr-only">
+              Platform
+            </label>
+            <select
+              id="platform-filter"
+              value={currentParams.platform}
+              onChange={handlePlatformChange}
+              disabled={isPending}
+              className="h-10 w-full appearance-none rounded-lg border border-gray-200 bg-white px-3 py-2 pr-8 text-sm text-gray-900 transition-colors hover:border-gray-300 focus:border-gray-900 focus:outline-none focus:ring-2 focus:ring-gray-900 focus:ring-offset-0 disabled:cursor-not-allowed disabled:opacity-50"
+              style={{
+                backgroundImage: `url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e")`,
+                backgroundPosition: 'right 0.5rem center',
+                backgroundRepeat: 'no-repeat',
+                backgroundSize: '1.5em 1.5em',
+              }}
+            >
+              <option value="all">All Platforms</option>
+              <option value="music-vine">Music Vine</option>
+              <option value="uppbeat">Uppbeat</option>
+              <option value="both">Both</option>
+            </select>
+          </div>
+        )}
 
         {/* Genre filter */}
-        <div>
-          <label htmlFor="genre-filter" className="sr-only">
-            Genre
-          </label>
-          <select
-            id="genre-filter"
-            value={currentParams.genre}
-            onChange={handleGenreChange}
-            disabled={isPending}
-            className="h-10 w-full appearance-none rounded-lg border border-gray-200 bg-white px-3 py-2 pr-8 text-sm text-gray-900 transition-colors hover:border-gray-300 focus:border-gray-900 focus:outline-none focus:ring-2 focus:ring-gray-900 focus:ring-offset-0 disabled:cursor-not-allowed disabled:opacity-50"
-            style={{
-              backgroundImage: `url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e")`,
-              backgroundPosition: 'right 0.5rem center',
-              backgroundRepeat: 'no-repeat',
-              backgroundSize: '1.5em 1.5em',
-            }}
-          >
-            <option value="all">All Genres</option>
-            <option value="Rock">Rock</option>
-            <option value="Electronic">Electronic</option>
-            <option value="Cinematic">Cinematic</option>
-            <option value="Pop">Pop</option>
-            <option value="Hip Hop">Hip Hop</option>
-            <option value="Jazz">Jazz</option>
-            <option value="Classical">Classical</option>
-            <option value="Ambient">Ambient</option>
-            <option value="Folk">Folk</option>
-            <option value="Country">Country</option>
-            <option value="R&B">R&B</option>
-            <option value="Reggae">Reggae</option>
-          </select>
-        </div>
+        {!hideGenreFilter && (
+          <div>
+            <label htmlFor="genre-filter" className="sr-only">
+              Genre
+            </label>
+            <select
+              id="genre-filter"
+              value={currentParams.genre}
+              onChange={handleGenreChange}
+              disabled={isPending}
+              className="h-10 w-full appearance-none rounded-lg border border-gray-200 bg-white px-3 py-2 pr-8 text-sm text-gray-900 transition-colors hover:border-gray-300 focus:border-gray-900 focus:outline-none focus:ring-2 focus:ring-gray-900 focus:ring-offset-0 disabled:cursor-not-allowed disabled:opacity-50"
+              style={{
+                backgroundImage: `url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e")`,
+                backgroundPosition: 'right 0.5rem center',
+                backgroundRepeat: 'no-repeat',
+                backgroundSize: '1.5em 1.5em',
+              }}
+            >
+              <option value="all">All Genres</option>
+              <option value="Rock">Rock</option>
+              <option value="Electronic">Electronic</option>
+              <option value="Cinematic">Cinematic</option>
+              <option value="Pop">Pop</option>
+              <option value="Hip Hop">Hip Hop</option>
+              <option value="Jazz">Jazz</option>
+              <option value="Classical">Classical</option>
+              <option value="Ambient">Ambient</option>
+              <option value="Folk">Folk</option>
+              <option value="Country">Country</option>
+              <option value="R&B">R&B</option>
+              <option value="Reggae">Reggae</option>
+            </select>
+          </div>
+        )}
       </div>
     </div>
   )
