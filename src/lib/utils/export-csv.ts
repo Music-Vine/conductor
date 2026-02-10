@@ -1,5 +1,6 @@
 import { jsonToCSV } from 'react-papaparse'
 import type { UserListItem } from '@/types'
+import type { AssetListItem } from '@/types/asset'
 
 /**
  * Generic CSV export function.
@@ -73,4 +74,27 @@ export function exportUsersToCSV(users: UserListItem[]) {
   ]
 
   exportToCSV(users as unknown as Record<string, unknown>[], filename, columns as { key: string; header: string }[])
+}
+
+/**
+ * Export asset list to CSV.
+ * Generates a timestamped CSV file with formatted column headers.
+ */
+export function exportAssetsToCSV(assets: AssetListItem[]) {
+  const timestamp = new Date().toISOString().replace(/[:.]/g, '-').slice(0, 19)
+  const filename = `assets-export-${timestamp}.csv`
+
+  const columns: { key: keyof AssetListItem; header: string }[] = [
+    { key: 'id', header: 'ID' },
+    { key: 'title', header: 'Title' },
+    { key: 'type', header: 'Type' },
+    { key: 'contributorName', header: 'Contributor' },
+    { key: 'status', header: 'Status' },
+    { key: 'platform', header: 'Platform' },
+    { key: 'genre', header: 'Genre' },
+    { key: 'createdAt', header: 'Created' },
+    { key: 'updatedAt', header: 'Updated' },
+  ]
+
+  exportToCSV(assets as unknown as Record<string, unknown>[], filename, columns as { key: string; header: string }[])
 }
