@@ -214,6 +214,13 @@ Recent decisions affecting current work:
 - AudioContext always closed in finally block to prevent memory leaks - 04-05
 - detectBPMSafe returns null instead of throwing for optional BPM field - 04-05
 - DownloadAssetType renamed from AssetType in user.ts to avoid type conflict - 04-05
+- Uppy v5 API requires listParts method for conditional multipart support - 04-06
+- File metadata storage via Map enables validation results to flow to asset creation - 04-06
+- 100MB threshold for multipart uploads (files < 100MB use single-part presigned URLs) - 04-06
+- originalName preserved from File object for accurate asset title generation - 04-06
+- Progress bar reserves 5% for finalization step (0-95% during upload) - 04-06
+- Platform-primary color theming for active states and progress bars - 04-06
+- Cadence Button sm size for compact retry button in upload list - 04-06
 
 ### Pending Todos
 
@@ -225,7 +232,7 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-02-10 09:08:52 UTC
-Stopped at: Completed 04-07-PLAN.md (Asset List Page)
+Last session: 2026-02-10 09:08:38 UTC
+Stopped at: Completed 04-06-PLAN.md (Upload Infrastructure with Uppy)
 Resume file: None
-Phase status: Phase 4 in progress - 7 of 8 plans complete, asset list page with virtualized table ready
+Phase status: Phase 4 in progress - 6 of 8 plans complete, upload hooks and components ready for integration
