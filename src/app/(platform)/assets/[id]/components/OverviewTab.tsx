@@ -2,6 +2,7 @@
 
 import type { Asset } from '@/types/asset'
 import { isMusicAsset } from '@/types/asset'
+import { AssetPreview } from '@/components/asset'
 
 interface OverviewTabProps {
   asset: Asset
@@ -14,7 +15,7 @@ export function OverviewTab({ asset }: OverviewTabProps) {
       <div className="lg:col-span-2">
         <div className="bg-white rounded-lg border border-gray-200 p-6">
           <h2 className="text-lg font-medium text-gray-900 mb-4">Preview</h2>
-          <AssetPreviewPlaceholder asset={asset} />
+          <AssetPreview asset={asset} />
         </div>
       </div>
 
@@ -111,18 +112,4 @@ function formatDuration(seconds: number): string {
   const mins = Math.floor(seconds / 60)
   const secs = Math.floor(seconds % 60)
   return `${mins}:${secs.toString().padStart(2, '0')}`
-}
-
-function AssetPreviewPlaceholder({ asset }: { asset: Asset }) {
-  // Placeholder for now - WaveSurfer will be added in a later plan
-  return (
-    <div className="aspect-video bg-gray-100 rounded-lg flex items-center justify-center">
-      <div className="text-center">
-        <div className="text-4xl text-gray-400 mb-2">
-          {asset.type === 'music' || asset.type === 'sfx' ? '🎵' : '🎬'}
-        </div>
-        <p className="text-sm text-gray-500">Preview coming soon</p>
-      </div>
-    </div>
-  )
 }
