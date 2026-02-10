@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { Button } from '@music-vine/cadence'
 import { getCollection } from '@/lib/api/collections'
 import { getAsset } from '@/lib/api/assets'
+import type { Asset } from '@/types/asset'
 
 interface CollectionDetailPageProps {
   params: Promise<{ id: string }>
@@ -29,7 +30,7 @@ export default async function CollectionDetailPage({ params }: CollectionDetailP
       }
     })
   )
-  const validAssets = assets.filter(Boolean)
+  const validAssets = assets.filter((asset): asset is Asset => asset !== null)
 
   return (
     <div className="space-y-6">

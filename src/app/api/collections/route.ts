@@ -112,9 +112,9 @@ export async function GET(request: NextRequest) {
     data: listItems,
     pagination: {
       page,
-      limit,
-      total,
+      pageSize: listItems.length,
       totalPages: Math.ceil(total / limit),
+      totalItems: total,
     },
   }
 

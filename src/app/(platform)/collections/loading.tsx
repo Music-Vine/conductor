@@ -1,4 +1,4 @@
-import { BaseSkeleton } from '@/components/ui/BaseSkeleton'
+import { BaseSkeleton } from '@/components/skeletons/BaseSkeleton'
 
 export default function CollectionsLoading() {
   return (

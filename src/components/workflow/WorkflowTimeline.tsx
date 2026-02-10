@@ -11,7 +11,7 @@ interface TimelineStage {
 }
 
 interface WorkflowTimelineProps {
-  currentState: string
+  currentState: MusicWorkflowState | SimpleWorkflowState
   isMusic: boolean
   history: WorkflowHistoryItem[]
 }
