@@ -84,7 +84,7 @@ export default async function MusicAssetsPage({ searchParams }: SearchParamsProp
 
       {/* Assets table */}
       <Suspense fallback={<TableRowSkeleton count={10} />}>
-        <AssetTable data={data.data} />
+        <AssetTable data={data.data} pagination={data.pagination} />
       </Suspense>
 
       {/* Pagination */}

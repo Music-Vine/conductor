@@ -72,7 +72,7 @@ export default async function MotionGraphicsAssetsPage({ searchParams }: SearchP
       </div>
 
       <Suspense fallback={<TableRowSkeleton count={10} />}>
-        <AssetTable data={data.data} />
+        <AssetTable data={data.data} pagination={data.pagination} />
       </Suspense>
 
       <AssetTablePagination

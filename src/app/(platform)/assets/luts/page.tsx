@@ -70,7 +70,7 @@ export default async function LutsAssetsPage({ searchParams }: SearchParamsProps
       </div>
 
       <Suspense fallback={<TableRowSkeleton count={10} />}>
-        <AssetTable data={data.data} />
+        <AssetTable data={data.data} pagination={data.pagination} />
       </Suspense>
 
       <AssetTablePagination
