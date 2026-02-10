@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { Input, Button } from '@music-vine/cadence'
-import { ReactTags } from 'react-tag-autocomplete'
+import { ReactTags, type Tag } from 'react-tag-autocomplete'
 import type { AssetType } from '@/types/asset'
 
 export interface SharedMetadata {
@@ -52,7 +52,7 @@ const GENRE_OPTIONS: Record<AssetType, string[]> = {
 }
 
 // Common tag suggestions (music-focused, adapt as needed)
-const COMMON_TAGS = [
+const COMMON_TAGS: Tag[] = [
   { value: 'upbeat', label: 'Upbeat' },
   { value: 'dramatic', label: 'Dramatic' },
   { value: 'emotional', label: 'Emotional' },
@@ -73,7 +73,7 @@ const COMMON_TAGS = [
 export function SharedMetadataForm({ assetType, onChange, disabled }: SharedMetadataFormProps) {
   const [contributorId, setContributorId] = useState('')
   const [genre, setGenre] = useState('')
-  const [tags, setTags] = useState<Array<{ value: string; label: string }>>([])
+  const [tags, setTags] = useState<Tag[]>([])
 
   // Notify parent of changes
   useEffect(() => {
@@ -83,7 +83,7 @@ export function SharedMetadataForm({ assetType, onChange, disabled }: SharedMeta
         contributorId,
         contributorName: contributor?.name || '',
         genre,
-        tags: tags.map(t => t.value),
+        tags: tags.map(t => String(t.value)),
       })
     }
   }, [contributorId, genre, tags, onChange])
@@ -144,7 +144,7 @@ export function SharedMetadataForm({ assetType, onChange, disabled }: SharedMeta
         <ReactTags
           selected={tags}
           suggestions={COMMON_TAGS}
-          onAdd={(newTag) => setTags([...tags, newTag])}
+          onAdd={(newTag) => setTags([...tags, { value: String(newTag.value), label: newTag.label }])}
           onDelete={(index) => setTags(tags.filter((_, i) => i !== index))}
           placeholderText="Add tags..."
           isDisabled={disabled}
