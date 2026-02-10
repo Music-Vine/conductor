@@ -11,6 +11,7 @@ const PUBLIC_PATHS = [
   '/magic-link',
   '/api/auth',
   '/api/users', // Mock user management API for frontend development
+  '/api/assets', // Mock asset management API for frontend development
 ]
 
 function isPublicPath(pathname: string): boolean {
