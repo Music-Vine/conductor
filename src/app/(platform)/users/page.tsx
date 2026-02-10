@@ -66,15 +66,13 @@ export default async function UsersPage({ searchParams }: SearchParamsProps) {
       </div>
 
       {/* Results */}
-      <div className="rounded-lg border border-gray-200 bg-white overflow-hidden">
-        <Suspense
-          key={JSON.stringify(params)}
-          fallback={<TableRowSkeleton columns={5} rows={10} />}
-        >
-          <UserTable data={data.data} pagination={data.pagination} />
-        </Suspense>
-        <UserTablePagination pagination={data.pagination} />
-      </div>
+      <Suspense
+        key={JSON.stringify(params)}
+        fallback={<TableRowSkeleton columns={5} rows={10} />}
+      >
+        <UserTable data={data.data} pagination={data.pagination} />
+      </Suspense>
+      <UserTablePagination pagination={data.pagination} />
     </div>
   )
 }
