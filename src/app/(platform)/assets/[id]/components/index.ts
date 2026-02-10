@@ -1,0 +1,5 @@
+export { AssetDetailTabs } from './AssetDetailTabs'
+export { OverviewTab } from './OverviewTab'
+export { WorkflowTab } from './WorkflowTab'
+export { CollectionsTab } from './CollectionsTab'
+export { ActivityTab } from './ActivityTab'
