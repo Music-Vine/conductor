@@ -10,11 +10,18 @@ const mockUsers = [
 ]
 
 const mockAssets = [
-  { id: 'a1', type: 'asset', title: 'Summer Vibes', tags: ['upbeat', 'summer', 'pop'], contributor: 'John Artist' },
-  { id: 'a2', type: 'asset', title: 'Corporate Success', tags: ['corporate', 'business', 'motivational'], contributor: 'Studio Pro' },
-  { id: 'a3', type: 'asset', title: 'Cinematic Epic', tags: ['cinematic', 'dramatic', 'orchestral'], contributor: 'Film Composer' },
-  { id: 'a4', type: 'asset', title: 'Chill Lofi Beat', tags: ['lofi', 'chill', 'ambient'], contributor: 'Lofi Producer' },
-  { id: 'a5', type: 'asset', title: 'Action Trailer', tags: ['action', 'trailer', 'intense'], contributor: 'Trailer Music Co' },
+  { id: 'asset-1', type: 'asset', title: 'Summer Vibes 1', assetType: 'music', tags: ['upbeat', 'summer', 'pop'], genre: 'Pop', contributor: 'Alex Thompson' },
+  { id: 'asset-2', type: 'asset', title: 'Corporate Motivation 1', assetType: 'music', tags: ['corporate', 'business', 'motivational'], genre: 'Corporate', contributor: 'Sarah Johnson' },
+  { id: 'asset-3', type: 'asset', title: 'Epic Cinematic 1', assetType: 'music', tags: ['cinematic', 'dramatic', 'orchestral'], genre: 'Cinematic', contributor: 'Michael Chen' },
+  { id: 'asset-4', type: 'asset', title: 'Acoustic Dreams 1', assetType: 'music', tags: ['acoustic', 'folk', 'calm'], genre: 'Folk', contributor: 'Emma Wilson' },
+  { id: 'asset-5', type: 'asset', title: 'Electronic Pulse 1', assetType: 'music', tags: ['electronic', 'edm', 'energy'], genre: 'Electronic', contributor: 'David Martinez' },
+  { id: 'asset-301', type: 'asset', title: 'Button Click 1', assetType: 'sfx', tags: ['ui', 'interface', 'click'], genre: 'UI Sounds', contributor: 'Rachel Kim' },
+  { id: 'asset-302', type: 'asset', title: 'Bird Chirping 1', assetType: 'sfx', tags: ['nature', 'birds', 'outdoor'], genre: 'Nature', contributor: 'James Brown' },
+  { id: 'asset-381', type: 'asset', title: 'Lower Third 1', assetType: 'motion-graphics', tags: ['text', 'overlay', 'graphic'], genre: 'Motion', contributor: 'Lisa Anderson' },
+  { id: 'asset-382', type: 'asset', title: 'Logo Reveal 1', assetType: 'motion-graphics', tags: ['logo', 'animation', 'intro'], genre: 'Motion', contributor: 'Chris Taylor' },
+  { id: 'asset-431', type: 'asset', title: 'Cinematic Teal Orange 1', assetType: 'lut', tags: ['color', 'grading', 'cinematic'], genre: 'LUT', contributor: 'Maria Garcia' },
+  { id: 'asset-461', type: 'asset', title: 'City Skyline 1', assetType: 'stock-footage', tags: ['city', 'urban', 'aerial'], genre: 'Footage', contributor: 'Kevin White' },
+  { id: 'asset-462', type: 'asset', title: 'Ocean Waves 1', assetType: 'stock-footage', tags: ['ocean', 'nature', 'water'], genre: 'Footage', contributor: 'Jennifer Lee' },
 ]
 
 const mockPayees = [
@@ -59,8 +66,14 @@ export async function GET(request: NextRequest) {
       id: a.id,
       type: 'asset' as const,
       title: a.title,
-      subtitle: `by ${a.contributor}`,
-      searchFields: { title: a.title, tags: a.tags.join(' '), contributor: a.contributor },
+      subtitle: `${a.assetType} by ${a.contributor}`,
+      searchFields: {
+        title: a.title,
+        tags: a.tags.join(' '),
+        contributor: a.contributor,
+        genre: a.genre,
+        assetType: a.assetType,
+      },
       url: `/assets/${a.id}`,
     })),
     payees: mockPayees.map(p => ({

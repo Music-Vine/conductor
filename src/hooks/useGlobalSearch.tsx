@@ -83,8 +83,9 @@ export function useGlobalSearch(
         ...fuseOptions,
         keys: [
           { name: 'searchFields.title', weight: 2 },
-          { name: 'searchFields.tags', weight: 1.5 },
-          { name: 'searchFields.contributor', weight: 1 },
+          { name: 'searchFields.contributor', weight: 1.5 },
+          { name: 'searchFields.genre', weight: 1 },
+          { name: 'searchFields.tags', weight: 1 },
         ],
       }),
       payees: new Fuse(searchData.payees, {
