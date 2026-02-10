@@ -1,4 +1,6 @@
 import { Suspense } from 'react'
+import Link from 'next/link'
+import { Button } from '@music-vine/cadence'
 import { getAssets } from '@/lib/api/assets'
 import type { AssetType, MusicWorkflowState, SimpleWorkflowState, Platform } from '@/types'
 import { AssetFilters, AssetTable, AssetTablePagination, ExportAssetsButton } from './components'
@@ -50,13 +52,18 @@ export default async function AssetsPage({ searchParams }: SearchParamsProps) {
   return (
     <div className="space-y-6">
       {/* Page header */}
-      <div>
-        <h1 className="text-2xl font-semibold text-gray-900 dark:text-gray-100">
-          Assets
-        </h1>
-        <p className="mt-1 text-gray-600 dark:text-gray-400">
-          Manage submitted assets and approval workflows
-        </p>
+      <div className="flex items-start justify-between">
+        <div>
+          <h1 className="text-2xl font-semibold text-gray-900 dark:text-gray-100">
+            Assets
+          </h1>
+          <p className="mt-1 text-gray-600 dark:text-gray-400">
+            Manage submitted assets and approval workflows
+          </p>
+        </div>
+        <Link href="/assets/upload">
+          <Button variant="bold">Upload Assets</Button>
+        </Link>
       </div>
 
       {/* Filters */}
