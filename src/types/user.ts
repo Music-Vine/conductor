@@ -65,8 +65,9 @@ export interface UserSearchParams {
 
 /**
  * Asset type for downloads and licenses.
+ * Note: This is different from the catalog AssetType in asset.ts.
  */
-export type AssetType = 'music' | 'sfx' | 'motion' | 'lut' | 'footage'
+export type DownloadAssetType = 'music' | 'sfx' | 'motion' | 'lut' | 'footage'
 
 /**
  * License type levels.
@@ -80,7 +81,7 @@ export interface Download {
   id: string
   assetId: string
   assetName: string
-  assetType: AssetType
+  assetType: DownloadAssetType
   downloadedAt: string
   format: string
 }

@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import type { Download, PaginatedResponse, AssetType } from '@/types'
+import type { Download, PaginatedResponse, DownloadAssetType } from '@/types'
 
 /**
  * Generate mock downloads for a user.
@@ -33,7 +33,7 @@ function generateMockDownloads(userId: string): Download[] {
     'Nature Sounds',
   ]
 
-  const assetTypes: AssetType[] = ['music', 'sfx', 'motion', 'lut', 'footage']
+  const assetTypes: DownloadAssetType[] = ['music', 'sfx', 'motion', 'lut', 'footage']
   const formats = ['wav', 'mp3', 'aiff', 'flac']
 
   // Generate 50 downloads
