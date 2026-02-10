@@ -113,3 +113,22 @@ export async function rejectAsset(
 export async function unpublishAsset(id: string): Promise<Asset> {
   return apiClient.post<Asset>(`/assets/${id}/unpublish`)
 }
+
+/**
+ * Activity entry for asset audit log.
+ */
+export interface ActivityEntry {
+  id: string
+  action: string
+  actorId: string
+  actorName: string
+  details: string
+  createdAt: string
+}
+
+/**
+ * Fetch activity log for an asset.
+ */
+export async function getAssetActivity(assetId: string): Promise<ActivityEntry[]> {
+  return apiClient.get<ActivityEntry[]>(`/assets/${assetId}/activity`)
+}
