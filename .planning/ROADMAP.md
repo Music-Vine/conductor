@@ -142,10 +142,17 @@ Plans:
   3. Operations on 100+ items run asynchronously with progress tracking (current count, ETA)
   4. Bulk operations handle partial failures gracefully with per-item success/failure tracking
   5. Staff can view bulk operation audit logs showing what changed
-**Plans**: TBD
+**Plans**: 8 plans in 5 waves
 
 Plans:
-- [ ] 05-01: TBD
+- [ ] 05-01-PLAN.md — Bulk selection state and hook (Jotai persistence)
+- [ ] 05-02-PLAN.md — Mock bulk operation API routes with SSE streaming
+- [ ] 05-03-PLAN.md — Progress tracking hook and floating action bar
+- [ ] 05-04-PLAN.md — Confirmation dialogs (simple + type-to-confirm)
+- [ ] 05-05-PLAN.md — AssetTable bulk operations integration
+- [ ] 05-06-PLAN.md — UserTable bulk operations integration
+- [ ] 05-07-PLAN.md — Bulk audit logging
+- [ ] 05-08-PLAN.md — Human verification checkpoint
 
 ### Phase 6: Payee & Contributor Management
 **Goal**: Staff can manage complete financial relationships between contributors and payees
