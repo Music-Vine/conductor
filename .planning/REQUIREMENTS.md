@@ -29,18 +29,18 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Catalog Management
 
-- [ ] **CATA-01**: Contributors can upload assets via UI (→ S3 → ingestion pipeline)
-- [ ] **CATA-02**: Staff can view all submitted assets with server-side pagination and filtering
-- [ ] **CATA-03**: Staff can approve assets through multi-stage workflow for music (multiple reviewers, feedback rounds)
-- [ ] **CATA-04**: Staff can approve assets through single-stage workflow for SFX, motion graphics, LUTs, stock footage
-- [ ] **CATA-05**: Staff can provide reviewer feedback to contributors for resubmission
-- [ ] **CATA-06**: Staff can edit asset metadata (titles, tags, genres, descriptions)
-- [ ] **CATA-07**: Staff can set platform exclusivity (Music Vine exclusive, Uppbeat exclusive, or shared)
-- [ ] **CATA-08**: Staff can organize assets into collections and playlists
-- [ ] **CATA-09**: Staff can handle asset takedowns and quality issues
-- [ ] **CATA-10**: Each asset type (music, SFX, motion graphics, LUTs, stock footage) has appropriate workflow and metadata fields
-- [ ] **CATA-11**: Staff can view approval workflow status and history for any asset
-- [ ] **CATA-12**: Staff can export catalog data to CSV
+- [x] **CATA-01**: Contributors can upload assets via UI (→ S3 → ingestion pipeline)
+- [x] **CATA-02**: Staff can view all submitted assets with server-side pagination and filtering
+- [x] **CATA-03**: Staff can approve assets through multi-stage workflow for music (multiple reviewers, feedback rounds)
+- [x] **CATA-04**: Staff can approve assets through single-stage workflow for SFX, motion graphics, LUTs, stock footage
+- [x] **CATA-05**: Staff can provide reviewer feedback to contributors for resubmission
+- [x] **CATA-06**: Staff can edit asset metadata (titles, tags, genres, descriptions)
+- [x] **CATA-07**: Staff can set platform exclusivity (Music Vine exclusive, Uppbeat exclusive, or shared)
+- [x] **CATA-08**: Staff can organize assets into collections and playlists
+- [x] **CATA-09**: Staff can handle asset takedowns and quality issues
+- [x] **CATA-10**: Each asset type (music, SFX, motion graphics, LUTs, stock footage) has appropriate workflow and metadata fields
+- [x] **CATA-11**: Staff can view approval workflow status and history for any asset
+- [x] **CATA-12**: Staff can export catalog data to CSV
 
 ### Payee/Contributor Management
 
@@ -54,14 +54,14 @@ Requirements for initial release. Each maps to roadmap phases.
 
 - [x] **UX-01**: All data tables support server-side sorting, filtering, and pagination
 - [x] **UX-02**: Staff can use advanced faceted filtering on data tables
-- [ ] **UX-03**: Staff can use global search to find users, assets, contributors, or payees
-- [ ] **UX-04**: Staff can export filtered/searched data to CSV
+- [x] **UX-03**: Staff can use global search to find users, assets, contributors, or payees
+- [x] **UX-04**: Staff can export filtered/searched data to CSV
 - [x] **UX-05**: All forms have real-time validation with clear error messages
 - [x] **UX-06**: All pages have proper loading states (skeletons) and error boundaries
-- [ ] **UX-07**: Staff can use command palette (Cmd+K) for navigation and search
+- [x] **UX-07**: Staff can use command palette (Cmd+K) for navigation and search
 - [ ] **UX-08**: Staff can perform bulk operations on selected items with progress tracking
-- [ ] **UX-09**: Staff can use keyboard shortcuts for common actions
-- [ ] **UX-10**: Empty states provide clear guidance on what to do next
+- [x] **UX-09**: Staff can use keyboard shortcuts for common actions
+- [x] **UX-10**: Empty states provide clear guidance on what to do next
 
 ## v2 Requirements
 
@@ -116,41 +116,41 @@ Which phases cover which requirements. Updated during roadmap creation.
 | AUTH-04 | Phase 1 | Complete |
 | AUTH-05 | Phase 1 | Complete |
 | AUTH-06 | Phase 1 | Complete |
-| USER-01 | Phase 2 | Pending |
-| USER-02 | Phase 2 | Pending |
-| USER-03 | Phase 2 | Pending |
-| USER-04 | Phase 2 | Pending |
-| USER-05 | Phase 2 | Pending |
-| USER-06 | Phase 2 | Pending |
-| USER-07 | Phase 2 | Pending |
-| USER-08 | Phase 2 | Pending |
-| CATA-01 | Phase 4 | Pending |
-| CATA-02 | Phase 4 | Pending |
-| CATA-03 | Phase 4 | Pending |
-| CATA-04 | Phase 4 | Pending |
-| CATA-05 | Phase 4 | Pending |
-| CATA-06 | Phase 4 | Pending |
-| CATA-07 | Phase 4 | Pending |
-| CATA-08 | Phase 4 | Pending |
-| CATA-09 | Phase 4 | Pending |
-| CATA-10 | Phase 4 | Pending |
-| CATA-11 | Phase 4 | Pending |
-| CATA-12 | Phase 4 | Pending |
+| USER-01 | Phase 2 | Complete |
+| USER-02 | Phase 2 | Complete |
+| USER-03 | Phase 2 | Complete |
+| USER-04 | Phase 2 | Complete |
+| USER-05 | Phase 2 | Complete |
+| USER-06 | Phase 2 | Complete |
+| USER-07 | Phase 2 | Complete |
+| USER-08 | Phase 2 | Complete |
+| CATA-01 | Phase 4 | Complete |
+| CATA-02 | Phase 4 | Complete |
+| CATA-03 | Phase 4 | Complete |
+| CATA-04 | Phase 4 | Complete |
+| CATA-05 | Phase 4 | Complete |
+| CATA-06 | Phase 4 | Complete |
+| CATA-07 | Phase 4 | Complete |
+| CATA-08 | Phase 4 | Complete |
+| CATA-09 | Phase 4 | Complete |
+| CATA-10 | Phase 4 | Complete |
+| CATA-11 | Phase 4 | Complete |
+| CATA-12 | Phase 4 | Complete |
 | PAYE-01 | Phase 6 | Pending |
 | PAYE-02 | Phase 6 | Pending |
 | PAYE-03 | Phase 6 | Pending |
 | PAYE-04 | Phase 6 | Pending |
 | PAYE-05 | Phase 6 | Pending |
-| UX-01 | Phase 2 | Pending |
-| UX-02 | Phase 2 | Pending |
-| UX-03 | Phase 3 | Pending |
-| UX-04 | Phase 7 | Pending |
+| UX-01 | Phase 2 | Complete |
+| UX-02 | Phase 2 | Complete |
+| UX-03 | Phase 3 | Complete |
+| UX-04 | Phase 2 | Complete |
 | UX-05 | Phase 1 | Complete |
 | UX-06 | Phase 1 | Complete |
-| UX-07 | Phase 3 | Pending |
+| UX-07 | Phase 3 | Complete |
 | UX-08 | Phase 5 | Pending |
-| UX-09 | Phase 3 | Pending |
-| UX-10 | Phase 3 | Pending |
+| UX-09 | Phase 3 | Complete |
+| UX-10 | Phase 3 | Complete |
 
 **Coverage:**
 - v1 requirements: 41 total

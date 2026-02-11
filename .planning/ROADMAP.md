@@ -116,21 +116,21 @@ Plans:
 **Plans**: 15 plans in 7 waves
 
 Plans:
-- [ ] 04-01-PLAN.md — Asset types, workflow states, and transition logic
-- [ ] 04-02-PLAN.md — Install Phase 4 dependencies (Uppy, WaveSurfer, react-dropzone)
-- [ ] 04-03-PLAN.md — Mock API routes for assets and workflow actions
-- [ ] 04-04-PLAN.md — Mock upload infrastructure (presigned URLs, multipart)
-- [ ] 04-05-PLAN.md — Client-side file validation and metadata extraction
-- [ ] 04-06-PLAN.md — Upload hooks and components (Uppy, dropzone, file list)
-- [ ] 04-07-PLAN.md — Asset list page with virtualized table and filters
-- [ ] 04-08-PLAN.md — Asset upload page with metadata form
-- [ ] 04-09-PLAN.md — Asset detail page with tabs
-- [ ] 04-10-PLAN.md — Audio waveform player and video player components
-- [ ] 04-11-PLAN.md — Workflow timeline and approval form
-- [ ] 04-12-PLAN.md — Collections management (CRUD, asset membership)
-- [ ] 04-13-PLAN.md — Activity tab and global search integration
-- [ ] 04-14-PLAN.md — Human verification checkpoint
-- [ ] 04-15-PLAN.md — Gap closure: Audio waveform error handling and sample URLs
+- [x] 04-01-PLAN.md — Asset types, workflow states, and transition logic
+- [x] 04-02-PLAN.md — Install Phase 4 dependencies (Uppy, WaveSurfer, react-dropzone)
+- [x] 04-03-PLAN.md — Mock API routes for assets and workflow actions
+- [x] 04-04-PLAN.md — Mock upload infrastructure (presigned URLs, multipart)
+- [x] 04-05-PLAN.md — Client-side file validation and metadata extraction
+- [x] 04-06-PLAN.md — Upload hooks and components (Uppy, dropzone, file list)
+- [x] 04-07-PLAN.md — Asset list page with virtualized table and filters
+- [x] 04-08-PLAN.md — Asset upload page with metadata form
+- [x] 04-09-PLAN.md — Asset detail page with tabs
+- [x] 04-10-PLAN.md — Audio waveform player and video player components
+- [x] 04-11-PLAN.md — Workflow timeline and approval form
+- [x] 04-12-PLAN.md — Collections management (CRUD, asset membership)
+- [x] 04-13-PLAN.md — Activity tab and global search integration
+- [x] 04-14-PLAN.md — Human verification checkpoint
+- [x] 04-15-PLAN.md — Gap closure: Audio waveform error handling and sample URLs
 
 ### Phase 5: Bulk Operations
 **Goal**: Staff can perform large-scale operations on multiple items with async processing and progress tracking
@@ -201,7 +201,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8
 | 1. Foundation & Infrastructure | 15/15 | Complete | 2026-02-03 |
 | 2. User Management | 11/11 | Complete | 2026-02-04 |
 | 3. Advanced Table Features | 11/11 | Complete | 2026-02-04 |
-| 4. Catalog Management | 0/14 | In Progress | - |
+| 4. Catalog Management | 15/15 | Complete | 2026-02-11 |
 | 5. Bulk Operations | 0/0 | Not started | - |
 | 6. Payee & Contributor Management | 0/0 | Not started | - |
 | 7. Enhanced UX & Power Features | 0/0 | Not started | - |
