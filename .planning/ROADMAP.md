@@ -113,7 +113,7 @@ Plans:
   4. Staff can approve SFX, motion graphics, LUTs, and stock footage through single-stage workflow
   5. Staff can edit asset metadata (titles, tags, genres) and set platform exclusivity
   6. Staff can organize assets into collections and playlists, handle takedowns, and export catalog data
-**Plans**: 14 plans in 7 waves
+**Plans**: 15 plans in 7 waves
 
 Plans:
 - [ ] 04-01-PLAN.md — Asset types, workflow states, and transition logic
@@ -130,6 +130,7 @@ Plans:
 - [ ] 04-12-PLAN.md — Collections management (CRUD, asset membership)
 - [ ] 04-13-PLAN.md — Activity tab and global search integration
 - [ ] 04-14-PLAN.md — Human verification checkpoint
+- [ ] 04-15-PLAN.md — Gap closure: Audio waveform error handling and sample URLs
 
 ### Phase 5: Bulk Operations
 **Goal**: Staff can perform large-scale operations on multiple items with async processing and progress tracking
