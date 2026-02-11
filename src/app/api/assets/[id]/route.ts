@@ -10,6 +10,20 @@ import type {
   SimpleWorkflowState,
 } from '@/types'
 
+// Use public domain sample audio for mock testing
+// These are short, royalty-free audio clips from archive.org
+const SAMPLE_AUDIO_URLS = {
+  music: [
+    'https://upload.wikimedia.org/wikipedia/commons/4/40/Toreador_song_cleaned.ogg',
+    'https://upload.wikimedia.org/wikipedia/commons/c/c1/Beethoven_-_Bagatelle_in_A_minor_%22F%C3%BCr_Elise%22_WoO_59.ogg',
+    'https://upload.wikimedia.org/wikipedia/commons/0/0e/Barcarolle_from_%22Tales_of_Hoffmann%22.ogg',
+  ],
+  sfx: [
+    'https://upload.wikimedia.org/wikipedia/commons/3/3f/Fm-synth-bass-001.ogg',
+    'https://upload.wikimedia.org/wikipedia/commons/6/6f/Cello_pizzicato_3.ogg',
+  ],
+}
+
 /**
  * Generate a full mock asset based on ID.
  */
@@ -85,6 +99,7 @@ function generateMockAsset(id: string): Asset | null {
         instruments[(assetNum + 1) % instruments.length],
       ],
       tags: ['professional', 'royalty-free', genres[assetNum % genres.length].toLowerCase()],
+      fileUrl: SAMPLE_AUDIO_URLS.music[assetNum % SAMPLE_AUDIO_URLS.music.length],
     }
 
     if (status === 'published') {
@@ -116,6 +131,7 @@ function generateMockAsset(id: string): Asset | null {
       category: categories[(assetNum - 300) % categories.length],
       duration: 1 + ((assetNum - 300) % 10),
       tags: ['sfx', 'professional', categories[(assetNum - 300) % categories.length].toLowerCase()],
+      fileUrl: SAMPLE_AUDIO_URLS.sfx[(assetNum - 300) % SAMPLE_AUDIO_URLS.sfx.length],
     }
 
     if (status === 'published') {
