@@ -1,7 +1,7 @@
 import { Suspense } from 'react'
 import { fetchUsers } from '@/lib/api/users'
 import type { UserStatus, SubscriptionTier } from '@/types'
-import { UserFilters, UserTable, UserTablePagination, ExportUsersButton } from './components'
+import { UserFilters, UserListClient, ExportUsersButton } from './components'
 import { TableRowSkeleton } from '@/components/skeletons/TableRowSkeleton'
 
 interface SearchParamsProps {
@@ -68,11 +68,13 @@ export default async function UsersPage({ searchParams }: SearchParamsProps) {
       {/* Results */}
       <Suspense
         key={JSON.stringify(params)}
-        fallback={<TableRowSkeleton columns={5} rows={10} />}
+        fallback={<TableRowSkeleton columns={6} rows={10} />}
       >
-        <UserTable data={data.data} pagination={data.pagination} />
+        <UserListClient
+          initialData={data.data}
+          pagination={data.pagination}
+        />
       </Suspense>
-      <UserTablePagination pagination={data.pagination} />
     </div>
   )
 }

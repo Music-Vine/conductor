@@ -1,4 +1,5 @@
 export { UserFilters } from './UserFilters'
 export { UserTable } from './UserTable'
 export { UserTablePagination } from './UserTablePagination'
+export { UserListClient } from './UserListClient'
 export { ExportUsersButton } from './ExportUsersButton'
