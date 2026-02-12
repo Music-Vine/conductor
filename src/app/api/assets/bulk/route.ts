@@ -6,6 +6,7 @@ import {
   generateOperationId,
 } from '@/lib/bulk-operations/sse'
 import type { ProgressEvent, ErrorEvent, CompleteEvent } from '@/lib/bulk-operations/sse'
+import { createBulkAuditEntry } from '@/lib/bulk-operations/audit'
 
 /**
  * Bulk actions available for assets
@@ -77,6 +78,18 @@ export async function POST(request: NextRequest) {
             failedItem: assetId,
           }
           controller.enqueue(formatSSEData(errorEvent))
+
+          // Create audit entry for failed operation
+          createBulkAuditEntry({
+            operationId,
+            action,
+            entityType: 'asset',
+            affectedIds: assetIds.slice(0, i), // Only IDs processed before failure
+            status: 'failed',
+            errorMessage: error instanceof Error ? error.message : 'Unknown error',
+            payload,
+          })
+
           controller.close()
           return
         }
@@ -90,6 +103,17 @@ export async function POST(request: NextRequest) {
         operationId,
       }
       controller.enqueue(formatSSEData(complete))
+
+      // Create audit entry for successful operation
+      createBulkAuditEntry({
+        operationId,
+        action,
+        entityType: 'asset',
+        affectedIds: assetIds,
+        status: 'completed',
+        payload,
+      })
+
       controller.close()
     },
   })
