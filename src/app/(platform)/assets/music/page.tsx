@@ -79,21 +79,16 @@ export default async function MusicAssetsPage({ searchParams }: SearchParamsProp
 
       {/* Export button */}
       <div className="flex justify-end">
-        <ExportAssetsButton />
+        <ExportAssetsButton assets={data.data} />
       </div>
 
       {/* Assets table */}
-      <Suspense fallback={<TableRowSkeleton count={10} />}>
+      <Suspense fallback={<TableRowSkeleton rows={10} />}>
         <AssetTable data={data.data} pagination={data.pagination} />
       </Suspense>
 
       {/* Pagination */}
-      <AssetTablePagination
-        currentPage={page}
-        pageSize={limit}
-        totalPages={data.pagination.totalPages}
-        totalItems={data.pagination.totalItems}
-      />
+      <AssetTablePagination pagination={data.pagination} />
     </div>
   )
 }

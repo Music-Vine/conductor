@@ -66,19 +66,14 @@ export default async function LutsAssetsPage({ searchParams }: SearchParamsProps
       />
 
       <div className="flex justify-end">
-        <ExportAssetsButton />
+        <ExportAssetsButton assets={data.data} />
       </div>
 
-      <Suspense fallback={<TableRowSkeleton count={10} />}>
+      <Suspense fallback={<TableRowSkeleton rows={10} />}>
         <AssetTable data={data.data} pagination={data.pagination} />
       </Suspense>
 
-      <AssetTablePagination
-        currentPage={page}
-        pageSize={limit}
-        totalPages={data.pagination.totalPages}
-        totalItems={data.pagination.totalItems}
-      />
+      <AssetTablePagination pagination={data.pagination} />
     </div>
   )
 }
