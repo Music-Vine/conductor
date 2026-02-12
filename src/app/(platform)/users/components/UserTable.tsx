@@ -1,6 +1,7 @@
 'use client'
 
 import { useRouter, useSearchParams } from 'next/navigation'
+import { useState, useCallback, useEffect, useRef } from 'react'
 import {
   createColumnHelper,
   flexRender,
@@ -12,6 +13,7 @@ import { UserRowActions } from './UserRowActions'
 import { useVirtualizedTable, useSmartScrollReset, VirtualizedRow, VIRTUALIZED_TABLE_DEFAULTS } from '@/hooks/useVirtualizedTable'
 import { NoResultsEmptyState } from '@/components/empty-states/EmptyState'
 import { useTableKeyboard } from '@/hooks/useTableKeyboard'
+import { useBulkSelection } from '@/hooks/useBulkSelection'
 
 interface UserTableProps {
   data: UserListItem[]
@@ -21,12 +23,84 @@ interface UserTableProps {
     totalPages: number
     totalItems: number
   }
+  onSelectionChange?: (selectedIds: string[]) => void
 }
 
 const columnHelper = createColumnHelper<UserListItem>()
 
-const columns = [
-  columnHelper.accessor((row) => ({ email: row.email, name: row.name }), {
+export function UserTable({ data, pagination, onSelectionChange }: UserTableProps) {
+  const router = useRouter()
+  const searchParams = useSearchParams()
+
+  // State for fetching all filtered IDs
+  const [allFilteredIds, setAllFilteredIds] = useState<string[] | null>(null)
+  const [isLoadingAllIds, setIsLoadingAllIds] = useState(false)
+
+  // Fetch all filtered IDs from /bulk/ids endpoint
+  const fetchAllFilteredIds = useCallback(async (): Promise<string[]> => {
+    if (allFilteredIds) return allFilteredIds // Cache hit
+
+    setIsLoadingAllIds(true)
+    try {
+      const params = new URLSearchParams(searchParams.toString())
+      const response = await fetch(`/api/users/bulk/ids?${params}`)
+      const { ids } = await response.json()
+      setAllFilteredIds(ids)
+      return ids
+    } finally {
+      setIsLoadingAllIds(false)
+    }
+  }, [searchParams, allFilteredIds])
+
+  // Clear cached IDs when filters change
+  useEffect(() => {
+    setAllFilteredIds(null)
+  }, [searchParams])
+
+  // Initialize bulk selection
+  const bulkSelection = useBulkSelection({
+    entityType: 'user',
+    filterParams: searchParams,
+    totalFilteredCount: pagination.totalItems,
+  })
+
+  // Notify parent of selection changes
+  useEffect(() => {
+    onSelectionChange?.(Array.from(bulkSelection.selectedIds))
+  }, [bulkSelection.selectedIds, onSelectionChange])
+
+  // Checkbox column
+  const checkboxColumn = columnHelper.display({
+    id: 'select',
+    header: () => null, // Header handled separately below
+    size: 48,
+    cell: ({ row }) => {
+      const isSelected = bulkSelection.isSelected(row.original.id)
+      return (
+        <div className="flex items-center justify-center">
+          <input
+            type="checkbox"
+            checked={isSelected}
+            onChange={() => bulkSelection.toggle(row.original.id)}
+            onClick={async (e) => {
+              // Handle Shift+Click for range selection (works across pages)
+              if (e.shiftKey && bulkSelection.lastSelectedId) {
+                e.preventDefault()
+                // Fetch all filtered IDs for cross-page range selection
+                const orderedIds = await fetchAllFilteredIds()
+                bulkSelection.selectRange(bulkSelection.lastSelectedId, row.original.id, orderedIds)
+              }
+            }}
+            className="h-4 w-4 rounded border-gray-300 text-platform-primary focus:ring-platform-primary"
+          />
+        </div>
+      )
+    },
+  })
+
+  const columns = [
+    checkboxColumn,
+    columnHelper.accessor((row) => ({ email: row.email, name: row.name }), {
     id: 'user',
     header: 'User',
     size: 300,
@@ -128,11 +202,7 @@ const columns = [
     size: 100,
     cell: (info) => <UserRowActions user={info.row.original} />,
   }),
-]
-
-export function UserTable({ data, pagination }: UserTableProps) {
-  const router = useRouter()
-  const searchParams = useSearchParams()
+  ]
 
   // Get current filter state for scroll reset detection
   const currentQuery = searchParams.get('query') || ''
@@ -209,8 +279,16 @@ export function UserTable({ data, pagination }: UserTableProps) {
     router.push(`/users/${userId}`)
   }
 
-  // Grid template columns for consistent layout
-  const gridTemplateColumns = '1fr 120px 150px 150px 100px'
+  // Grid template columns for consistent layout (checkbox + existing columns)
+  const gridTemplateColumns = '48px 1fr 120px 150px 150px 100px'
+
+  // Header checkbox ref for indeterminate state
+  const headerCheckboxRef = useRef<HTMLInputElement>(null)
+  useEffect(() => {
+    if (headerCheckboxRef.current) {
+      headerCheckboxRef.current.indeterminate = bulkSelection.selectedCount > 0 && !bulkSelection.isAllSelected
+    }
+  }, [bulkSelection.selectedCount, bulkSelection.isAllSelected])
 
   return (
     <div className="overflow-hidden rounded-lg border border-gray-200">
@@ -227,12 +305,31 @@ export function UserTable({ data, pagination }: UserTableProps) {
                 key={header.id}
                 className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-700"
               >
-                {header.isPlaceholder
-                  ? null
-                  : flexRender(
-                      header.column.columnDef.header,
-                      header.getContext()
-                    )}
+                {header.id === 'select' ? (
+                  <div className="flex items-center justify-center">
+                    <input
+                      ref={headerCheckboxRef}
+                      type="checkbox"
+                      checked={bulkSelection.isAllSelected && bulkSelection.selectedCount > 0}
+                      disabled={isLoadingAllIds}
+                      onChange={async () => {
+                        if (bulkSelection.selectedCount > 0) {
+                          bulkSelection.clearSelection()
+                        } else {
+                          // Select ALL filtered IDs across all pages (per CONTEXT decision)
+                          const allIds = await fetchAllFilteredIds()
+                          bulkSelection.selectAll(allIds)
+                        }
+                      }}
+                      className="h-4 w-4 rounded border-gray-300 text-platform-primary focus:ring-platform-primary disabled:opacity-50"
+                    />
+                  </div>
+                ) : header.isPlaceholder ? null : (
+                  flexRender(
+                    header.column.columnDef.header,
+                    header.getContext()
+                  )
+                )}
               </div>
             ))}
           </div>
@@ -260,7 +357,8 @@ export function UserTable({ data, pagination }: UserTableProps) {
           {virtualRows.map((virtualRow) => {
             const row = rows[virtualRow.index]
             const isFocused = keyboard.focusedIndex === virtualRow.index
-            const isSelected = keyboard.selectedIndices.has(virtualRow.index)
+            const isKeyboardSelected = keyboard.selectedIndices.has(virtualRow.index)
+            const isBulkSelected = bulkSelection.isSelected(row.original.id)
             return (
               <VirtualizedRow
                 key={row.id}
@@ -268,7 +366,7 @@ export function UserTable({ data, pagination }: UserTableProps) {
                 className={`
                   cursor-pointer transition-colors border-b border-gray-100
                   ${isFocused ? 'ring-2 ring-inset ring-platform-primary' : ''}
-                  ${isSelected ? 'bg-platform-primary/10' : 'hover:bg-gray-50'}
+                  ${isBulkSelected || isKeyboardSelected ? 'bg-platform-primary/10' : 'hover:bg-gray-50'}
                 `}
               >
                 <div
