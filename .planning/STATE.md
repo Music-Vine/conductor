@@ -10,18 +10,18 @@ See: .planning/PROJECT.md (updated 2026-02-03)
 ## Current Position
 
 Phase: 5 of 8 (Bulk Operations)
-Plan: 2 of 8 in current phase
+Plan: 3 of 8 in current phase
 Status: In progress
-Last activity: 2026-02-11 — Completed 05-02-PLAN.md (Mock Bulk API Routes)
+Last activity: 2026-02-12 — Completed 05-03-PLAN.md (Progress Tracking and Floating Action Bar)
 
-Progress: [█████████████████████░░░] 87% (47 of 54 plans completed across all phases)
+Progress: [█████████████████████░░░] 89% (48 of 54 plans completed across all phases)
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 47
-- Average duration: 7.13 minutes
-- Total execution time: 5.90 hours
+- Total plans completed: 48
+- Average duration: 6.89 minutes
+- Total execution time: 5.94 hours
 
 **By Phase:**
 
@@ -31,11 +31,11 @@ Progress: [█████████████████████░░
 | 2 | 11 | 70.09 min | 6.37 min |
 | 3 | 10 | 155.82 min | 15.58 min |
 | 4 | 9 | 49.18 min | 5.46 min |
-| 5 | 2 | 20.00 min | 10.00 min |
+| 5 | 3 | 22.30 min | 7.43 min |
 
 **Recent Trend:**
-- Last 5 plans: 04-13 (7.50 min), 04-15 (3.00 min), 05-01 (5.00 min), 05-02 (15.00 min)
-- Trend: Phase 5 bulk operations requiring more integration work than Phase 4 UI
+- Last 5 plans: 04-15 (3.00 min), 05-01 (5.00 min), 05-02 (15.00 min), 05-03 (2.30 min)
+- Trend: Phase 5 averaging 7.43 min/plan, faster than initial estimate
 
 *Updated after each plan completion*
 
@@ -266,6 +266,11 @@ Recent decisions affecting current work:
 - Seeded random number generation for consistent mock IDs based on filter params - 05-02
 - Bulk asset actions: approve, reject, delete, archive, takedown, tag/collection/platform changes - 05-02
 - Bulk user actions: suspend, unsuspend, delete - 05-02
+- Toast ID ref pattern for updating same toast during SSE progress stream - 05-03
+- Time estimate formatting with seconds/minutes threshold at 60s - 05-03
+- BulkActionBar returns null when selectedCount === 0 for automatic hide - 05-03
+- Action buttons organized by entity type with conditional rendering - 05-03
+- Bold variant for primary actions, subtle for secondary, error for destructive - 05-03
 
 ### Pending Todos
 
@@ -273,11 +278,11 @@ None yet.
 
 ### Blockers/Concerns
 
-None yet.
+Pre-existing TypeScript errors in asset pages block production build (ExportAssetsButton props, TableRowSkeleton props). Need resolution before deployment but do not prevent Phase 5 development.
 
 ## Session Continuity
 
-Last session: 2026-02-12 09:13:00 UTC
-Stopped at: Completed 05-02-PLAN.md (Mock Bulk API Routes)
+Last session: 2026-02-12 09:18:09 UTC
+Stopped at: Completed 05-03-PLAN.md (Progress Tracking and Floating Action Bar)
 Resume file: None
-Phase status: Phase 5 in progress - bulk selection state and API routes complete, ready for UI components (toolbar, progress toast, confirmation dialogs)
+Phase status: Phase 5 in progress - progress hook and action bar ready for integration, next: confirmation dialogs
