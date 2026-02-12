@@ -1,6 +1,7 @@
 'use client'
 
 import { useRouter, useSearchParams } from 'next/navigation'
+import { useState, useEffect, useCallback, useRef } from 'react'
 import {
   createColumnHelper,
   flexRender,
@@ -12,6 +13,7 @@ import { AssetRowActions } from './AssetRowActions'
 import { useVirtualizedTable, useSmartScrollReset, VirtualizedRow, VIRTUALIZED_TABLE_DEFAULTS } from '@/hooks/useVirtualizedTable'
 import { NoResultsEmptyState } from '@/components/empty-states/EmptyState'
 import { useTableKeyboard } from '@/hooks/useTableKeyboard'
+import { useBulkSelection } from '@/hooks/useBulkSelection'
 
 interface AssetTableProps {
   data: AssetListItem[]
@@ -21,15 +23,47 @@ interface AssetTableProps {
     totalPages: number
     totalItems: number
   }
+  onSelectionChange?: (selectedIds: string[]) => void
 }
 
 const columnHelper = createColumnHelper<AssetListItem>()
 
-const columns = [
-  columnHelper.accessor((row) => ({ title: row.title, type: row.type }), {
-    id: 'asset',
-    header: 'Asset',
-    size: 300,
+// Define columns as a function to access bulkSelection in the component
+function createColumns(bulkSelection: ReturnType<typeof useBulkSelection>, fetchAllFilteredIds: () => Promise<string[]>) {
+  const checkboxColumn = columnHelper.display({
+    id: 'select',
+    header: () => null, // Header checkbox handled separately
+    size: 48,
+    cell: ({ row }) => {
+      const isSelected = bulkSelection.isSelected(row.original.id)
+      return (
+        <div className="flex items-center justify-center">
+          <input
+            type="checkbox"
+            checked={isSelected}
+            onChange={() => bulkSelection.toggle(row.original.id)}
+            onClick={async (e) => {
+              // Handle Shift+Click for range selection (works across pages)
+              if (e.shiftKey && bulkSelection.lastSelectedId) {
+                e.preventDefault()
+                // Fetch all filtered IDs for cross-page range selection
+                const orderedIds = await fetchAllFilteredIds()
+                bulkSelection.selectRange(bulkSelection.lastSelectedId, row.original.id, orderedIds)
+              }
+            }}
+            className="h-4 w-4 rounded border-gray-300 text-platform-primary focus:ring-platform-primary"
+          />
+        </div>
+      )
+    },
+  })
+
+  return [
+    checkboxColumn,
+    columnHelper.accessor((row) => ({ title: row.title, type: row.type }), {
+      id: 'asset',
+      header: 'Asset',
+      size: 300,
     cell: (info) => {
       const { title, type } = info.getValue()
       return (
@@ -196,15 +230,16 @@ const columns = [
       }
     },
   }),
-  columnHelper.display({
-    id: 'actions',
-    header: 'Actions',
-    size: 80,
-    cell: (info) => <AssetRowActions asset={info.row.original} />,
-  }),
-]
+    columnHelper.display({
+      id: 'actions',
+      header: 'Actions',
+      size: 80,
+      cell: (info) => <AssetRowActions asset={info.row.original} />,
+    }),
+  ]
+}
 
-export function AssetTable({ data, pagination }: AssetTableProps) {
+export function AssetTable({ data, pagination, onSelectionChange }: AssetTableProps) {
   const router = useRouter()
   const searchParams = useSearchParams()
 
@@ -215,38 +250,70 @@ export function AssetTable({ data, pagination }: AssetTableProps) {
   const currentPlatform = searchParams.get('platform') || ''
   const currentGenre = searchParams.get('genre') || ''
 
-  // Defensive check - show empty state if no data
-  if (!data || !Array.isArray(data)) {
-    return <NoResultsEmptyState />
-  }
+  // Prepare safe defaults for hooks (prevent conditional hook calls)
+  const safeData = data && Array.isArray(data) ? data : []
+  const safePagination = pagination || { totalPages: 0, page: 1, pageSize: 50 }
 
-  if (!pagination) {
-    return <NoResultsEmptyState />
-  }
+  // State for fetching all filtered IDs (for Select All and cross-page Shift+Click)
+  const [allFilteredIds, setAllFilteredIds] = useState<string[] | null>(null)
+  const [isLoadingAllIds, setIsLoadingAllIds] = useState(false)
 
-  // Show empty state when no results (replaces full table per best practices)
-  if (data.length === 0) {
-    const hasFilters = currentQuery || currentType || currentStatus || currentPlatform || currentGenre
-    return (
-      <NoResultsEmptyState
-        searchQuery={currentQuery || undefined}
-        onClearFilters={hasFilters ? () => router.push('/assets') : undefined}
-      />
-    )
-  }
+  // Fetch all filtered IDs from /bulk/ids endpoint
+  const fetchAllFilteredIds = useCallback(async (): Promise<string[]> => {
+    if (allFilteredIds) return allFilteredIds // Cache hit
+
+    setIsLoadingAllIds(true)
+    try {
+      const params = new URLSearchParams(searchParams.toString())
+      const response = await fetch(`/api/assets/bulk/ids?${params}`)
+      const { ids } = await response.json()
+      setAllFilteredIds(ids)
+      return ids
+    } finally {
+      setIsLoadingAllIds(false)
+    }
+  }, [searchParams, allFilteredIds])
+
+  // Clear cached IDs when filters change
+  useEffect(() => {
+    setAllFilteredIds(null)
+  }, [searchParams])
+
+  // Initialize bulk selection
+  const bulkSelection = useBulkSelection({
+    entityType: 'asset',
+    filterParams: searchParams,
+    totalFilteredCount: safePagination.totalItems,
+  })
+
+  // Notify parent of selection changes
+  useEffect(() => {
+    onSelectionChange?.(Array.from(bulkSelection.selectedIds))
+  }, [bulkSelection.selectedIds, onSelectionChange])
+
+  // Create columns with access to bulkSelection
+  const columns = createColumns(bulkSelection, fetchAllFilteredIds)
+
+  // Ref for indeterminate checkbox state
+  const headerCheckboxRef = useRef<HTMLInputElement>(null)
+  useEffect(() => {
+    if (headerCheckboxRef.current) {
+      headerCheckboxRef.current.indeterminate = bulkSelection.selectedCount > 0 && !bulkSelection.isAllSelected
+    }
+  }, [bulkSelection.selectedCount, bulkSelection.isAllSelected])
 
   const table = useReactTable({
-    data,
+    data: safeData,
     columns,
     getCoreRowModel: getCoreRowModel(),
     manualPagination: true,
     manualFiltering: true,
     manualSorting: true,
-    pageCount: pagination.totalPages,
+    pageCount: safePagination.totalPages,
     state: {
       pagination: {
-        pageIndex: pagination.page - 1,
-        pageSize: pagination.pageSize,
+        pageIndex: safePagination.page - 1,
+        pageSize: safePagination.pageSize,
       },
     },
   })
@@ -278,15 +345,30 @@ export function AssetTable({ data, pagination }: AssetTableProps) {
   })
 
   function handleRowClick(assetId: string, event: React.MouseEvent) {
-    // Don't navigate if clicking on actions dropdown
-    if ((event.target as HTMLElement).closest('[data-actions]')) {
+    // Don't navigate if clicking on actions dropdown or checkbox
+    if ((event.target as HTMLElement).closest('[data-actions]') || (event.target as HTMLElement).closest('input[type="checkbox"]')) {
       return
     }
     router.push(`/assets/${assetId}`)
   }
 
-  // Grid template columns for consistent layout
-  const gridTemplateColumns = '300px 120px 150px 120px 100px 120px 80px'
+  // Grid template columns for consistent layout (Checkbox, Asset, Type, Contributor, Status, Platform, Updated, Actions)
+  const gridTemplateColumns = '48px 350px 120px 1fr 140px 120px 140px 100px'
+
+  // After all hooks are called, check for empty states
+  if (!data || !Array.isArray(data) || !pagination) {
+    return <NoResultsEmptyState />
+  }
+
+  if (data.length === 0) {
+    const hasFilters = currentQuery || currentType || currentStatus || currentPlatform || currentGenre
+    return (
+      <NoResultsEmptyState
+        searchQuery={currentQuery || undefined}
+        onClearFilters={hasFilters ? () => router.push('/assets') : undefined}
+      />
+    )
+  }
 
   return (
     <div className="overflow-hidden rounded-lg border border-gray-200">
@@ -303,12 +385,32 @@ export function AssetTable({ data, pagination }: AssetTableProps) {
                 key={header.id}
                 className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-700"
               >
-                {header.isPlaceholder
-                  ? null
-                  : flexRender(
-                      header.column.columnDef.header,
-                      header.getContext()
-                    )}
+                {header.id === 'select' ? (
+                  // Custom header checkbox for select all
+                  <div className="flex items-center justify-center">
+                    <input
+                      ref={headerCheckboxRef}
+                      type="checkbox"
+                      checked={bulkSelection.isAllSelected && bulkSelection.selectedCount > 0}
+                      disabled={isLoadingAllIds}
+                      onChange={async () => {
+                        if (bulkSelection.selectedCount > 0) {
+                          bulkSelection.clearSelection()
+                        } else {
+                          // Select ALL filtered IDs across all pages (per CONTEXT decision)
+                          const allIds = await fetchAllFilteredIds()
+                          bulkSelection.selectAll(allIds)
+                        }
+                      }}
+                      className="h-4 w-4 rounded border-gray-300 text-platform-primary focus:ring-platform-primary disabled:opacity-50"
+                    />
+                  </div>
+                ) : header.isPlaceholder ? null : (
+                  flexRender(
+                    header.column.columnDef.header,
+                    header.getContext()
+                  )
+                )}
               </div>
             ))}
           </div>
@@ -336,7 +438,8 @@ export function AssetTable({ data, pagination }: AssetTableProps) {
           {virtualRows.map((virtualRow) => {
             const row = rows[virtualRow.index]
             const isFocused = keyboard.focusedIndex === virtualRow.index
-            const isSelected = keyboard.selectedIndices.has(virtualRow.index)
+            const isKeyboardSelected = keyboard.selectedIndices.has(virtualRow.index)
+            const isBulkSelected = bulkSelection.isSelected(row.original.id)
             return (
               <VirtualizedRow
                 key={row.id}
@@ -344,7 +447,7 @@ export function AssetTable({ data, pagination }: AssetTableProps) {
                 className={`
                   cursor-pointer transition-colors border-b border-gray-100
                   ${isFocused ? 'ring-2 ring-inset ring-platform-primary' : ''}
-                  ${isSelected ? 'bg-platform-primary/10' : 'hover:bg-gray-50'}
+                  ${isBulkSelected || isKeyboardSelected ? 'bg-platform-primary/10' : 'hover:bg-gray-50'}
                 `}
               >
                 <div
