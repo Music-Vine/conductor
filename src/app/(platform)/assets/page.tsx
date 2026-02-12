@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { Button } from '@music-vine/cadence'
 import { getAssets } from '@/lib/api/assets'
 import type { AssetType, MusicWorkflowState, SimpleWorkflowState, Platform } from '@/types'
-import { AssetFilters, AssetTable, AssetTablePagination, ExportAssetsButton } from './components'
+import { AssetFilters, AssetListClient, ExportAssetsButton } from './components'
 import { TableRowSkeleton } from '@/components/skeletons/TableRowSkeleton'
 
 interface SearchParamsProps {
@@ -87,11 +87,13 @@ export default async function AssetsPage({ searchParams }: SearchParamsProps) {
       {/* Results */}
       <Suspense
         key={JSON.stringify(params)}
-        fallback={<TableRowSkeleton columns={7} rows={10} />}
+        fallback={<TableRowSkeleton columns={8} rows={10} />}
       >
-        <AssetTable data={data.data} pagination={data.pagination} />
+        <AssetListClient
+          initialData={data.data}
+          pagination={data.pagination}
+        />
       </Suspense>
-      <AssetTablePagination pagination={data.pagination} />
     </div>
   )
 }

@@ -1,5 +1,6 @@
 export { AssetFilters } from './AssetFilters'
 export { AssetTable } from './AssetTable'
+export { AssetListClient } from './AssetListClient'
 export { AssetTablePagination } from './AssetTablePagination'
 export { ExportAssetsButton } from './ExportAssetsButton'
 export { AssetRowActions } from './AssetRowActions'
