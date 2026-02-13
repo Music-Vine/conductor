@@ -2,6 +2,8 @@
 
 import { useState, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
+import { useAtom } from 'jotai'
+import { platformAtom } from '@/atoms'
 import { Button } from '@music-vine/cadence'
 import { toast } from 'sonner'
 import type { AssetType } from '@/types/asset'
@@ -13,6 +15,7 @@ import { SharedMetadataForm, type SharedMetadata } from './SharedMetadataForm'
 
 export function UploadForm() {
   const router = useRouter()
+  const [platform] = useAtom(platformAtom)
   const [assetType, setAssetType] = useState<AssetType>('music')
   const [metadata, setMetadata] = useState<SharedMetadata | null>(null)
   const [validationErrors, setValidationErrors] = useState<Map<string, string[]>>(new Map())
@@ -96,33 +99,68 @@ export function UploadForm() {
     <div className="max-w-3xl space-y-8">
       {/* Step 1: Select asset type */}
       <section className="space-y-4">
-        <h2 className="text-lg font-medium text-gray-900">1. Select Asset Type</h2>
+        <div className="flex items-start justify-between">
+          <h2 className="text-lg font-medium text-gray-900">1. Select Asset Type</h2>
+          {platform === 'music-vine' && (
+            <p className="text-sm text-gray-600">
+              Only Music assets can be uploaded to Music Vine
+            </p>
+          )}
+        </div>
         <div className="flex flex-wrap gap-2">
-          {(['music', 'sfx', 'motion-graphics', 'lut', 'stock-footage'] as const).map((type) => (
-            <button
-              key={type}
-              onClick={() => {
-                setAssetType(type)
-                uploader.clearFiles()
-                setValidationErrors(new Map())
-              }}
-              disabled={uploader.isUploading}
-              className={`
-                px-4 py-2 rounded-lg border text-sm font-medium transition-colors
-                ${assetType === type
-                  ? 'border-platform-primary bg-platform-primary text-white'
-                  : 'border-gray-300 bg-white text-gray-700 hover:bg-gray-50'
-                }
-                ${uploader.isUploading ? 'opacity-50 cursor-not-allowed' : ''}
-              `}
-            >
-              {type === 'motion-graphics' ? 'Motion Graphics' :
-               type === 'stock-footage' ? 'Stock Footage' :
-               type === 'lut' ? 'LUTs' :
-               type === 'sfx' ? 'SFX' :
-               'Music'}
-            </button>
-          ))}
+          {(['music', 'sfx', 'motion-graphics', 'lut', 'stock-footage'] as const).map((type) => {
+            const typeLabels = {
+              'music': 'Music',
+              'sfx': 'SFX',
+              'motion-graphics': 'Motion Graphics',
+              'lut': 'LUTs',
+              'stock-footage': 'Stock Footage',
+            }
+            const platformLabels = {
+              'music': 'Music Vine / Uppbeat',
+              'sfx': 'Uppbeat only',
+              'motion-graphics': 'Uppbeat only',
+              'lut': 'Uppbeat only',
+              'stock-footage': 'Uppbeat only',
+            }
+
+            // Disable non-music types when Music Vine is selected
+            const isDisabled = platform === 'music-vine' && type !== 'music'
+
+            return (
+              <button
+                key={type}
+                onClick={() => {
+                  if (!isDisabled) {
+                    setAssetType(type)
+                    uploader.clearFiles()
+                    setValidationErrors(new Map())
+                  }
+                }}
+                disabled={uploader.isUploading || isDisabled}
+                className={`
+                  px-4 py-3 rounded-lg border text-sm font-medium transition-colors flex flex-col items-start gap-1
+                  ${assetType === type
+                    ? 'border-platform-primary bg-platform-primary text-white'
+                    : isDisabled
+                      ? 'border-gray-200 bg-gray-50 text-gray-400 cursor-not-allowed'
+                      : 'border-gray-300 bg-white text-gray-700 hover:bg-gray-50'
+                  }
+                  ${uploader.isUploading ? 'opacity-50 cursor-not-allowed' : ''}
+                `}
+                title={isDisabled ? 'Not available for Music Vine platform' : undefined}
+              >
+                <span>{typeLabels[type]}</span>
+                <span className={`text-xs ${
+                  assetType === type ? 'text-white/80' :
+                  isDisabled ? 'text-gray-400' :
+                  'text-gray-500'
+                }`}>
+                  {platformLabels[type]}
+                </span>
+              </button>
+            )
+          })}
         </div>
       </section>
 

@@ -18,7 +18,7 @@
     --platform-accent: #ff5f6e;
   }
 
-  @media (prefers-color-scheme: dark) {
+  .theme-dark & {
     :root {
       /* Dark mode colors */
       --background: #0f172a;

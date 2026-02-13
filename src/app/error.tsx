@@ -1,5 +1,6 @@
 'use client'
 
+import { Alpha, Button, Text } from '@music-vine/cadence'
 import { useEffect } from 'react'
 
 export default function Error({
@@ -31,23 +32,23 @@ export default function Error({
           />
         </svg>
       </div>
-      <h2 className="text-xl font-semibold text-gray-900 dark:text-gray-100">
+      <Alpha>
         Something went wrong
-      </h2>
-      <p className="max-w-md text-center text-gray-600 dark:text-gray-400">
+      </Alpha>
+      <Text>
         {error.message || 'An unexpected error occurred. Please try again.'}
-      </p>
+      </Text>
       {error.digest && (
-        <p className="text-xs text-gray-400 dark:text-gray-500">
+        <Text className='text-opacity-50'>
           Error ID: {error.digest}
-        </p>
+        </Text>
       )}
-      <button
+      <Button
         onClick={reset}
-        className="mt-4 rounded-lg bg-gray-900 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-gray-800 dark:bg-gray-100 dark:text-gray-900 dark:hover:bg-gray-200"
+        className="mt-4"
       >
         Try again
-      </button>
+      </Button>
     </div>
   )
 }

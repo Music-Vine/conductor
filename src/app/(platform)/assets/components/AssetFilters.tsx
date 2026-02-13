@@ -229,15 +229,15 @@ export function AssetFilters({
             <option value="all">All Statuses</option>
             <option value="draft">Draft</option>
             <option value="submitted">Submitted</option>
-            <option value="initial_review">In Review</option>
-            <option value="quality_check">In Review</option>
-            <option value="platform_assignment">In Review</option>
-            <option value="final_approval">In Review</option>
+            <option value="initial_review">Initial Review</option>
+            <option value="quality_check">Quality Check</option>
+            <option value="platform_assignment">Platform Assignment</option>
+            <option value="final_approval">Final Approval</option>
             <option value="review">In Review</option>
             <option value="published">Published</option>
-            <option value="rejected_initial">Rejected</option>
-            <option value="rejected_quality">Rejected</option>
-            <option value="rejected_final">Rejected</option>
+            <option value="rejected_initial">Rejected (Initial)</option>
+            <option value="rejected_quality">Rejected (Quality)</option>
+            <option value="rejected_final">Rejected (Final)</option>
             <option value="rejected">Rejected</option>
           </select>
         </div>

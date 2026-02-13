@@ -1,5 +1,5 @@
 ---
-status: complete
+status: diagnosed
 phase: 04-catalog-management
 source:
   - 04-01-SUMMARY.md
@@ -16,7 +16,7 @@ source:
   - 04-12-SUMMARY.md
   - 04-13-SUMMARY.md
 started: 2026-02-10T10:13:00Z
-updated: 2026-02-11T13:37:55Z
+updated: 2026-02-11T13:41:42Z
 ---
 
 ## Current Test
@@ -106,8 +106,13 @@ skipped: 0
   reason: "User reported: Waveforms are showing as unable to load, so cannot test this"
   severity: major
   test: 9
-  root_cause: ""
-  artifacts: []
-  missing: []
-  debug_session: ""
-[none yet]
+  root_cause: "Two-part issue: (1) Mock API returns invalid audio URLs (https://mock-s3.example.com) that 404, (2) AudioWaveformPlayer missing error handling - no error event listener, shows perpetual loading state on failure"
+  artifacts:
+    - path: "src/components/asset/AudioWaveformPlayer.tsx"
+      issue: "Missing error event listener and error state management"
+    - path: "src/app/api/assets/[id]/route.ts"
+      issue: "Lines 44-45 generate invalid mock fileUrl values"
+  missing:
+    - "Add error event listener to wavesurfer instance in AudioWaveformPlayer"
+    - "Add error state and error UI display"
+  debug_session: ".planning/debug/waveforms-unable-to-load.md"

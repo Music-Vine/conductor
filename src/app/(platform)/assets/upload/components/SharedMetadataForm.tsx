@@ -10,6 +10,7 @@ export interface SharedMetadata {
   contributorName: string
   genre: string
   tags: string[]
+  platform: 'music-vine' | 'uppbeat' | 'both'
 }
 
 interface SharedMetadataFormProps {
@@ -74,6 +75,14 @@ export function SharedMetadataForm({ assetType, onChange, disabled }: SharedMeta
   const [contributorId, setContributorId] = useState('')
   const [genre, setGenre] = useState('')
   const [tags, setTags] = useState<Tag[]>([])
+  const [platform, setPlatform] = useState<'music-vine' | 'uppbeat' | 'both'>('uppbeat')
+
+  // Auto-set platform to Uppbeat for non-music assets
+  useEffect(() => {
+    if (assetType !== 'music') {
+      setPlatform('uppbeat')
+    }
+  }, [assetType])
 
   // Notify parent of changes
   useEffect(() => {
@@ -84,9 +93,10 @@ export function SharedMetadataForm({ assetType, onChange, disabled }: SharedMeta
         contributorName: contributor?.name || '',
         genre,
         tags: tags.map(t => String(t.value)),
+        platform,
       })
     }
-  }, [contributorId, genre, tags, onChange])
+  }, [contributorId, genre, tags, platform, onChange])
 
   const genres = GENRE_OPTIONS[assetType] || []
 
@@ -112,6 +122,31 @@ export function SharedMetadataForm({ assetType, onChange, disabled }: SharedMeta
             </option>
           ))}
         </select>
+      </div>
+
+      {/* Platform */}
+      <div>
+        <label htmlFor="platform" className="block text-sm font-medium text-gray-900 mb-2">
+          Platform <span className="text-red-500">*</span>
+        </label>
+        {assetType === 'music' ? (
+          <select
+            id="platform"
+            value={platform}
+            onChange={(e) => setPlatform(e.target.value as 'music-vine' | 'uppbeat' | 'both')}
+            disabled={disabled}
+            className="w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 focus:border-platform-primary focus:outline-none focus:ring-1 focus:ring-platform-primary disabled:bg-gray-50 disabled:cursor-not-allowed"
+            required
+          >
+            <option value="music-vine">Music Vine</option>
+            <option value="uppbeat">Uppbeat</option>
+            <option value="both">Both Platforms</option>
+          </select>
+        ) : (
+          <div className="w-full rounded-lg border border-gray-300 bg-gray-50 px-3 py-2 text-sm text-gray-600">
+            Uppbeat (locked for this asset type)
+          </div>
+        )}
       </div>
 
       {/* Genre */}
