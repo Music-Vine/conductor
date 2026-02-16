@@ -164,10 +164,17 @@ Plans:
   3. Staff can assign payees to contributors supporting many-to-many relationships
   4. Staff can view all payee and contributor relationships with filtering and search
   5. Staff can export financial data to CSV for accounting and reporting
-**Plans**: TBD
+**Plans**: 8 plans in 5 waves
 
 Plans:
-- [ ] 06-01: TBD
+- [ ] 06-01-PLAN.md — Financial types and validation schemas
+- [ ] 06-02-PLAN.md — Mock API routes for contributors, payees, and relationships
+- [ ] 06-03-PLAN.md — API client and contributor list page with table and filters
+- [ ] 06-04-PLAN.md — Contributor detail page with profile, payees, and assets tabs
+- [ ] 06-05-PLAN.md — Payee list page and payee detail page
+- [ ] 06-06-PLAN.md — Contributor/payee creation forms and payee assignment with rate validation
+- [ ] 06-07-PLAN.md — CSV export, sidebar navigation, and global search integration
+- [ ] 06-08-PLAN.md — Human verification checkpoint
 
 ### Phase 7: Enhanced UX & Power Features
 **Goal**: Power-user features and polish that improve efficiency for daily workflows
