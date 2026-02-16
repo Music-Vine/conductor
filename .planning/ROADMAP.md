@@ -16,7 +16,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 2: User Management** - Staff can search, view, and manage user accounts
 - [x] **Phase 3: Advanced Table Features** - Faceted filtering, virtualization, command palette, keyboard shortcuts
 - [ ] **Phase 4: Catalog Management** - Asset ingestion, metadata editing, approval workflows
-- [ ] **Phase 5: Bulk Operations** - Async job queue with progress tracking for large-scale operations
+- [x] **Phase 5: Bulk Operations** - Async job queue with progress tracking for large-scale operations
 - [ ] **Phase 6: Payee & Contributor Management** - Financial relationships and payout management
 - [ ] **Phase 7: Enhanced UX & Power Features** - Activity feed, inline editing, export capabilities
 - [ ] **Phase 8: Legacy System Migration** - Data migration scripts, parallel operation cutover, system sunset
@@ -145,14 +145,14 @@ Plans:
 **Plans**: 8 plans in 5 waves
 
 Plans:
-- [ ] 05-01-PLAN.md — Bulk selection state and hook (Jotai persistence)
-- [ ] 05-02-PLAN.md — Mock bulk operation API routes with SSE streaming
-- [ ] 05-03-PLAN.md — Progress tracking hook and floating action bar
-- [ ] 05-04-PLAN.md — Confirmation dialogs (simple + type-to-confirm)
-- [ ] 05-05-PLAN.md — AssetTable bulk operations integration
-- [ ] 05-06-PLAN.md — UserTable bulk operations integration
-- [ ] 05-07-PLAN.md — Bulk audit logging
-- [ ] 05-08-PLAN.md — Human verification checkpoint
+- [x] 05-01-PLAN.md — Bulk selection state and hook (Jotai persistence)
+- [x] 05-02-PLAN.md — Mock bulk operation API routes with SSE streaming
+- [x] 05-03-PLAN.md — Progress tracking hook and floating action bar
+- [x] 05-04-PLAN.md — Confirmation dialogs (simple + type-to-confirm)
+- [x] 05-05-PLAN.md — AssetTable bulk operations integration
+- [x] 05-06-PLAN.md — UserTable bulk operations integration
+- [x] 05-07-PLAN.md — Bulk audit logging
+- [x] 05-08-PLAN.md — Human verification checkpoint
 
 ### Phase 6: Payee & Contributor Management
 **Goal**: Staff can manage complete financial relationships between contributors and payees

@@ -59,7 +59,7 @@ Requirements for initial release. Each maps to roadmap phases.
 - [x] **UX-05**: All forms have real-time validation with clear error messages
 - [x] **UX-06**: All pages have proper loading states (skeletons) and error boundaries
 - [x] **UX-07**: Staff can use command palette (Cmd+K) for navigation and search
-- [ ] **UX-08**: Staff can perform bulk operations on selected items with progress tracking
+- [x] **UX-08**: Staff can perform bulk operations on selected items with progress tracking
 - [x] **UX-09**: Staff can use keyboard shortcuts for common actions
 - [x] **UX-10**: Empty states provide clear guidance on what to do next
 
@@ -148,7 +148,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 | UX-05 | Phase 1 | Complete |
 | UX-06 | Phase 1 | Complete |
 | UX-07 | Phase 3 | Complete |
-| UX-08 | Phase 5 | Pending |
+| UX-08 | Phase 5 | Complete |
 | UX-09 | Phase 3 | Complete |
 | UX-10 | Phase 3 | Complete |
 
