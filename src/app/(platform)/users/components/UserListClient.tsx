@@ -36,10 +36,10 @@ export function UserListClient({ initialData, pagination }: UserListClientProps)
   const bulkProgress = useBulkProgress()
 
   const handleBulkAction = useCallback(async (action: string) => {
-    const ids = Array.from(bulkSelection.selectedIds)
+    const userIds = Array.from(bulkSelection.selectedIds)
     const result = await bulkProgress.startOperation('/users/bulk', {
       action,
-      ids,
+      userIds,
     })
 
     if (result.success) {

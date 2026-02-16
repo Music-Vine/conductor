@@ -41,10 +41,10 @@ export function AssetListClient({ initialData, pagination }: AssetListClientProp
   }
 
   const handleBulkAction = useCallback(async (action: string) => {
-    const ids = Array.from(bulkSelection.selectedIds)
+    const assetIds = Array.from(bulkSelection.selectedIds)
     const result = await bulkProgress.startOperation('/assets/bulk', {
       action,
-      ids,
+      assetIds,
     })
 
     if (result.success) {

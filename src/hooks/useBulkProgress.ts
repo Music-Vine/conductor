@@ -17,7 +17,7 @@ export interface BulkProgressState {
 
 export interface UseBulkProgressReturn {
   state: BulkProgressState
-  startOperation: (endpoint: string, body: { action: string; ids: string[]; payload?: object }) => Promise<{
+  startOperation: (endpoint: string, body: { action: string; [key: string]: any }) => Promise<{
     success: boolean
     operationId?: string
     error?: string
@@ -48,14 +48,17 @@ export function useBulkProgress(): UseBulkProgressReturn {
 
   const startOperation = useCallback(async (
     endpoint: string,
-    body: { action: string; ids: string[]; payload?: object }
+    body: { action: string; [key: string]: any }
   ) => {
     return new Promise<{ success: boolean; operationId?: string; error?: string }>((resolve) => {
+      // Extract ID array from body (supports ids, assetIds, userIds, etc.)
+      const idsArray = body.ids || body.assetIds || body.userIds || []
+
       // Reset state
       setState({
         isRunning: true,
         processed: 0,
-        total: body.ids.length,
+        total: idsArray.length,
         percentage: 0,
         currentItem: null,
         estimatedSecondsRemaining: null,
@@ -65,7 +68,7 @@ export function useBulkProgress(): UseBulkProgressReturn {
 
       // Show initial toast
       toastIdRef.current = toast.loading(
-        `Starting ${body.action} operation on ${body.ids.length} items...`
+        `Starting ${body.action} operation on ${idsArray.length} items...`
       )
 
       // Make POST request to start SSE stream
