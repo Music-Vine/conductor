@@ -10,11 +10,11 @@ See: .planning/PROJECT.md (updated 2026-02-03)
 ## Current Position
 
 Phase: 6 of 8 (Payee & Contributor Management)
-Plan: 6 of 8 in current phase
+Plan: 7 of 8 in current phase
 Status: In progress
-Last activity: 2026-02-23 — Completed 06-06-PLAN.md (Payee Management Forms)
+Last activity: 2026-02-23 — Completed 06-07-PLAN.md (Export, Navigation, and Search Integration)
 
-Progress: [█████████████████████░░░░] 91% (60 of 66 plans completed across all phases)
+Progress: [█████████████████████░░░░] 92% (61 of 66 plans completed across all phases)
 
 ## Performance Metrics
 
@@ -315,6 +315,10 @@ Recent decisions affecting current work:
 - Available payees lazy-loaded on first form open and cached for subsequent opens in PayeesTab - 06-06
 - Remove payee AlertDialog warns user about needing to re-allocate removed percentage - 06-06
 - getSelectedPayeeIds(excludeIndex) pattern for duplicate prevention in useFieldArray multi-row selects - 06-06
+- FinancialExportRow defined locally in export-csv.ts to match /api/financials/export decimal rate response - 06-07
+- ExportContributorsButton includes both contributor CSV and financial data export side by side - 06-07
+- Search type union extended with 'contributor' across SearchResult, SearchableItem, SearchData interfaces - 06-07
+- EntityIcons/entityLabels maps in SearchResults.tsx extended with contributor group-of-people icon - 06-07
 
 ### Pending Todos
 
@@ -326,7 +330,7 @@ None. Pre-existing TypeScript errors in asset pages were resolved during Phase 5
 
 ## Session Continuity
 
-Last session: 2026-02-23 11:53:00 UTC
-Stopped at: Completed 06-06-PLAN.md (Payee Management Forms)
+Last session: 2026-02-23 11:54:17 UTC
+Stopped at: Completed 06-07-PLAN.md (Export, Navigation, and Search Integration)
 Resume file: None
-Phase status: Phase 6 in progress - 6 of 8 plans complete
+Phase status: Phase 6 in progress - 7 of 8 plans complete
