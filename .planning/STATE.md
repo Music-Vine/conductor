@@ -10,11 +10,11 @@ See: .planning/PROJECT.md (updated 2026-02-03)
 ## Current Position
 
 Phase: 6 of 8 (Payee & Contributor Management)
-Plan: 4 of 8 in current phase
+Plan: 5 of 8 in current phase
 Status: In progress
-Last activity: 2026-02-23 — Completed 06-04-PLAN.md (Contributor Detail Page)
+Last activity: 2026-02-23 — Completed 06-05-PLAN.md (Payee List and Detail Pages)
 
-Progress: [█████████████████████░░░░] 90% (58 of 62 plans completed across all phases)
+Progress: [█████████████████████░░░░] 90% (59 of 62 plans completed across all phases)
 
 ## Performance Metrics
 
@@ -307,6 +307,9 @@ Recent decisions affecting current work:
 - Tax ID masked to last 4 digits in ProfileTab (SSN-style: ***-**-XXXX format) - 06-04
 - PayeesTab action buttons (Edit Rate, Remove, Add Payee) use toast.info() placeholders pointing to Plan 06-06 - 06-04
 - Rate summary card wording: 100%=Fully allocated, <100%=X% unassigned, >100%=X% over allocated - 06-04
+- PayeeContributorEntry interface defined locally in PayeeContributorsTab - API returns different shape than ContributorListItem - 06-05
+- Payment method badges for payees: ACH=blue, Wire=purple, Check=gray, PayPal=indigo (uppercase tracking-wide) - 06-05
+- apiClient.get used directly in payee detail page.tsx for contributors fetch (avoids type mismatch with fetchPayeeContributors) - 06-05
 
 ### Pending Todos
 
@@ -318,7 +321,7 @@ None. Pre-existing TypeScript errors in asset pages were resolved during Phase 5
 
 ## Session Continuity
 
-Last session: 2026-02-23 11:44:04 UTC
-Stopped at: Completed 06-04-PLAN.md (Contributor Detail Page)
+Last session: 2026-02-23 11:46:43 UTC
+Stopped at: Completed 06-05-PLAN.md (Payee List and Detail Pages)
 Resume file: None
-Phase status: Phase 6 in progress - 4 of 8 plans complete
+Phase status: Phase 6 in progress - 5 of 8 plans complete
