@@ -2,7 +2,7 @@ import { Suspense } from 'react'
 import Link from 'next/link'
 import { fetchPayees } from '@/lib/api/payees'
 import type { PayeeStatus, PaymentMethod } from '@/types'
-import { PayeeFilters, PayeeTable, PayeeTablePagination } from './components'
+import { PayeeFilters, PayeeTable, PayeeTablePagination, ExportPayeesButton } from './components'
 import { TableRowSkeleton } from '@/components/skeletons/TableRowSkeleton'
 import { Button } from '@music-vine/cadence/ui'
 
@@ -59,9 +59,12 @@ export default async function PayeesPage({ searchParams }: SearchParamsProps) {
             Manage payment recipients and financial details
           </p>
         </div>
-        <Button variant="bold" asChild>
-          <Link href="/payees/new">Add Payee</Link>
-        </Button>
+        <div className="flex items-center gap-2">
+          <ExportPayeesButton payees={data.data} />
+          <Button variant="bold" asChild>
+            <Link href="/payees/new">Add Payee</Link>
+          </Button>
+        </div>
       </div>
 
       {/* Filters */}

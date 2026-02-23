@@ -2,7 +2,7 @@ import { Suspense } from 'react'
 import Link from 'next/link'
 import { fetchContributors } from '@/lib/api/contributors'
 import type { ContributorStatus } from '@/types'
-import { ContributorFilters, ContributorTable, ContributorTablePagination } from './components'
+import { ContributorFilters, ContributorTable, ContributorTablePagination, ExportContributorsButton } from './components'
 import { TableRowSkeleton } from '@/components/skeletons/TableRowSkeleton'
 import { Button } from '@music-vine/cadence/ui'
 
@@ -53,9 +53,12 @@ export default async function ContributorsPage({ searchParams }: SearchParamsPro
             Manage contributor profiles and payee assignments
           </p>
         </div>
-        <Button variant="bold" asChild>
-          <Link href="/contributors/new">Add Contributor</Link>
-        </Button>
+        <div className="flex items-center gap-2">
+          <ExportContributorsButton contributors={data.data} />
+          <Button variant="bold" asChild>
+            <Link href="/contributors/new">Add Contributor</Link>
+          </Button>
+        </div>
       </div>
 
       {/* Filters */}
