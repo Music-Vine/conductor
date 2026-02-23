@@ -10,11 +10,11 @@ See: .planning/PROJECT.md (updated 2026-02-03)
 ## Current Position
 
 Phase: 6 of 8 (Payee & Contributor Management)
-Plan: 3 of 8 in current phase
+Plan: 4 of 8 in current phase
 Status: In progress
-Last activity: 2026-02-23 — Completed 06-03-PLAN.md (Contributor List Page)
+Last activity: 2026-02-23 — Completed 06-04-PLAN.md (Contributor Detail Page)
 
-Progress: [█████████████████████░░░░] 90% (57 of 62 plans completed across all phases)
+Progress: [█████████████████████░░░░] 90% (58 of 62 plans completed across all phases)
 
 ## Performance Metrics
 
@@ -303,6 +303,10 @@ Recent decisions affecting current work:
 - ContributorTablePagination default page size 20 (matches 20 mock contributors in dev data) - 06-03
 - Contributors Sidebar link added between Collections and any future entries - 06-03
 - ContributorTable omits bulk selection - contributor bulk operations not planned for Phase 6 - 06-03
+- ContributorAssetListItem type defined locally in AssetsTab (API returns simplified shape not matching global AssetListItem) - 06-04
+- Tax ID masked to last 4 digits in ProfileTab (SSN-style: ***-**-XXXX format) - 06-04
+- PayeesTab action buttons (Edit Rate, Remove, Add Payee) use toast.info() placeholders pointing to Plan 06-06 - 06-04
+- Rate summary card wording: 100%=Fully allocated, <100%=X% unassigned, >100%=X% over allocated - 06-04
 
 ### Pending Todos
 
@@ -314,7 +318,7 @@ None. Pre-existing TypeScript errors in asset pages were resolved during Phase 5
 
 ## Session Continuity
 
-Last session: 2026-02-23 11:38:35 UTC
-Stopped at: Completed 06-03-PLAN.md (Contributor List Page)
+Last session: 2026-02-23 11:44:04 UTC
+Stopped at: Completed 06-04-PLAN.md (Contributor Detail Page)
 Resume file: None
-Phase status: Phase 6 in progress - 3 of 8 plans complete
+Phase status: Phase 6 in progress - 4 of 8 plans complete
