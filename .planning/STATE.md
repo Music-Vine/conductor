@@ -10,11 +10,11 @@ See: .planning/PROJECT.md (updated 2026-02-03)
 ## Current Position
 
 Phase: 6 of 8 (Payee & Contributor Management)
-Plan: 5 of 8 in current phase
+Plan: 6 of 8 in current phase
 Status: In progress
-Last activity: 2026-02-23 — Completed 06-05-PLAN.md (Payee List and Detail Pages)
+Last activity: 2026-02-23 — Completed 06-06-PLAN.md (Payee Management Forms)
 
-Progress: [█████████████████████░░░░] 90% (59 of 62 plans completed across all phases)
+Progress: [█████████████████████░░░░] 91% (60 of 66 plans completed across all phases)
 
 ## Performance Metrics
 
@@ -310,6 +310,11 @@ Recent decisions affecting current work:
 - PayeeContributorEntry interface defined locally in PayeeContributorsTab - API returns different shape than ContributorListItem - 06-05
 - Payment method badges for payees: ACH=blue, Wire=purple, Check=gray, PayPal=indigo (uppercase tracking-wide) - 06-05
 - apiClient.get used directly in payee detail page.tsx for contributors fetch (avoids type mismatch with fetchPayeeContributors) - 06-05
+- PayeesTab uses local useState synced via useEffect to allow optimistic UI updates after payee mutations - 06-06
+- PayeeAssignmentForm shown inline in PayeesTab (not modal) to keep all data visible - 06-06
+- Available payees lazy-loaded on first form open and cached for subsequent opens in PayeesTab - 06-06
+- Remove payee AlertDialog warns user about needing to re-allocate removed percentage - 06-06
+- getSelectedPayeeIds(excludeIndex) pattern for duplicate prevention in useFieldArray multi-row selects - 06-06
 
 ### Pending Todos
 
@@ -321,7 +326,7 @@ None. Pre-existing TypeScript errors in asset pages were resolved during Phase 5
 
 ## Session Continuity
 
-Last session: 2026-02-23 11:46:43 UTC
-Stopped at: Completed 06-05-PLAN.md (Payee List and Detail Pages)
+Last session: 2026-02-23 11:53:00 UTC
+Stopped at: Completed 06-06-PLAN.md (Payee Management Forms)
 Resume file: None
-Phase status: Phase 6 in progress - 5 of 8 plans complete
+Phase status: Phase 6 in progress - 6 of 8 plans complete
