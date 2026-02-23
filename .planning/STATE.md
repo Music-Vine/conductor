@@ -9,12 +9,12 @@ See: .planning/PROJECT.md (updated 2026-02-03)
 
 ## Current Position
 
-Phase: 5 of 8 (Bulk Operations)
-Plan: 8 of 8 in current phase
-Status: Complete
-Last activity: 2026-02-13 — Completed Phase 5 (Bulk Operations)
+Phase: 6 of 8 (Payee & Contributor Management)
+Plan: 1 of 8 in current phase
+Status: In progress
+Last activity: 2026-02-23 — Completed 06-01-PLAN.md (Financial Types and Validation Schemas)
 
-Progress: [█████████████████████████] 100% (54 of 54 plans completed across all phases)
+Progress: [█████████████████████░░░░] 87% (55 of 62 plans completed across all phases)
 
 ## Performance Metrics
 
@@ -290,6 +290,10 @@ Recent decisions affecting current work:
 - Bulk audit entries stored in-memory with console logging until database integration - 05-07
 - useBulkProgress accepts flexible body parameters (assetIds/userIds/ids) for entity-specific APIs - 05-08
 - Client-server parameter contract: clients send entity-specific IDs matching API expectations - 05-08
+- Integer percentages (0-100) for contributor-payee rates to avoid floating-point arithmetic errors - 06-01
+- ContributorPayee junction type models many-to-many with percentageRate metadata per relationship - 06-01
+- Zod .int() enforces whole-number percentages, .refine() validates sum-to-100% constraint - 06-01
+- calculateRemainingPercentage() returns Math.max(0, 100 - sum) for UI remaining allocation display - 06-01
 
 ### Pending Todos
 
@@ -301,7 +305,7 @@ None. Pre-existing TypeScript errors in asset pages were resolved during Phase 5
 
 ## Session Continuity
 
-Last session: 2026-02-13 10:45:00 UTC
-Stopped at: Completed Phase 5 (Bulk Operations)
+Last session: 2026-02-23 11:28:00 UTC
+Stopped at: Completed 06-01-PLAN.md (Financial Types and Validation Schemas)
 Resume file: None
-Phase status: Phase 5 complete - all 8 plans executed, verified, and gaps closed
+Phase status: Phase 6 in progress - 1 of 8 plans complete
