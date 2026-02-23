@@ -10,11 +10,11 @@ See: .planning/PROJECT.md (updated 2026-02-03)
 ## Current Position
 
 Phase: 6 of 8 (Payee & Contributor Management)
-Plan: 2 of 8 in current phase
+Plan: 3 of 8 in current phase
 Status: In progress
-Last activity: 2026-02-23 — Completed 06-02-PLAN.md (Mock API Routes for Contributors and Payees)
+Last activity: 2026-02-23 — Completed 06-03-PLAN.md (Contributor List Page)
 
-Progress: [█████████████████████░░░░] 89% (56 of 62 plans completed across all phases)
+Progress: [█████████████████████░░░░] 90% (57 of 62 plans completed across all phases)
 
 ## Performance Metrics
 
@@ -300,6 +300,9 @@ Recent decisions affecting current work:
 - POST /api/contributors/[id]/payees returns human-readable error message with remaining/excess percentage - 06-02
 - Contributor status: 18 active (contrib-001 to contrib-018), 1 pending (contrib-019), 1 inactive (contrib-020) - 06-02
 - Payee payment methods distributed: 4 ACH, 3 PayPal, 2 wire, 1 check across payee-001 to payee-010 - 06-02
+- ContributorTablePagination default page size 20 (matches 20 mock contributors in dev data) - 06-03
+- Contributors Sidebar link added between Collections and any future entries - 06-03
+- ContributorTable omits bulk selection - contributor bulk operations not planned for Phase 6 - 06-03
 
 ### Pending Todos
 
@@ -311,7 +314,7 @@ None. Pre-existing TypeScript errors in asset pages were resolved during Phase 5
 
 ## Session Continuity
 
-Last session: 2026-02-23 11:32:00 UTC
-Stopped at: Completed 06-02-PLAN.md (Mock API Routes for Contributors and Payees)
+Last session: 2026-02-23 11:38:35 UTC
+Stopped at: Completed 06-03-PLAN.md (Contributor List Page)
 Resume file: None
-Phase status: Phase 6 in progress - 2 of 8 plans complete
+Phase status: Phase 6 in progress - 3 of 8 plans complete
