@@ -1,5 +1,6 @@
 export { ContributorDetailTabs } from './ContributorDetailTabs'
 export { ProfileTab } from './ProfileTab'
 export { PayeesTab } from './PayeesTab'
+export { PayeeAssignmentForm } from './PayeeAssignmentForm'
 export { AssetsTab } from './AssetsTab'
 export type { ContributorAssetListItem } from './AssetsTab'

@@ -79,7 +79,7 @@ export function ContributorDetailTabs({
         </Tabs.Content>
 
         <Tabs.Content value="payees" className="outline-none">
-          <PayeesTab payees={payees} />
+          <PayeesTab contributorId={contributor.id} payees={payees} />
         </Tabs.Content>
 
         <Tabs.Content value="assets" className="outline-none">
