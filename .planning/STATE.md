@@ -10,11 +10,11 @@ See: .planning/PROJECT.md (updated 2026-02-03)
 ## Current Position
 
 Phase: 6 of 8 (Payee & Contributor Management)
-Plan: 1 of 8 in current phase
+Plan: 2 of 8 in current phase
 Status: In progress
-Last activity: 2026-02-23 — Completed 06-01-PLAN.md (Financial Types and Validation Schemas)
+Last activity: 2026-02-23 — Completed 06-02-PLAN.md (Mock API Routes for Contributors and Payees)
 
-Progress: [█████████████████████░░░░] 87% (55 of 62 plans completed across all phases)
+Progress: [█████████████████████░░░░] 89% (56 of 62 plans completed across all phases)
 
 ## Performance Metrics
 
@@ -294,6 +294,12 @@ Recent decisions affecting current work:
 - ContributorPayee junction type models many-to-many with percentageRate metadata per relationship - 06-01
 - Zod .int() enforces whole-number percentages, .refine() validates sum-to-100% constraint - 06-01
 - calculateRemainingPercentage() returns Math.max(0, 100 - sum) for UI remaining allocation display - 06-01
+- Pre-defined RATE_CONFIGS arrays guarantee 100% sum by construction, no runtime float arithmetic - 06-02
+- Financial export uses decimal rates (0.00-1.00) for accounting; all API routes use integer rates (0-100) - 06-02
+- Deterministic seeded mock data uses integer arithmetic (BASE_EPOCH + seed * multiplier), no Math.random - 06-02
+- POST /api/contributors/[id]/payees returns human-readable error message with remaining/excess percentage - 06-02
+- Contributor status: 18 active (contrib-001 to contrib-018), 1 pending (contrib-019), 1 inactive (contrib-020) - 06-02
+- Payee payment methods distributed: 4 ACH, 3 PayPal, 2 wire, 1 check across payee-001 to payee-010 - 06-02
 
 ### Pending Todos
 
@@ -305,7 +311,7 @@ None. Pre-existing TypeScript errors in asset pages were resolved during Phase 5
 
 ## Session Continuity
 
-Last session: 2026-02-23 11:28:00 UTC
-Stopped at: Completed 06-01-PLAN.md (Financial Types and Validation Schemas)
+Last session: 2026-02-23 11:32:00 UTC
+Stopped at: Completed 06-02-PLAN.md (Mock API Routes for Contributors and Payees)
 Resume file: None
-Phase status: Phase 6 in progress - 1 of 8 plans complete
+Phase status: Phase 6 in progress - 2 of 8 plans complete
