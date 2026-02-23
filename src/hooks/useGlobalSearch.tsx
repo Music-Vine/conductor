@@ -6,7 +6,7 @@ import Fuse from 'fuse.js'
 
 export interface SearchResultItem {
   id: string
-  type: 'user' | 'asset' | 'payee'
+  type: 'user' | 'asset' | 'payee' | 'contributor'
   title: string
   subtitle: string
   url: string
@@ -15,7 +15,7 @@ export interface SearchResultItem {
 
 interface SearchableItem {
   id: string
-  type: 'user' | 'asset' | 'payee'
+  type: 'user' | 'asset' | 'payee' | 'contributor'
   title: string
   subtitle: string
   url: string
@@ -26,6 +26,7 @@ interface SearchData {
   users: SearchableItem[]
   assets: SearchableItem[]
   payees: SearchableItem[]
+  contributors: SearchableItem[]
 }
 
 // Fetch searchable data (cached for 5 minutes)
@@ -95,6 +96,13 @@ export function useGlobalSearch(
           { name: 'searchFields.email', weight: 1.5 },
         ],
       }),
+      contributors: new Fuse(searchData.contributors, {
+        ...fuseOptions,
+        keys: [
+          { name: 'searchFields.name', weight: 2 },
+          { name: 'searchFields.email', weight: 1.5 },
+        ],
+      }),
     }
   }, [searchData])
 
@@ -110,6 +118,7 @@ export function useGlobalSearch(
     const userResults = fuseInstances.users.search(query)
     const assetResults = fuseInstances.assets.search(query)
     const payeeResults = fuseInstances.payees.search(query)
+    const contributorResults = fuseInstances.contributors.search(query)
 
     // Calculate average scores (lower is better in Fuse.js)
     const avgScores = {
@@ -122,23 +131,27 @@ export function useGlobalSearch(
       payees: payeeResults.length > 0
         ? payeeResults.reduce((acc, r) => acc + (r.score || 1), 0) / payeeResults.length
         : 1,
+      contributors: contributorResults.length > 0
+        ? contributorResults.reduce((acc, r) => acc + (r.score || 1), 0) / contributorResults.length
+        : 1,
     }
 
     // Dynamic allocation: show more of entity types with better matches
     // Sort by best average score (lower is better)
     const sortedTypes = (Object.entries(avgScores) as [keyof typeof avgScores, number][])
       .filter(([type]) => {
-        const results = { users: userResults, assets: assetResults, payees: payeeResults }
+        const results = { users: userResults, assets: assetResults, payees: payeeResults, contributors: contributorResults }
         return results[type].length > 0
       })
       .sort(([, a], [, b]) => a - b)
       .map(([type]) => type)
 
-    // Allocate: 60% to best, 30% to second, 10% to third
-    const allocations: Record<string, number> = { users: 0, assets: 0, payees: 0 }
+    // Allocate: 60% to best, 30% to second, 10% to third (additional types share remainder)
+    const allocations: Record<string, number> = { users: 0, assets: 0, payees: 0, contributors: 0 }
     if (sortedTypes.length > 0) allocations[sortedTypes[0]] = Math.ceil(maxResults * 0.6)
     if (sortedTypes.length > 1) allocations[sortedTypes[1]] = Math.ceil(maxResults * 0.3)
     if (sortedTypes.length > 2) allocations[sortedTypes[2]] = Math.ceil(maxResults * 0.1)
+    if (sortedTypes.length > 3) allocations[sortedTypes[3]] = Math.ceil(maxResults * 0.1)
 
     // Combine results
     const combined: SearchResultItem[] = [
@@ -151,6 +164,10 @@ export function useGlobalSearch(
         score: r.score,
       })),
       ...payeeResults.slice(0, allocations.payees).map(r => ({
+        ...r.item,
+        score: r.score,
+      })),
+      ...contributorResults.slice(0, allocations.contributors).map(r => ({
         ...r.item,
         score: r.score,
       })),
@@ -170,6 +187,7 @@ export function useGlobalSearch(
       ...fuseInstances.users.search(searchQuery),
       ...fuseInstances.assets.search(searchQuery),
       ...fuseInstances.payees.search(searchQuery),
+      ...fuseInstances.contributors.search(searchQuery),
     ]
       .map(r => ({ ...r.item, score: r.score }))
       .sort((a, b) => (a.score || 0) - (b.score || 0))

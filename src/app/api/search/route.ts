@@ -32,9 +32,17 @@ const mockPayees = [
   { id: 'p5', type: 'payee', name: 'Trailer Music Company', email: 'finance@trailermusic.co' },
 ]
 
+const mockContributors = [
+  { id: 'contrib-001', type: 'contributor', name: 'Alex Thompson', email: 'alex.thompson@example.com' },
+  { id: 'contrib-002', type: 'contributor', name: 'Sarah Johnson', email: 'sarah.johnson@example.com' },
+  { id: 'contrib-003', type: 'contributor', name: 'Michael Chen', email: 'michael.chen@example.com' },
+  { id: 'contrib-004', type: 'contributor', name: 'Emma Wilson', email: 'emma.wilson@example.com' },
+  { id: 'contrib-005', type: 'contributor', name: 'David Martinez', email: 'david.martinez@example.com' },
+]
+
 export interface SearchResult {
   id: string
-  type: 'user' | 'asset' | 'payee'
+  type: 'user' | 'asset' | 'payee' | 'contributor'
   title: string
   subtitle: string
   url: string
@@ -83,6 +91,14 @@ export async function GET(request: NextRequest) {
       subtitle: p.email,
       searchFields: { name: p.name, email: p.email },
       url: `/payees/${p.id}`,
+    })),
+    contributors: mockContributors.map(c => ({
+      id: c.id,
+      type: 'contributor' as const,
+      title: c.name,
+      subtitle: c.email,
+      searchFields: { name: c.name, email: c.email },
+      url: `/contributors/${c.id}`,
     })),
   }
 
