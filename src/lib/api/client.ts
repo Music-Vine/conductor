@@ -1,6 +1,39 @@
 import type { ApiResponse, ApiError, ApiClientConfig } from '@/types'
 
 /**
+ * Determine the base URL for server-side requests.
+ *
+ * Priority:
+ * 1. NEXT_PUBLIC_APP_URL environment variable (explicit override)
+ * 2. Host header from the incoming Next.js request (dynamic, port-aware)
+ * 3. http://localhost:3000 as a last resort
+ *
+ * This prevents "fetch failed" errors when the dev server runs on a port
+ * other than 3000 (e.g. when another Next.js app already occupies port 3000).
+ */
+async function resolveServerBaseUrl(): Promise<string> {
+  if (process.env.NEXT_PUBLIC_APP_URL) {
+    return process.env.NEXT_PUBLIC_APP_URL
+  }
+
+  try {
+    // headers() is available in Next.js App Router server components and route handlers
+    const { headers } = await import('next/headers')
+    const headersList = await headers()
+    const host = headersList.get('host')
+    if (host) {
+      // Respect x-forwarded-proto for reverse-proxy / HTTPS deployments
+      const proto = headersList.get('x-forwarded-proto') ?? 'http'
+      return `${proto}://${host}`
+    }
+  } catch {
+    // Not in a Next.js request context (e.g. build time) – fall through
+  }
+
+  return 'http://localhost:3000'
+}
+
+/**
  * Custom API Error class with structured error data.
  */
 export class ApiClientError extends Error {
@@ -40,11 +73,12 @@ export function createApiClient(config: Partial<ApiClientConfig> = {}) {
     // Construct absolute URL for server-side requests
     let url = `${finalConfig.baseUrl}${endpoint}`
 
-    // If running server-side (typeof window === 'undefined'), convert to absolute URL
+    // If running server-side (typeof window === 'undefined'), convert to absolute URL.
+    // Uses resolveServerBaseUrl() which reads the incoming request host header so the
+    // URL is correct regardless of which port the dev server is running on.
     if (typeof window === 'undefined') {
-      // Use environment variable or default to localhost in development
-      const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'
-      url = `${baseUrl}${finalConfig.baseUrl}${endpoint}`
+      const serverBaseUrl = await resolveServerBaseUrl()
+      url = `${serverBaseUrl}${finalConfig.baseUrl}${endpoint}`
     }
 
     const headers = new Headers({
