@@ -44,11 +44,11 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Payee/Contributor Management
 
-- [ ] **PAYE-01**: Staff can add new contributors
-- [ ] **PAYE-02**: Staff can set payout percentage rates for contributors
-- [ ] **PAYE-03**: Staff can assign payees to contributors (supporting many-to-many relationships)
-- [ ] **PAYE-04**: Staff can view payee and contributor relationships
-- [ ] **PAYE-05**: Staff can export financial data to CSV
+- [x] **PAYE-01**: Staff can add new contributors
+- [x] **PAYE-02**: Staff can set payout percentage rates for contributors
+- [x] **PAYE-03**: Staff can assign payees to contributors (supporting many-to-many relationships)
+- [x] **PAYE-04**: Staff can view payee and contributor relationships
+- [x] **PAYE-05**: Staff can export financial data to CSV
 
 ### Core UX
 
@@ -136,11 +136,11 @@ Which phases cover which requirements. Updated during roadmap creation.
 | CATA-10 | Phase 4 | Complete |
 | CATA-11 | Phase 4 | Complete |
 | CATA-12 | Phase 4 | Complete |
-| PAYE-01 | Phase 6 | Pending |
-| PAYE-02 | Phase 6 | Pending |
-| PAYE-03 | Phase 6 | Pending |
-| PAYE-04 | Phase 6 | Pending |
-| PAYE-05 | Phase 6 | Pending |
+| PAYE-01 | Phase 6 | Complete |
+| PAYE-02 | Phase 6 | Complete |
+| PAYE-03 | Phase 6 | Complete |
+| PAYE-04 | Phase 6 | Complete |
+| PAYE-05 | Phase 6 | Complete |
 | UX-01 | Phase 2 | Complete |
 | UX-02 | Phase 2 | Complete |
 | UX-03 | Phase 3 | Complete |
