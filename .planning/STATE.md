@@ -322,6 +322,11 @@ Recent decisions affecting current work:
 - Dual export button pattern: 'Export filtered' uses data prop, 'Export all' fetches GET /entity?limit=10000 - 07-04
 - Contributors 'Export all' exports contributors CSV only (financial data has its own dedicated button) - 07-04
 - isExportingAll state disables button and shows 'Exporting...' label to prevent double-submit - 07-04
+- formatRelativeTime extracted to src/lib/utils/format-relative-time.ts as shared util - 07-05
+- Dashboard widget click-through links to /activity?entityType=&entityId= (pre-filtered, not entity detail) - 07-05
+- ActivityTable uses simple CSS grid list (not TanStack Table) for read-only activity feed - 07-05
+- Activity entity type filter: immediate URL update; entity ID search: button-click required - 07-05
+- Sidebar Activity link placed between Dashboard and Users with clock SVG icon - 07-05
 - SystemActivityEntry covers all 4 entity types in a single unified type (no discriminated union) - 07-01
 - 200 deterministic entries with fixed BASE_EPOCH so mock data never drifts between cold starts - 07-01
 - Entity type distribution weighted: asset 60%, user 20%, contributor 10%, payee 10% - 07-01
@@ -349,7 +354,7 @@ None. Pre-existing TypeScript errors in asset pages were resolved during Phase 5
 
 ## Session Continuity
 
-Last session: 2026-02-27T08:52:55Z
-Stopped at: Completed 07-07-PLAN.md (Collections Table and Activity CSV Export)
+Last session: 2026-02-27T08:52:57Z
+Stopped at: Completed 07-05-PLAN.md (Activity Dashboard Widget and Full Activity Page)
 Resume file: None
-Phase status: Phase 7 in progress — 7 of 8 plans complete
+Phase status: Phase 7 in progress — 5 of 8 plans complete
