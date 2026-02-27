@@ -19,7 +19,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 5: Bulk Operations** - Async job queue with progress tracking for large-scale operations
 - [ ] **Phase 6: Payee & Contributor Management** - Financial relationships and payout management
 - [x] **Phase 7: Enhanced UX & Power Features** - Activity feed, inline editing, export capabilities
-- [ ] **Phase 8: Legacy System Migration** - BFF proxy integration, smoke tests, decommission runbooks
+- [x] **Phase 8: Legacy System Migration** - BFF proxy integration, smoke tests, decommission runbooks
 
 ## Phase Details
 
@@ -210,15 +210,15 @@ Plans:
 **Plans**: 9 plans in 4 waves
 
 Plans:
-- [ ] 08-01-PLAN.md — Proxy infrastructure (shared helper, env vars, middleware-to-proxy codemod)
-- [ ] 08-02-PLAN.md — Users domain proxy integration (10 routes)
-- [ ] 08-03-PLAN.md — Assets core proxy integration (list, detail, workflow, actions)
-- [ ] 08-04-PLAN.md — Assets upload and bulk proxy integration (presigned, multipart, bulk)
-- [ ] 08-05-PLAN.md — Contributors and payees proxy integration (7 routes)
-- [ ] 08-06-PLAN.md — Collections and cross-cutting proxy integration (collections, activity, search, audit, financials)
-- [ ] 08-07-PLAN.md — Feature parity audit and decommission runbooks
-- [ ] 08-08-PLAN.md — Playwright smoke tests setup and writing
-- [ ] 08-09-PLAN.md — Human verification checkpoint
+- [x] 08-01-PLAN.md — Proxy infrastructure (shared helper, env vars, middleware-to-proxy codemod)
+- [x] 08-02-PLAN.md — Users domain proxy integration (10 routes)
+- [x] 08-03-PLAN.md — Assets core proxy integration (list, detail, workflow, actions)
+- [x] 08-04-PLAN.md — Assets upload and bulk proxy integration (presigned, multipart, bulk)
+- [x] 08-05-PLAN.md — Contributors and payees proxy integration (7 routes)
+- [x] 08-06-PLAN.md — Collections and cross-cutting proxy integration (collections, activity, search, audit, financials)
+- [x] 08-07-PLAN.md — Feature parity audit and decommission runbooks
+- [x] 08-08-PLAN.md — Playwright smoke tests setup and writing
+- [x] 08-09-PLAN.md — Human verification checkpoint
 
 ## Progress
 
@@ -234,4 +234,4 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8
 | 5. Bulk Operations | 8/8 | Complete | 2026-02-23 |
 | 6. Payee & Contributor Management | 8/8 | Complete | 2026-02-27 |
 | 7. Enhanced UX & Power Features | 8/8 | Complete | 2026-02-27 |
-| 8. Legacy System Migration | 0/9 | Not started | - |
+| 8. Legacy System Migration | 9/9 | Complete | 2026-02-27 |

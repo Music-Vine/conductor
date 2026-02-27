@@ -5,16 +5,16 @@
 See: .planning/PROJECT.md (updated 2026-02-03)
 
 **Core value:** Enable staff to add and manage assets quickly and reliably through a single admin interface
-**Current focus:** Phase 8 - Legacy System Migration
+**Current focus:** Milestone 1 complete — all 8 phases done
 
 ## Current Position
 
-Phase: 8 of 8 (Legacy System Migration)
-Plan: 8 of 9 in current phase
-Status: In progress — Phase 8 plan 08 complete
-Last activity: 2026-02-27 — Completed 08-08-PLAN.md (Playwright smoke tests)
+Phase: 8 of 8 (Legacy System Migration) — COMPLETE
+Plan: 9 of 9 in current phase
+Status: Complete — all phases done, milestone 1 complete
+Last activity: 2026-02-27 — Completed 08-09-PLAN.md (human verification checkpoint)
 
-Progress: [███████████████████████████░░░░░░░] 89% (89 of 100 plans completed across all phases)
+Progress: [█████████████████████████████████████] 100% (100 of 100 plans completed across all phases)
 
 ## Performance Metrics
 
@@ -353,7 +353,7 @@ Recent decisions affecting current work:
 - proxyToBackend returns null in mock mode so callers fall through to existing mock data without structural changes - 08-01
 - proxyToBackend return type { data: unknown } | NextResponse | null — caller adapts shape, not proxy - 08-01
 - NEXT_PUBLIC_USE_REAL_API=false default ensures mock mode unless explicitly enabled - 08-01
-- src/middleware.ts renamed to src/proxy.ts per Next.js 16 convention - 08-01
+- src/middleware.ts renamed to src/proxy.ts per Next.js 16 convention — CORRECTED in 08-09: rename was wrong, middleware.ts restored - 08-01/08-09
 - Body-first pattern for POST/PATCH proxy routes: parse request.json() before proxyToBackend so body is available for both proxy and mock fallback paths - 08-05
 - NextRequest required for proxied routes: proxyToBackend needs nextUrl.searchParams, incompatible with plain Request type - 08-05
 - sign-part uses timeout: 5_000ms (vs 10_000ms default) — called per chunk during large multipart uploads - 08-04
@@ -375,15 +375,15 @@ Recent decisions affecting current work:
 
 ### Pending Todos
 
-None yet.
+None.
 
 ### Blockers/Concerns
 
-None. Pre-existing TypeScript errors in asset pages were resolved during Phase 5 verification.
+None. Milestone 1 complete.
 
 ## Session Continuity
 
 Last session: 2026-02-27
-Stopped at: Completed 08-08-PLAN.md (Playwright smoke tests for all major screens)
+Stopped at: Completed Phase 8 — all 9 plans done, verification passed 5/5
 Resume file: None
-Phase status: Phase 8 in progress — 08-01 through 08-08 complete (SUMMARY files exist for all); 08-09 remaining
+Phase status: ALL PHASES COMPLETE — ready for /gsd:audit-milestone
