@@ -113,6 +113,49 @@ export async function GET(
 }
 
 /**
+ * PATCH /api/payees/[id] - Partially update payee details.
+ */
+export async function PATCH(
+  request: Request,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  // Simulate network latency
+  await new Promise(resolve => setTimeout(resolve, 100 + Math.random() * 100))
+
+  const { id } = await params
+  const idNum = parseInt(id.replace('payee-', ''), 10)
+
+  if (isNaN(idNum) || idNum < 1 || idNum > 10) {
+    return NextResponse.json(
+      { error: 'Payee not found' },
+      { status: 404 }
+    )
+  }
+
+  let updates: Partial<Payee>
+  try {
+    updates = await request.json()
+  } catch {
+    return NextResponse.json(
+      { error: 'Invalid request body' },
+      { status: 400 }
+    )
+  }
+
+  const existing = generateMockPayeeDetail(idNum)
+  const updated: Payee = {
+    ...existing,
+    ...updates,
+    id: existing.id, // Prevent ID override
+    updatedAt: new Date().toISOString(),
+  }
+
+  console.log(`[AUDIT] Payee ${id} updated:`, updates)
+
+  return NextResponse.json({ data: updated })
+}
+
+/**
  * PUT /api/payees/[id] - Update payee details.
  */
 export async function PUT(

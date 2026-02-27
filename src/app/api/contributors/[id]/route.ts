@@ -90,6 +90,49 @@ export async function GET(
 }
 
 /**
+ * PATCH /api/contributors/[id] - Partially update contributor details.
+ */
+export async function PATCH(
+  request: Request,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  // Simulate network latency
+  await new Promise(resolve => setTimeout(resolve, 100 + Math.random() * 100))
+
+  const { id } = await params
+  const idNum = parseInt(id.replace('contrib-', ''), 10)
+
+  if (isNaN(idNum) || idNum < 1 || idNum > 20) {
+    return NextResponse.json(
+      { error: 'Contributor not found' },
+      { status: 404 }
+    )
+  }
+
+  let updates: Partial<Contributor>
+  try {
+    updates = await request.json()
+  } catch {
+    return NextResponse.json(
+      { error: 'Invalid request body' },
+      { status: 400 }
+    )
+  }
+
+  const existing = generateMockContributorDetail(idNum)
+  const updated: Contributor = {
+    ...existing,
+    ...updates,
+    id: existing.id, // Prevent ID override
+    updatedAt: new Date().toISOString(),
+  }
+
+  console.log(`[AUDIT] Contributor ${id} updated:`, updates)
+
+  return NextResponse.json({ data: updated })
+}
+
+/**
  * PUT /api/contributors/[id] - Update contributor details.
  */
 export async function PUT(

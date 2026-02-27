@@ -107,6 +107,59 @@ function generateMockUserDetail(id: string): UserDetail {
 }
 
 /**
+ * PATCH /api/users/[id] - Partially update user details.
+ *
+ * Security note: email and status updates are intentionally disallowed here.
+ * Those fields require dedicated endpoints with additional verification steps.
+ */
+export async function PATCH(
+  request: Request,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  // Simulate network latency
+  await new Promise(resolve => setTimeout(resolve, 100 + Math.random() * 100))
+
+  const { id } = await params
+
+  let updates: Partial<Omit<UserDetail, 'id' | 'email' | 'status'>>
+  try {
+    updates = await request.json()
+  } catch {
+    return NextResponse.json(
+      { error: 'Invalid request body' },
+      { status: 400 }
+    )
+  }
+
+  try {
+    const existing = generateMockUserDetail(id)
+
+    // Strip security-sensitive fields — email and status require dedicated endpoints
+    const { email: _email, status: _status, ...safeUpdates } = updates as Record<string, unknown>
+
+    const updated: UserDetail = {
+      ...existing,
+      ...safeUpdates,
+      id: existing.id, // Prevent ID override
+      email: existing.email, // Email changes require dedicated verification flow
+      status: existing.status, // Status changes require dedicated suspend/unsuspend endpoint
+    }
+
+    console.log(`[AUDIT] User ${id} updated (${new Date().toISOString()}):`, safeUpdates)
+
+    return NextResponse.json({ data: updated })
+  } catch (error) {
+    return NextResponse.json(
+      {
+        error: 'User not found',
+        message: error instanceof Error ? error.message : 'Invalid user ID',
+      },
+      { status: 404 }
+    )
+  }
+}
+
+/**
  * GET /api/users/[id] - Get detailed user information
  */
 export async function GET(
