@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { proxyToBackend } from '@/lib/api/proxy'
 
 type AssetType = 'music' | 'sfx' | 'motion-graphics' | 'lut' | 'stock-footage'
 type AssetStatus = 'draft' | 'initial_review' | 'quality_check' | 'platform_assignment' | 'final_approval' | 'approved' | 'rejected' | 'published'
@@ -56,13 +57,20 @@ function generateContributorAssets(idNum: number): ContributorAssetListItem[] {
  * GET /api/contributors/[id]/assets - Get assets associated with a contributor.
  */
 export async function GET(
-  _request: NextRequest,
+  request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
+  const { id } = await params
+
+  const result = await proxyToBackend(request, `/admin/contributors/${id}/assets`)
+  if (result !== null) {
+    if (result instanceof NextResponse) return result
+    return NextResponse.json(result.data)
+  }
+
   // Simulate network latency
   await new Promise(resolve => setTimeout(resolve, 100))
 
-  const { id } = await params
   const idNum = parseInt(id.replace('contrib-', ''), 10)
 
   if (isNaN(idNum) || idNum < 1 || idNum > 20) {

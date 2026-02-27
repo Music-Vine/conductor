@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import type { ContributorListItem, ContributorStatus, PaginatedResponse } from '@/types'
+import { proxyToBackend } from '@/lib/api/proxy'
 
 const CONTRIBUTOR_NAMES = [
   'Alex Thompson', 'Sarah Johnson', 'Michael Chen', 'Emma Wilson',
@@ -56,6 +57,12 @@ function generateMockContributors(): ContributorListItem[] {
  * GET /api/contributors - List contributors with search, status filtering and pagination.
  */
 export async function GET(request: NextRequest) {
+  const result = await proxyToBackend(request, '/admin/contributors')
+  if (result !== null) {
+    if (result instanceof NextResponse) return result
+    return NextResponse.json(result.data)
+  }
+
   // Simulate network latency
   await new Promise(resolve => setTimeout(resolve, 150))
 
@@ -107,9 +114,6 @@ export async function GET(request: NextRequest) {
  * POST /api/contributors - Create a new contributor.
  */
 export async function POST(request: NextRequest) {
-  // Simulate network latency
-  await new Promise(resolve => setTimeout(resolve, 200))
-
   let body: Record<string, unknown>
   try {
     body = await request.json()
@@ -119,6 +123,18 @@ export async function POST(request: NextRequest) {
       { status: 400 }
     )
   }
+
+  const result = await proxyToBackend(request, '/admin/contributors', {
+    method: 'POST',
+    body,
+  })
+  if (result !== null) {
+    if (result instanceof NextResponse) return result
+    return NextResponse.json(result.data)
+  }
+
+  // Simulate network latency
+  await new Promise(resolve => setTimeout(resolve, 200))
 
   // Validate required fields
   if (!body.name || !body.email) {

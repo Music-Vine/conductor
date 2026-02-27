@@ -1,10 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { proxyToBackend } from '@/lib/api/proxy'
 
 /**
  * POST /api/assets/multipart/abort
  *
  * Aborts a multipart upload session, cleaning up any uploaded parts.
  * Called when user cancels an upload or an error occurs.
+ * Conditionally proxies to real backend when NEXT_PUBLIC_USE_REAL_API=true.
  *
  * Request body:
  * - key: string - S3 object key from create endpoint
@@ -16,6 +18,17 @@ import { NextRequest, NextResponse } from 'next/server'
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
+
+    const result = await proxyToBackend(request, '/admin/assets/multipart/abort', {
+      method: 'POST',
+      body,
+    })
+    if (result !== null) {
+      if (result instanceof NextResponse) return result
+      // TODO: adapt response shape when real backend format is known
+      return NextResponse.json(result.data)
+    }
+
     const { key, uploadId } = body
 
     // Validate required fields

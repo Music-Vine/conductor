@@ -1,5 +1,6 @@
-import { NextResponse } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 import type { Contributor, ContributorStatus } from '@/types'
+import { proxyToBackend } from '@/lib/api/proxy'
 
 const CONTRIBUTOR_NAMES = [
   'Alex Thompson', 'Sarah Johnson', 'Michael Chen', 'Emma Wilson',
@@ -69,13 +70,20 @@ function generateMockContributorDetail(idNum: number): Contributor {
  * GET /api/contributors/[id] - Get full contributor detail.
  */
 export async function GET(
-  _request: Request,
+  request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
+  const { id } = await params
+
+  const result = await proxyToBackend(request, `/admin/contributors/${id}`)
+  if (result !== null) {
+    if (result instanceof NextResponse) return result
+    return NextResponse.json(result.data)
+  }
+
   // Simulate network latency
   await new Promise(resolve => setTimeout(resolve, 100))
 
-  const { id } = await params
   const idNum = parseInt(id.replace('contrib-', ''), 10)
 
   if (isNaN(idNum) || idNum < 1 || idNum > 20) {
@@ -93,21 +101,10 @@ export async function GET(
  * PATCH /api/contributors/[id] - Partially update contributor details.
  */
 export async function PATCH(
-  request: Request,
+  request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
-  // Simulate network latency
-  await new Promise(resolve => setTimeout(resolve, 100 + Math.random() * 100))
-
   const { id } = await params
-  const idNum = parseInt(id.replace('contrib-', ''), 10)
-
-  if (isNaN(idNum) || idNum < 1 || idNum > 20) {
-    return NextResponse.json(
-      { error: 'Contributor not found' },
-      { status: 404 }
-    )
-  }
 
   let updates: Partial<Contributor>
   try {
@@ -116,6 +113,27 @@ export async function PATCH(
     return NextResponse.json(
       { error: 'Invalid request body' },
       { status: 400 }
+    )
+  }
+
+  const result = await proxyToBackend(request, `/admin/contributors/${id}`, {
+    method: 'PATCH',
+    body: updates,
+  })
+  if (result !== null) {
+    if (result instanceof NextResponse) return result
+    return NextResponse.json(result.data)
+  }
+
+  // Simulate network latency
+  await new Promise(resolve => setTimeout(resolve, 100 + Math.random() * 100))
+
+  const idNum = parseInt(id.replace('contrib-', ''), 10)
+
+  if (isNaN(idNum) || idNum < 1 || idNum > 20) {
+    return NextResponse.json(
+      { error: 'Contributor not found' },
+      { status: 404 }
     )
   }
 
@@ -136,7 +154,7 @@ export async function PATCH(
  * PUT /api/contributors/[id] - Update contributor details.
  */
 export async function PUT(
-  request: Request,
+  request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
   // Simulate network latency

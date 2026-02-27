@@ -1,10 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { proxyToBackend } from '@/lib/api/proxy'
 
 /**
  * POST /api/assets/check-duplicates
  *
  * Checks if a file hash already exists in the asset database.
  * Used for pre-upload duplicate detection to prevent re-uploading existing files.
+ * Conditionally proxies to real backend when NEXT_PUBLIC_USE_REAL_API=true.
  *
  * Request body:
  * - hash: string - SHA-256 hash of the file (hex string from Web Crypto API)
@@ -18,6 +20,17 @@ import { NextRequest, NextResponse } from 'next/server'
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
+
+    const result = await proxyToBackend(request, '/admin/assets/check-duplicates', {
+      method: 'POST',
+      body,
+    })
+    if (result !== null) {
+      if (result instanceof NextResponse) return result
+      // TODO: adapt response shape when real backend format is known
+      return NextResponse.json(result.data)
+    }
+
     const { hash, filename } = body
 
     // Validate required fields

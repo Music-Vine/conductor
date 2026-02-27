@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { proxyToBackend } from '@/lib/api/proxy'
 
 /**
  * Allowed file extensions per asset type.
@@ -23,7 +24,8 @@ function isValidFileType(filename: string): boolean {
 /**
  * POST /api/assets/presigned-url
  *
- * Generates a mock presigned URL for single-part S3 uploads (< 100MB).
+ * Generates a presigned URL for single-part S3 uploads (< 100MB).
+ * Conditionally proxies to real backend when NEXT_PUBLIC_USE_REAL_API=true.
  *
  * Request body:
  * - filename: string - Name of the file to upload
@@ -31,13 +33,24 @@ function isValidFileType(filename: string): boolean {
  * - size: number - File size in bytes
  *
  * Response:
- * - url: string - Mock S3 presigned URL
+ * - url: string - S3 presigned URL
  * - key: string - S3 object key for the file
  * - fields: object - Additional form fields (empty for mock)
  */
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
+
+    const result = await proxyToBackend(request, '/admin/assets/presigned-url', {
+      method: 'POST',
+      body,
+    })
+    if (result !== null) {
+      if (result instanceof NextResponse) return result
+      // TODO: adapt response shape when real backend format is known
+      return NextResponse.json(result.data)
+    }
+
     const { filename, contentType, size } = body
 
     // Validate required fields

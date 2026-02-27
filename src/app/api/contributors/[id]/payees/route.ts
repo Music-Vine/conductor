@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import type { ContributorPayee, PaymentMethod } from '@/types'
+import { proxyToBackend } from '@/lib/api/proxy'
 
 const PAYEE_NAMES = [
   'Main Publishing LLC',
@@ -83,13 +84,20 @@ function generateContributorPayees(contributorId: string, idNum: number): Contri
  * GET /api/contributors/[id]/payees - Get payee relationships for a contributor.
  */
 export async function GET(
-  _request: NextRequest,
+  request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
+  const { id } = await params
+
+  const result = await proxyToBackend(request, `/admin/contributors/${id}/payees`)
+  if (result !== null) {
+    if (result instanceof NextResponse) return result
+    return NextResponse.json(result.data)
+  }
+
   // Simulate network latency
   await new Promise(resolve => setTimeout(resolve, 100))
 
-  const { id } = await params
   const idNum = parseInt(id.replace('contrib-', ''), 10)
 
   if (isNaN(idNum) || idNum < 1 || idNum > 20) {
@@ -112,18 +120,7 @@ export async function POST(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
-  // Simulate network latency
-  await new Promise(resolve => setTimeout(resolve, 200))
-
   const { id: contributorId } = await params
-  const idNum = parseInt(contributorId.replace('contrib-', ''), 10)
-
-  if (isNaN(idNum) || idNum < 1 || idNum > 20) {
-    return NextResponse.json(
-      { error: 'Contributor not found' },
-      { status: 404 }
-    )
-  }
 
   let body: { payees?: Array<{ payeeId: string; percentageRate: number; effectiveDate: string; notes?: string }> }
   try {
@@ -132,6 +129,27 @@ export async function POST(
     return NextResponse.json(
       { error: 'Invalid JSON body' },
       { status: 400 }
+    )
+  }
+
+  const result = await proxyToBackend(request, `/admin/contributors/${contributorId}/payees`, {
+    method: 'POST',
+    body,
+  })
+  if (result !== null) {
+    if (result instanceof NextResponse) return result
+    return NextResponse.json(result.data)
+  }
+
+  // Simulate network latency
+  await new Promise(resolve => setTimeout(resolve, 200))
+
+  const idNum = parseInt(contributorId.replace('contrib-', ''), 10)
+
+  if (isNaN(idNum) || idNum < 1 || idNum > 20) {
+    return NextResponse.json(
+      { error: 'Contributor not found' },
+      { status: 404 }
     )
   }
 

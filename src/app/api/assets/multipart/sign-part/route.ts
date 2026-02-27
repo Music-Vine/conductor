@@ -1,10 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { proxyToBackend } from '@/lib/api/proxy'
 
 /**
  * POST /api/assets/multipart/sign-part
  *
  * Generates a presigned URL for uploading a specific part of a multipart upload.
  * Called for each chunk of the file (parts 1-10000).
+ * Conditionally proxies to real backend when NEXT_PUBLIC_USE_REAL_API=true.
  *
  * Request body:
  * - key: string - S3 object key from create endpoint
@@ -12,11 +14,24 @@ import { NextRequest, NextResponse } from 'next/server'
  * - partNumber: number - Part number (1-10000)
  *
  * Response:
- * - url: string - Mock presigned URL for this part
+ * - url: string - Presigned URL for this part
  */
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
+
+    // sign-part uses shorter timeout (5s) — called frequently per chunk
+    const result = await proxyToBackend(request, '/admin/assets/multipart/sign-part', {
+      method: 'POST',
+      body,
+      timeout: 5_000,
+    })
+    if (result !== null) {
+      if (result instanceof NextResponse) return result
+      // TODO: adapt response shape when real backend format is known
+      return NextResponse.json(result.data)
+    }
+
     const { key, uploadId, partNumber } = body
 
     // Validate required fields

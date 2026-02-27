@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import type { Collection, CollectionListItem } from '@/types/collection'
 import type { PaginatedResponse } from '@/types/api'
 import type { Platform } from '@/types/platform'
+import { proxyToBackend } from '@/lib/api/proxy'
 
 // Mock collections data generator
 function generateMockCollections(count: number): Collection[] {
@@ -69,6 +70,12 @@ function generateMockCollections(count: number): Collection[] {
 const mockCollections = generateMockCollections(30)
 
 export async function GET(request: NextRequest) {
+  const result = await proxyToBackend(request, '/admin/collections')
+  if (result !== null) {
+    if (result instanceof NextResponse) return result
+    return NextResponse.json(result.data)
+  }
+
   // Simulate network latency
   await new Promise(resolve => setTimeout(resolve, 100))
 
@@ -122,12 +129,19 @@ export async function GET(request: NextRequest) {
 }
 
 export async function POST(request: NextRequest) {
+  const body = await request.json()
+  const result = await proxyToBackend(request, '/admin/collections', { method: 'POST', body })
+  if (result !== null) {
+    if (result instanceof NextResponse) return result
+    return NextResponse.json(result.data)
+  }
+
   // Simulate network latency
   await new Promise(resolve => setTimeout(resolve, 100))
 
   try {
-    const body = await request.json()
-    const { title, description, platform, assetIds = [] } = body
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const { title, description, platform, assetIds = [] } = body as any
 
     // Validate required fields
     if (!title || !platform) {
