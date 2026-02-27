@@ -10,11 +10,11 @@ See: .planning/PROJECT.md (updated 2026-02-03)
 ## Current Position
 
 Phase: 8 of 8 (Legacy System Migration)
-Plan: 5 of 9 in current phase (08-05 complete)
-Status: In progress — Phase 8 plan 05 complete
-Last activity: 2026-02-27 — Completed 08-05-PLAN.md (contributor and payee route BFF proxy)
+Plan: 6 of 9 in current phase (08-02 complete)
+Status: In progress — Phase 8 plan 02 complete
+Last activity: 2026-02-27 — Completed 08-02-PLAN.md (user domain BFF proxy — all 10 user routes)
 
-Progress: [██████████████████████████░░░░░░░░] 85% (85 of 100 plans completed across all phases)
+Progress: [██████████████████████████░░░░░░░░] 86% (86 of 100 plans completed across all phases)
 
 ## Performance Metrics
 
@@ -362,6 +362,9 @@ Recent decisions affecting current work:
 - Workflow action routes forward full request body to backend — backend handles validation in real mode, mock handles it in fallthrough - 08-03
 - Unpublish uses graceful body parse catch(() => ({})) since endpoint accepts no required body in mock mode - 08-03
 - TODO comments at proxy success paths mark where response shape adaptation is needed when backend contracts are known - 08-03
+- Body parsed before proxyToBackend in user POST/PATCH routes; same variable serves proxy option and mock destructuring - 08-02
+- Bulk SSE user route returns NextResponse.json in proxy mode; SSE stream forwarding deferred until backend SSE format confirmed - 08-02
+- refund route uses .catch(() => ({})) on request.json() since original handler took no body - 08-02
 
 ### Pending Todos
 
@@ -374,6 +377,6 @@ None. Pre-existing TypeScript errors in asset pages were resolved during Phase 5
 ## Session Continuity
 
 Last session: 2026-02-27
-Stopped at: Completed 08-05-PLAN.md (contributor and payee route BFF proxy — 7 routes updated)
+Stopped at: Completed 08-02-PLAN.md (user domain BFF proxy — all 10 user routes updated)
 Resume file: None
-Phase status: Phase 8 in progress — 08-01, 08-03, 08-04, 08-05, and 08-07 complete (SUMMARY files exist)
+Phase status: Phase 8 in progress — 08-01, 08-02, 08-03, 08-04, 08-05, and 08-07 complete (SUMMARY files exist)
