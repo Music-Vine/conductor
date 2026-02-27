@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { musicTransitions, simpleTransitions, getNextState } from '@/lib/workflow/transitions'
 import type { Asset, MusicWorkflowState, SimpleWorkflowState, ChecklistItem } from '@/types'
+import { proxyToBackend } from '@/lib/api/proxy'
 
 // Import the generateMockAsset function pattern
 async function getAsset(id: string): Promise<Asset | null> {
@@ -23,21 +24,33 @@ export async function POST(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
-  // Simulate network latency
-  await new Promise(resolve => setTimeout(resolve, 100 + Math.random() * 100))
-
   const { id } = await params
-  const asset = await getAsset(id)
-
-  if (!asset) {
-    return NextResponse.json(
-      { error: 'Asset not found' },
-      { status: 404 }
-    )
-  }
 
   try {
     const body = await request.json()
+
+    const proxyResult = await proxyToBackend(request, `/admin/assets/${id}/approve`, {
+      method: 'POST',
+      body,
+    })
+    if (proxyResult !== null) {
+      if (proxyResult instanceof NextResponse) return proxyResult
+      // TODO: adapt response shape when real backend format is known
+      return NextResponse.json(proxyResult.data)
+    }
+
+    // Simulate network latency
+    await new Promise(resolve => setTimeout(resolve, 100 + Math.random() * 100))
+
+    const asset = await getAsset(id)
+
+    if (!asset) {
+      return NextResponse.json(
+        { error: 'Asset not found' },
+        { status: 404 }
+      )
+    }
+
     const { checklist, comments, platform } = body as {
       checklist?: ChecklistItem[]
       comments?: string

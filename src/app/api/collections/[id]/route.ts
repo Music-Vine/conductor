@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import type { Collection } from '@/types/collection'
 import type { Platform } from '@/types/platform'
+import { proxyToBackend } from '@/lib/api/proxy'
 
 // Import mock collections from parent route
 // In a real implementation, this would query a database
@@ -48,6 +49,12 @@ export async function GET(
 ) {
   const { id } = await params
 
+  const result = await proxyToBackend(request, `/admin/collections/${id}`)
+  if (result !== null) {
+    if (result instanceof NextResponse) return result
+    return NextResponse.json(result.data)
+  }
+
   // Simulate network latency
   await new Promise(resolve => setTimeout(resolve, 80))
 
@@ -69,38 +76,43 @@ export async function PATCH(
 ) {
   const { id } = await params
 
+  let body: unknown
+  try {
+    body = await request.json()
+  } catch {
+    return NextResponse.json({ error: 'Invalid request body' }, { status: 400 })
+  }
+
+  const result = await proxyToBackend(request, `/admin/collections/${id}`, { method: 'PATCH', body })
+  if (result !== null) {
+    if (result instanceof NextResponse) return result
+    return NextResponse.json(result.data)
+  }
+
   // Simulate network latency
   await new Promise(resolve => setTimeout(resolve, 80))
 
-  try {
-    const body = await request.json()
-    const { title, description, platform } = body
+  const { title, description, platform } = body as { title?: string; description?: string; platform?: Collection['platform'] }
 
-    const collection = generateMockCollection(id)
+  const collection = generateMockCollection(id)
 
-    if (!collection) {
-      return NextResponse.json(
-        { error: 'Collection not found' },
-        { status: 404 }
-      )
-    }
-
-    // Update collection fields
-    const updatedCollection: Collection = {
-      ...collection,
-      title: title ?? collection.title,
-      description: description !== undefined ? description : collection.description,
-      platform: platform ?? collection.platform,
-      updatedAt: new Date().toISOString(),
-    }
-
-    return NextResponse.json(updatedCollection)
-  } catch (error) {
+  if (!collection) {
     return NextResponse.json(
-      { error: 'Invalid request body' },
-      { status: 400 }
+      { error: 'Collection not found' },
+      { status: 404 }
     )
   }
+
+  // Update collection fields
+  const updatedCollection: Collection = {
+    ...collection,
+    title: title ?? collection.title,
+    description: description !== undefined ? description : collection.description,
+    platform: platform ?? collection.platform,
+    updatedAt: new Date().toISOString(),
+  }
+
+  return NextResponse.json(updatedCollection)
 }
 
 export async function DELETE(
@@ -108,6 +120,12 @@ export async function DELETE(
   { params }: { params: Promise<{ id: string }> }
 ) {
   const { id } = await params
+
+  const result = await proxyToBackend(request, `/admin/collections/${id}`, { method: 'DELETE' })
+  if (result !== null) {
+    if (result instanceof NextResponse) return result
+    return NextResponse.json(result.data)
+  }
 
   // Simulate network latency
   await new Promise(resolve => setTimeout(resolve, 80))
