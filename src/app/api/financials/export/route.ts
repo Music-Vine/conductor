@@ -1,5 +1,6 @@
-import { NextResponse } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 import type { PaymentMethod, ContributorStatus, PayeeStatus } from '@/types'
+import { proxyToBackend } from '@/lib/api/proxy'
 
 const CONTRIBUTOR_NAMES = [
   'Alex Thompson', 'Sarah Johnson', 'Michael Chen', 'Emma Wilson',
@@ -125,7 +126,15 @@ function generateFinancialExportRows(): FinancialExportRow[] {
  * GET /api/financials/export - Return all contributor-payee relationships for CSV export.
  * Returns flat format with decimal percentageRate (0.00-1.00) for accounting compatibility.
  */
-export async function GET() {
+export async function GET(request: NextRequest) {
+  const result = await proxyToBackend(request, '/admin/financials/export')
+  if (result !== null) {
+    if (result instanceof NextResponse) return result
+    // TODO: If backend returns raw JSON financial data, convert to CSV here
+    // If backend returns CSV directly, pipe through with appropriate Content-Type header
+    return NextResponse.json(result.data)
+  }
+
   // Simulate network latency
   await new Promise(resolve => setTimeout(resolve, 200))
 

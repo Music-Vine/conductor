@@ -10,11 +10,11 @@ See: .planning/PROJECT.md (updated 2026-02-03)
 ## Current Position
 
 Phase: 8 of 8 (Legacy System Migration)
-Plan: 3 of 9 in current phase (08-03 complete)
-Status: In progress — Phase 8 plan 3 complete
-Last activity: 2026-02-27 — Completed 08-03-PLAN.md (asset route BFF proxy migration)
+Plan: 4 of 9 in current phase (08-04 complete)
+Status: In progress — Phase 8 plan 4 complete
+Last activity: 2026-02-27 — Completed 08-04-PLAN.md (asset upload and bulk route BFF proxy)
 
-Progress: [██████████████████████████░░░░░░░░] 83% (83 of 100 plans completed across all phases)
+Progress: [██████████████████████████░░░░░░░░] 84% (84 of 100 plans completed across all phases)
 
 ## Performance Metrics
 
@@ -354,6 +354,8 @@ Recent decisions affecting current work:
 - proxyToBackend return type { data: unknown } | NextResponse | null — caller adapts shape, not proxy - 08-01
 - NEXT_PUBLIC_USE_REAL_API=false default ensures mock mode unless explicitly enabled - 08-01
 - src/middleware.ts renamed to src/proxy.ts per Next.js 16 convention - 08-01
+- sign-part uses timeout: 5_000ms (vs 10_000ms default) — called per chunk during large multipart uploads - 08-04
+- Bulk SSE route returns result.data as JSON when real backend responds; SSE stream forwarding deferred until real backend format confirmed - 08-04
 - Body read before proxyToBackend call for POST/PATCH routes so same parsed value reaches both proxy and mock paths - 08-03
 - Workflow action routes forward full request body to backend — backend handles validation in real mode, mock handles it in fallthrough - 08-03
 - Unpublish uses graceful body parse catch(() => ({})) since endpoint accepts no required body in mock mode - 08-03
@@ -370,6 +372,6 @@ None. Pre-existing TypeScript errors in asset pages were resolved during Phase 5
 ## Session Continuity
 
 Last session: 2026-02-27
-Stopped at: Completed 08-03-PLAN.md (asset route BFF proxy — all 7 core asset routes updated)
+Stopped at: Completed 08-04-PLAN.md (asset upload and bulk route BFF proxy — 8 routes updated)
 Resume file: None
-Phase status: Phase 8 in progress — 08-01, 08-03, and 08-07 complete (SUMMARY files exist)
+Phase status: Phase 8 in progress — 08-01, 08-03, 08-04, and 08-07 complete (SUMMARY files exist)

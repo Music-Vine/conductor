@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { proxyToBackend } from '@/lib/api/proxy'
 
 // Mock searchable data - in production this would query the database
 const mockUsers = [
@@ -54,6 +55,13 @@ export async function GET(request: NextRequest) {
 
   if (!query || query.length < 2) {
     return NextResponse.json({ results: [], query: '' })
+  }
+
+  const result = await proxyToBackend(request, '/admin/search')
+  if (result !== null) {
+    if (result instanceof NextResponse) return result
+    // TODO: Adapt search results to match Conductor's SearchResult[] type when real backend format is known
+    return NextResponse.json(result.data)
   }
 
   // Simulate network latency

@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import type { AuditEvent } from '@/types'
+import { proxyToBackend } from '@/lib/api/proxy'
 
 /**
  * Mock audit API endpoint.
@@ -13,8 +14,21 @@ import type { AuditEvent } from '@/types'
 const auditEvents: AuditEvent[] = []
 
 export async function POST(request: NextRequest) {
+  let body: unknown
   try {
-    const event = (await request.json()) as AuditEvent
+    body = await request.json()
+  } catch {
+    return NextResponse.json({ error: 'Invalid request body' }, { status: 400 })
+  }
+
+  const result = await proxyToBackend(request, '/admin/audit', { method: 'POST', body })
+  if (result !== null) {
+    if (result instanceof NextResponse) return result
+    return NextResponse.json(result.data)
+  }
+
+  try {
+    const event = body as AuditEvent
 
     // Validate required fields
     if (!event.actor || !event.action || !event.resource || !event.platform) {
@@ -64,6 +78,13 @@ export async function POST(request: NextRequest) {
 }
 
 export async function GET(request: NextRequest) {
+  const result = await proxyToBackend(request, '/admin/audit')
+  if (result !== null) {
+    if (result instanceof NextResponse) return result
+    // TODO: adapt response shape when real backend format is known
+    return NextResponse.json(result.data)
+  }
+
   // Simple list endpoint for development inspection
   const { searchParams } = new URL(request.url)
   const limit = parseInt(searchParams.get('limit') || '50', 10)

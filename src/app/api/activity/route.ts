@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import type { PaginatedResponse, SystemActivityEntry, ActivityEntityType } from '@/types'
+import { proxyToBackend } from '@/lib/api/proxy'
 
 /**
  * Mock staff actors who perform actions.
@@ -183,6 +184,13 @@ function generateSystemActivity(): SystemActivityEntry[] {
  *   - entityId (string — filter to a specific entity)
  */
 export async function GET(request: NextRequest) {
+  const result = await proxyToBackend(request, '/admin/activity')
+  if (result !== null) {
+    if (result instanceof NextResponse) return result
+    // TODO: adapt response shape when real backend format is known
+    return NextResponse.json(result.data)
+  }
+
   // Simulate network latency (consistent with other mock routes)
   await new Promise(resolve => setTimeout(resolve, 50 + 25))
 
