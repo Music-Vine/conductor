@@ -10,11 +10,11 @@ See: .planning/PROJECT.md (updated 2026-02-03)
 ## Current Position
 
 Phase: 7 of 8 (Enhanced UX & Power Features)
-Plan: 0 of TBD in current phase
-Status: Phase 6 complete, Phase 7 not started
-Last activity: 2026-02-27 — Completed Phase 6 (Payee & Contributor Management) — all 8 plans verified
+Plan: 2 of 8 in current phase
+Status: In progress — Plan 07-02 complete
+Last activity: 2026-02-27 — Completed 07-02-PLAN.md (InlineEditField Component and PATCH Routes)
 
-Progress: [███████████████████████░░] 97% (66 of 68 plans completed across all phases)
+Progress: [████████████████████████░] 98% (68 of 76 plans completed across all phases)
 
 ## Performance Metrics
 
@@ -319,6 +319,11 @@ Recent decisions affecting current work:
 - ExportContributorsButton includes both contributor CSV and financial data export side by side - 06-07
 - Search type union extended with 'contributor' across SearchResult, SearchableItem, SearchData interfaces - 06-07
 - EntityIcons/entityLabels maps in SearchResults.tsx extended with contributor group-of-people icon - 06-07
+- SystemActivityEntry covers all 4 entity types in a single unified type (no discriminated union) - 07-01
+- 200 deterministic entries with fixed BASE_EPOCH so mock data never drifts between cold starts - 07-01
+- Entity type distribution weighted: asset 60%, user 20%, contributor 10%, payee 10% - 07-01
+- getRecentActivity defaults to limit=10 for dashboard widget use case - 07-01
+- /api/activity added to middleware PUBLIC_PATHS for frontend development without auth - 07-01
 
 ### Pending Todos
 
@@ -330,7 +335,7 @@ None. Pre-existing TypeScript errors in asset pages were resolved during Phase 5
 
 ## Session Continuity
 
-Last session: 2026-02-27 UTC
-Stopped at: Phase 6 complete — all 8 plans executed and verified
+Last session: 2026-02-27T08:46:05Z
+Stopped at: Completed 07-01-PLAN.md (Activity Feed API Foundation)
 Resume file: None
-Phase status: Phase 6 complete, Phase 7 not started
+Phase status: Phase 7 in progress — 1 of 8 plans complete
