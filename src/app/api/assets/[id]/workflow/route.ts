@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import type { WorkflowHistoryItem, MusicWorkflowState, SimpleWorkflowState } from '@/types'
+import { proxyToBackend } from '@/lib/api/proxy'
 
 /**
  * Generate mock workflow history based on asset's current status.
@@ -255,10 +256,17 @@ export async function GET(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
+  const { id } = await params
+
+  const result = await proxyToBackend(request, `/admin/assets/${id}/workflow`)
+  if (result !== null) {
+    if (result instanceof NextResponse) return result
+    // TODO: adapt response shape when real backend format is known
+    return NextResponse.json(result.data)
+  }
+
   // Simulate network latency
   await new Promise(resolve => setTimeout(resolve, 100 + Math.random() * 100))
-
-  const { id } = await params
 
   // Parse asset ID to determine type
   const match = id.match(/^asset-(\d+)$/)

@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { proxyToBackend } from '@/lib/api/proxy'
 
 /**
  * Activity log entry for asset changes.
@@ -157,10 +158,17 @@ export async function GET(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
+  const { id } = await params
+
+  const result = await proxyToBackend(request, `/admin/assets/${id}/activity`)
+  if (result !== null) {
+    if (result instanceof NextResponse) return result
+    // TODO: adapt response shape when real backend format is known
+    return NextResponse.json(result.data)
+  }
+
   // Simulate network latency
   await new Promise(resolve => setTimeout(resolve, 50 + Math.random() * 50))
-
-  const { id } = await params
 
   // Validate asset ID format
   const match = id.match(/^asset-(\d+)$/)

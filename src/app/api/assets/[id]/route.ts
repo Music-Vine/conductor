@@ -9,6 +9,7 @@ import type {
   MusicWorkflowState,
   SimpleWorkflowState,
 } from '@/types'
+import { proxyToBackend } from '@/lib/api/proxy'
 
 // Use public domain sample audio for mock testing
 // These are short, royalty-free audio clips from archive.org
@@ -253,10 +254,18 @@ export async function GET(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
+  const { id } = await params
+
+  const result = await proxyToBackend(request, `/admin/assets/${id}`)
+  if (result !== null) {
+    if (result instanceof NextResponse) return result
+    // TODO: adapt response shape when real backend format is known
+    return NextResponse.json(result.data)
+  }
+
   // Simulate network latency
   await new Promise(resolve => setTimeout(resolve, 100 + Math.random() * 100))
 
-  const { id } = await params
   const asset = generateMockAsset(id)
 
   if (!asset) {
@@ -276,21 +285,29 @@ export async function PATCH(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
-  // Simulate network latency
-  await new Promise(resolve => setTimeout(resolve, 100 + Math.random() * 100))
-
   const { id } = await params
-  const asset = generateMockAsset(id)
-
-  if (!asset) {
-    return NextResponse.json(
-      { error: 'Asset not found' },
-      { status: 404 }
-    )
-  }
 
   try {
     const updates = await request.json()
+
+    const proxyResult = await proxyToBackend(request, `/admin/assets/${id}`, { method: 'PATCH', body: updates })
+    if (proxyResult !== null) {
+      if (proxyResult instanceof NextResponse) return proxyResult
+      // TODO: adapt response shape when real backend format is known
+      return NextResponse.json(proxyResult.data)
+    }
+
+    // Simulate network latency
+    await new Promise(resolve => setTimeout(resolve, 100 + Math.random() * 100))
+
+    const asset = generateMockAsset(id)
+
+    if (!asset) {
+      return NextResponse.json(
+        { error: 'Asset not found' },
+        { status: 404 }
+      )
+    }
 
     // Update allowed fields
     const updatedAsset = {

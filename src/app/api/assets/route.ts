@@ -7,6 +7,7 @@ import type {
   SimpleWorkflowState,
   Platform,
 } from '@/types'
+import { proxyToBackend } from '@/lib/api/proxy'
 
 /**
  * Generate realistic asset data.
@@ -236,6 +237,13 @@ function generateMockAssets(): AssetListItem[] {
  * GET /api/assets - List assets with filtering and pagination
  */
 export async function GET(request: NextRequest) {
+  const result = await proxyToBackend(request, '/admin/assets')
+  if (result !== null) {
+    if (result instanceof NextResponse) return result
+    // TODO: adapt response shape when real backend format is known
+    return NextResponse.json(result.data)
+  }
+
   // Simulate network latency
   await new Promise(resolve => setTimeout(resolve, 100 + Math.random() * 100))
 
@@ -310,6 +318,13 @@ export async function POST(request: NextRequest) {
 
   try {
     const body = await request.json()
+
+    const proxyResult = await proxyToBackend(request, '/admin/assets', { method: 'POST', body })
+    if (proxyResult !== null) {
+      if (proxyResult instanceof NextResponse) return proxyResult
+      // TODO: adapt response shape when real backend format is known
+      return NextResponse.json(proxyResult.data)
+    }
 
     // Basic validation
     if (!body.type || !body.title || !body.contributorId || !body.fileKey) {
