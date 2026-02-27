@@ -24,3 +24,6 @@ export {
   createPayee,
   updatePayee,
 } from './payees'
+
+export { getActivity, getRecentActivity } from './activity'
+export type { ActivityParams } from './activity'
