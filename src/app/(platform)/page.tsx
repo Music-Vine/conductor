@@ -1,8 +1,14 @@
+import { getRecentActivity } from '@/lib/api/activity'
+import { ActivityFeedWidget } from './components/ActivityFeedWidget'
+
 /**
  * Dashboard home page.
- * Placeholder content for Phase 1 - will be expanded in later phases.
+ * Shows quick-access cards for main entities plus a compact activity feed widget.
  */
-export default function DashboardPage() {
+export default async function DashboardPage() {
+  // Fetch the last 10 activity entries for the widget
+  const activityData = await getRecentActivity(10)
+
   return (
     <div className="space-y-6">
       <div>
@@ -15,7 +21,6 @@ export default function DashboardPage() {
       </div>
 
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {/* Placeholder cards for future dashboard content */}
         <DashboardCard
           title="Users"
           description="Manage user accounts"
@@ -36,22 +41,8 @@ export default function DashboardPage() {
         />
       </div>
 
-      <div className="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-gray-900">
-        <h2 className="text-lg font-medium text-gray-900 dark:text-gray-100">
-          Phase 1 Complete
-        </h2>
-        <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
-          Foundation infrastructure is in place. Authentication, platform switching,
-          audit logging, and form validation are all functional.
-        </p>
-        <ul className="mt-4 space-y-2 text-sm text-gray-600 dark:text-gray-400">
-          <li>• Session-based authentication with magic links</li>
-          <li>• Platform context switching (Music Vine / Uppbeat)</li>
-          <li>• Audit event logging</li>
-          <li>• Form validation with visual feedback</li>
-          <li>• Loading skeletons and error boundaries</li>
-        </ul>
-      </div>
+      {/* Activity feed widget */}
+      <ActivityFeedWidget entries={activityData.data} />
     </div>
   )
 }
