@@ -36,7 +36,7 @@ export async function getCollections(
   if (params.page) searchParams.set('page', params.page.toString())
   if (params.limit) searchParams.set('limit', params.limit.toString())
 
-  const url = `/api/collections${searchParams.toString() ? `?${searchParams}` : ''}`
+  const url = `/collections${searchParams.toString() ? `?${searchParams}` : ''}`
   return apiClient.get<PaginatedResponse<CollectionListItem>>(url)
 }
 
@@ -44,14 +44,14 @@ export async function getCollections(
  * Get a single collection by ID.
  */
 export async function getCollection(id: string): Promise<Collection> {
-  return apiClient.get<Collection>(`/api/collections/${id}`)
+  return apiClient.get<Collection>(`/collections/${id}`)
 }
 
 /**
  * Create a new collection.
  */
 export async function createCollection(data: CreateCollectionData): Promise<Collection> {
-  return apiClient.post<Collection>('/api/collections', data)
+  return apiClient.post<Collection>('/collections', data)
 }
 
 /**
@@ -61,14 +61,14 @@ export async function updateCollection(
   id: string,
   data: UpdateCollectionData
 ): Promise<Collection> {
-  return apiClient.patch<Collection>(`/api/collections/${id}`, data)
+  return apiClient.patch<Collection>(`/collections/${id}`, data)
 }
 
 /**
  * Delete a collection.
  */
 export async function deleteCollection(id: string): Promise<void> {
-  await apiClient.delete(`/api/collections/${id}`)
+  await apiClient.delete(`/collections/${id}`)
 }
 
 /**
@@ -78,7 +78,7 @@ export async function addAssetsToCollection(
   collectionId: string,
   assetIds: string[]
 ): Promise<Collection> {
-  return apiClient.post<Collection>(`/api/collections/${collectionId}/assets`, {
+  return apiClient.post<Collection>(`/collections/${collectionId}/assets`, {
     assetIds,
   })
 }
@@ -91,6 +91,6 @@ export async function removeAssetFromCollection(
   assetId: string
 ): Promise<Collection> {
   return apiClient.delete<Collection>(
-    `/api/collections/${collectionId}/assets/${assetId}`
+    `/collections/${collectionId}/assets/${assetId}`
   )
 }
