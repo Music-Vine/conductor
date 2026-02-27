@@ -3,6 +3,8 @@
 import type { UserDetail } from '@/types'
 import { OAuthConnections } from './OAuthConnections'
 import { SuspendUserDialog } from './SuspendUserDialog'
+import { InlineEditField } from '@/components/inline-editing/InlineEditField'
+import { apiClient } from '@/lib/api/client'
 
 interface ProfileTabProps {
   user: UserDetail
@@ -10,8 +12,12 @@ interface ProfileTabProps {
 
 /**
  * Profile tab content showing user identity and account status.
+ * Name (display name) and username support inline editing.
+ * Email and status are NOT editable inline — security-sensitive.
  */
 export function ProfileTab({ user }: ProfileTabProps) {
+  const queryKey = ['user', user.id]
+
   return (
     <div className="space-y-8">
       {/* Identity Section */}
@@ -22,22 +28,33 @@ export function ProfileTab({ user }: ProfileTabProps) {
         <dl className="grid grid-cols-1 gap-x-8 gap-y-4 sm:grid-cols-2">
           <div>
             <dt className="text-sm font-medium text-gray-600">Email</dt>
+            {/* Email is NOT editable inline — security-sensitive (requires dedicated verification flow) */}
             <dd className="mt-1 text-sm text-gray-900">{user.email}</dd>
           </div>
           <div>
             <dt className="text-sm font-medium text-gray-600">Name</dt>
-            <dd className="mt-1 text-sm text-gray-900">
-              {user.name || (
-                <span className="text-gray-500 italic">Not set</span>
-              )}
+            <dd className="mt-1">
+              <InlineEditField
+                value={user.name ?? ''}
+                queryKey={queryKey}
+                onSave={(v) =>
+                  apiClient.patch(`/users/${user.id}`, { name: v })
+                }
+                placeholder="Not set"
+              />
             </dd>
           </div>
           <div>
             <dt className="text-sm font-medium text-gray-600">Username</dt>
-            <dd className="mt-1 text-sm text-gray-900">
-              {user.username || (
-                <span className="text-gray-500 italic">Not set</span>
-              )}
+            <dd className="mt-1">
+              <InlineEditField
+                value={user.username ?? ''}
+                queryKey={queryKey}
+                onSave={(v) =>
+                  apiClient.patch(`/users/${user.id}`, { username: v })
+                }
+                placeholder="Not set"
+              />
             </dd>
           </div>
           <div>

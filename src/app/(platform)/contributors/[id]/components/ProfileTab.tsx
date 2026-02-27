@@ -1,6 +1,8 @@
 'use client'
 
 import type { Contributor } from '@/types'
+import { InlineEditField } from '@/components/inline-editing/InlineEditField'
+import { apiClient } from '@/lib/api/client'
 
 interface ProfileTabProps {
   contributor: Contributor
@@ -56,8 +58,11 @@ function StatusBadge({ status }: { status: Contributor['status'] }) {
 
 /**
  * Profile tab content showing contributor identity, address, and account info.
+ * Name, email, and phone support inline editing with click-to-edit.
  */
 export function ProfileTab({ contributor }: ProfileTabProps) {
+  const queryKey = ['contributor', contributor.id]
+
   return (
     <div className="space-y-8">
       {/* Section 1: Contact Info */}
@@ -68,18 +73,41 @@ export function ProfileTab({ contributor }: ProfileTabProps) {
         <dl className="grid grid-cols-1 gap-x-8 gap-y-4 sm:grid-cols-2">
           <div>
             <dt className="text-sm font-medium text-gray-600">Name</dt>
-            <dd className="mt-1 text-sm text-gray-900">{contributor.name}</dd>
+            <dd className="mt-1">
+              <InlineEditField
+                value={contributor.name}
+                queryKey={queryKey}
+                onSave={(v) =>
+                  apiClient.patch(`/contributors/${contributor.id}`, { name: v })
+                }
+                placeholder="Enter name"
+              />
+            </dd>
           </div>
           <div>
             <dt className="text-sm font-medium text-gray-600">Email</dt>
-            <dd className="mt-1 text-sm text-gray-900">{contributor.email}</dd>
+            <dd className="mt-1">
+              <InlineEditField
+                value={contributor.email}
+                queryKey={queryKey}
+                onSave={(v) =>
+                  apiClient.patch(`/contributors/${contributor.id}`, { email: v })
+                }
+                placeholder="Enter email"
+              />
+            </dd>
           </div>
           <div>
             <dt className="text-sm font-medium text-gray-600">Phone</dt>
-            <dd className="mt-1 text-sm text-gray-900">
-              {contributor.phone || (
-                <span className="italic text-gray-500">Not set</span>
-              )}
+            <dd className="mt-1">
+              <InlineEditField
+                value={contributor.phone ?? ''}
+                queryKey={queryKey}
+                onSave={(v) =>
+                  apiClient.patch(`/contributors/${contributor.id}`, { phone: v })
+                }
+                placeholder="Not set"
+              />
             </dd>
           </div>
           <div>

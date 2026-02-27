@@ -3,12 +3,16 @@
 import type { Asset } from '@/types/asset'
 import { isMusicAsset } from '@/types/asset'
 import { AssetPreview } from '@/components/asset'
+import { InlineEditField } from '@/components/inline-editing/InlineEditField'
+import { apiClient } from '@/lib/api/client'
 
 interface OverviewTabProps {
   asset: Asset
 }
 
 export function OverviewTab({ asset }: OverviewTabProps) {
+  const queryKey = ['asset', asset.id]
+
   return (
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
       {/* Preview section */}
@@ -25,14 +29,62 @@ export function OverviewTab({ asset }: OverviewTabProps) {
         <div className="bg-white rounded-lg border border-gray-200 p-6">
           <h2 className="text-lg font-medium text-gray-900 mb-4">Details</h2>
           <dl className="space-y-3">
-            <MetadataRow label="Title" value={asset.title} />
-            {asset.description && <MetadataRow label="Description" value={asset.description} />}
-            <MetadataRow label="Contributor" value={asset.contributorName} />
-            {asset.type === 'music' && isMusicAsset(asset) && asset.genre && (
-              <MetadataRow label="Genre" value={asset.genre} />
+            {/* Title — inline editable */}
+            <div className="flex justify-between items-start">
+              <dt className="text-sm text-gray-500 shrink-0 mt-0.5">Title</dt>
+              <dd className="text-sm font-medium text-gray-900 ml-2 min-w-0 flex-1 text-right">
+                <InlineEditField
+                  value={asset.title}
+                  queryKey={queryKey}
+                  onSave={(v) =>
+                    apiClient.patch(`/assets/${asset.id}`, { title: v })
+                  }
+                  placeholder="Enter title"
+                  className="w-full"
+                />
+              </dd>
+            </div>
+
+            {/* Description — inline editable */}
+            {asset.description !== undefined && (
+              <div className="flex justify-between items-start">
+                <dt className="text-sm text-gray-500 shrink-0 mt-0.5">Description</dt>
+                <dd className="text-sm font-medium text-gray-900 ml-2 min-w-0 flex-1 text-right">
+                  <InlineEditField
+                    value={asset.description ?? ''}
+                    queryKey={queryKey}
+                    onSave={(v) =>
+                      apiClient.patch(`/assets/${asset.id}`, { description: v })
+                    }
+                    placeholder="Enter description"
+                    className="w-full"
+                  />
+                </dd>
+              </div>
             )}
 
-            {/* Type-specific fields */}
+            {/* Contributor — not editable inline (relationship) */}
+            <MetadataRow label="Contributor" value={asset.contributorName} />
+
+            {/* Genre — inline editable (music only) */}
+            {asset.type === 'music' && isMusicAsset(asset) && (
+              <div className="flex justify-between items-start">
+                <dt className="text-sm text-gray-500 shrink-0 mt-0.5">Genre</dt>
+                <dd className="text-sm font-medium text-gray-900 ml-2 min-w-0 flex-1 text-right">
+                  <InlineEditField
+                    value={asset.genre ?? ''}
+                    queryKey={queryKey}
+                    onSave={(v) =>
+                      apiClient.patch(`/assets/${asset.id}`, { genre: v })
+                    }
+                    placeholder="Enter genre"
+                    className="w-full"
+                  />
+                </dd>
+              </div>
+            )}
+
+            {/* Type-specific fields — read-only */}
             {isMusicAsset(asset) && (
               <>
                 {asset.bpm && <MetadataRow label="BPM" value={String(asset.bpm)} />}

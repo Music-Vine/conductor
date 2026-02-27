@@ -1,6 +1,8 @@
 'use client'
 
 import type { Payee, PaymentMethod } from '@/types'
+import { InlineEditField } from '@/components/inline-editing/InlineEditField'
+import { apiClient } from '@/lib/api/client'
 
 interface PayeeProfileTabProps {
   payee: Payee
@@ -48,8 +50,11 @@ function Section({ children }: { children: React.ReactNode }) {
 /**
  * Profile tab for payee detail page.
  * Shows contact info, payment details (masked), tax info, address, and account info.
+ * Name, email, and paymentMethod support inline editing.
  */
 export function PayeeProfileTab({ payee }: PayeeProfileTabProps) {
+  const queryKey = ['payee', payee.id]
+
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString('en-US', {
       year: 'numeric',
@@ -73,8 +78,32 @@ export function PayeeProfileTab({ payee }: PayeeProfileTabProps) {
       <Section>
         <SectionTitle>Contact Information</SectionTitle>
         <dl className="divide-y divide-gray-100">
-          <InfoRow label="Name" value={payee.name} />
-          <InfoRow label="Email" value={<a href={`mailto:${payee.email}`} className="text-blue-600 hover:underline">{payee.email}</a>} />
+          <InfoRow
+            label="Name"
+            value={
+              <InlineEditField
+                value={payee.name}
+                queryKey={queryKey}
+                onSave={(v) =>
+                  apiClient.patch(`/payees/${payee.id}`, { name: v })
+                }
+                placeholder="Enter name"
+              />
+            }
+          />
+          <InfoRow
+            label="Email"
+            value={
+              <InlineEditField
+                value={payee.email}
+                queryKey={queryKey}
+                onSave={(v) =>
+                  apiClient.patch(`/payees/${payee.id}`, { email: v })
+                }
+                placeholder="Enter email"
+              />
+            }
+          />
           {payee.phone && (
             <InfoRow label="Phone" value={payee.phone} />
           )}
@@ -88,11 +117,14 @@ export function PayeeProfileTab({ payee }: PayeeProfileTabProps) {
           <InfoRow
             label="Payment Method"
             value={
-              <span
-                className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium uppercase tracking-wide ${paymentMethodBadgeClasses[payee.paymentMethod] || 'bg-gray-100 text-gray-800'}`}
-              >
-                {paymentMethodLabels[payee.paymentMethod] || payee.paymentMethod}
-              </span>
+              <InlineEditField
+                value={payee.paymentMethod}
+                queryKey={queryKey}
+                onSave={(v) =>
+                  apiClient.patch(`/payees/${payee.id}`, { paymentMethod: v })
+                }
+                placeholder="Enter payment method"
+              />
             }
           />
           {payee.paymentDetails.accountNumber && (
