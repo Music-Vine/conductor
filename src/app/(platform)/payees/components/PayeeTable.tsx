@@ -16,6 +16,8 @@ import {
 } from '@/hooks/useVirtualizedTable'
 import { NoResultsEmptyState } from '@/components/empty-states/EmptyState'
 import { useTableKeyboard } from '@/hooks/useTableKeyboard'
+import { InlineEditField } from '@/components/inline-editing/InlineEditField'
+import { apiClient } from '@/lib/api/client'
 
 interface PayeeTableProps {
   data: PayeeListItem[]
@@ -54,16 +56,25 @@ const paymentMethodLabels: Record<PaymentMethod, string> = {
 }
 
 const columns = [
-  columnHelper.accessor((row) => ({ name: row.name, email: row.email }), {
+  columnHelper.accessor((row) => ({ name: row.name, email: row.email, id: row.id }), {
     id: 'payee',
     header: 'Name',
     size: 300,
     cell: (info) => {
-      const { name, email } = info.getValue()
+      const { name, email, id } = info.getValue()
       return (
-        <div className="flex flex-col">
-          <span className="font-medium text-gray-900">{name}</span>
-          <span className="text-sm text-gray-500">{email}</span>
+        <div className="flex flex-col min-w-0">
+          {/* Stop propagation so inline edit click doesn't trigger row navigation */}
+          <div onClick={(e) => e.stopPropagation()}>
+            <InlineEditField
+              value={name}
+              queryKey={['payees']}
+              onSave={(v) => apiClient.patch(`/payees/${id}`, { name: v })}
+              placeholder="Enter name"
+              className="font-medium w-full"
+            />
+          </div>
+          <span className="text-xs text-gray-500 mt-0.5 px-1">{email}</span>
         </div>
       )
     },
@@ -195,7 +206,11 @@ export function PayeeTable({ data, pagination }: PayeeTableProps) {
     enabled: data.length > 0,
   })
 
-  function handleRowClick(payeeId: string) {
+  function handleRowClick(payeeId: string, event: React.MouseEvent) {
+    // Don't navigate if clicking on inline edit area
+    if ((event.target as HTMLElement).closest('[data-inline-edit]')) {
+      return
+    }
     router.push(`/payees/${payeeId}`)
   }
 
@@ -256,7 +271,7 @@ export function PayeeTable({ data, pagination }: PayeeTableProps) {
                 `}
               >
                 <div
-                  onClick={() => handleRowClick(row.original.id)}
+                  onClick={(e) => handleRowClick(row.original.id, e)}
                   className="grid h-full"
                   style={{ gridTemplateColumns }}
                 >

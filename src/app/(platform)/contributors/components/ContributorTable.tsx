@@ -17,6 +17,8 @@ import {
 import { NoResultsEmptyState } from '@/components/empty-states/EmptyState'
 import { useTableKeyboard } from '@/hooks/useTableKeyboard'
 import type { ContributorStatus } from '@/types'
+import { InlineEditField } from '@/components/inline-editing/InlineEditField'
+import { apiClient } from '@/lib/api/client'
 
 interface ContributorTableProps {
   data: ContributorListItem[]
@@ -43,16 +45,25 @@ const statusLabels: Record<ContributorStatus, string> = {
 }
 
 const columns = [
-  columnHelper.accessor((row) => ({ name: row.name, email: row.email }), {
+  columnHelper.accessor((row) => ({ name: row.name, email: row.email, id: row.id }), {
     id: 'contributor',
     header: 'Contributor',
     size: 300,
     cell: (info) => {
-      const { name, email } = info.getValue()
+      const { name, email, id } = info.getValue()
       return (
-        <div className="flex flex-col">
-          <span className="font-medium text-gray-900">{name}</span>
-          <span className="text-sm text-gray-500">{email}</span>
+        <div className="flex flex-col min-w-0">
+          {/* Stop propagation so inline edit click doesn't trigger row navigation */}
+          <div onClick={(e) => e.stopPropagation()}>
+            <InlineEditField
+              value={name}
+              queryKey={['contributors']}
+              onSave={(v) => apiClient.patch(`/contributors/${id}`, { name: v })}
+              placeholder="Enter name"
+              className="font-medium w-full"
+            />
+          </div>
+          <span className="text-xs text-gray-500 mt-0.5 px-1">{email}</span>
         </div>
       )
     },
@@ -171,7 +182,11 @@ export function ContributorTable({ data, pagination }: ContributorTableProps) {
     enabled: data.length > 0,
   })
 
-  function handleRowClick(contributorId: string) {
+  function handleRowClick(contributorId: string, event: React.MouseEvent) {
+    // Don't navigate if clicking on inline edit area
+    if ((event.target as HTMLElement).closest('[data-inline-edit]')) {
+      return
+    }
     router.push(`/contributors/${contributorId}`)
   }
 
@@ -232,7 +247,7 @@ export function ContributorTable({ data, pagination }: ContributorTableProps) {
                 `}
               >
                 <div
-                  onClick={() => handleRowClick(row.original.id)}
+                  onClick={(e) => handleRowClick(row.original.id, e)}
                   className="grid h-full"
                   style={{ gridTemplateColumns }}
                 >

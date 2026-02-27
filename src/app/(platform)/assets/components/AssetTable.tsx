@@ -14,6 +14,8 @@ import { useVirtualizedTable, useSmartScrollReset, VirtualizedRow, VIRTUALIZED_T
 import { NoResultsEmptyState } from '@/components/empty-states/EmptyState'
 import { useTableKeyboard } from '@/hooks/useTableKeyboard'
 import { useBulkSelection } from '@/hooks/useBulkSelection'
+import { InlineEditField } from '@/components/inline-editing/InlineEditField'
+import { apiClient } from '@/lib/api/client'
 
 interface AssetTableProps {
   data: AssetListItem[]
@@ -60,16 +62,16 @@ function createColumns(bulkSelection: ReturnType<typeof useBulkSelection>, fetch
 
   return [
     checkboxColumn,
-    columnHelper.accessor((row) => ({ title: row.title, type: row.type }), {
+    columnHelper.accessor((row) => ({ title: row.title, type: row.type, id: row.id }), {
       id: 'asset',
       header: 'Asset',
       size: 300,
     cell: (info) => {
-      const { title, type } = info.getValue()
+      const { title, type, id } = info.getValue()
       return (
         <div className="flex items-center gap-3">
           {/* Thumbnail placeholder */}
-          <div className="h-12 w-12 rounded bg-gray-100 flex items-center justify-center text-gray-400">
+          <div className="h-12 w-12 rounded bg-gray-100 flex items-center justify-center text-gray-400 shrink-0">
             {type === 'music' && (
               <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3" />
@@ -91,8 +93,18 @@ function createColumns(bulkSelection: ReturnType<typeof useBulkSelection>, fetch
               </svg>
             )}
           </div>
-          <div className="flex flex-col">
-            <span className="font-medium text-gray-900">{title}</span>
+          {/* Stop propagation so inline edit click doesn't trigger row navigation */}
+          <div
+            className="flex flex-col min-w-0"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <InlineEditField
+              value={title}
+              queryKey={['assets']}
+              onSave={(v) => apiClient.patch(`/assets/${id}`, { title: v })}
+              placeholder="Enter title"
+              className="font-medium w-full"
+            />
           </div>
         </div>
       )
@@ -345,8 +357,12 @@ export function AssetTable({ data, pagination, onSelectionChange }: AssetTablePr
   })
 
   function handleRowClick(assetId: string, event: React.MouseEvent) {
-    // Don't navigate if clicking on actions dropdown or checkbox
-    if ((event.target as HTMLElement).closest('[data-actions]') || (event.target as HTMLElement).closest('input[type="checkbox"]')) {
+    // Don't navigate if clicking on actions dropdown, checkbox, or inline edit area
+    if (
+      (event.target as HTMLElement).closest('[data-actions]') ||
+      (event.target as HTMLElement).closest('input[type="checkbox"]') ||
+      (event.target as HTMLElement).closest('[data-inline-edit]')
+    ) {
       return
     }
     router.push(`/assets/${assetId}`)

@@ -14,6 +14,8 @@ import { useVirtualizedTable, useSmartScrollReset, VirtualizedRow, VIRTUALIZED_T
 import { NoResultsEmptyState } from '@/components/empty-states/EmptyState'
 import { useTableKeyboard } from '@/hooks/useTableKeyboard'
 import { useBulkSelection } from '@/hooks/useBulkSelection'
+import { InlineEditField } from '@/components/inline-editing/InlineEditField'
+import { apiClient } from '@/lib/api/client'
 
 interface UserTableProps {
   data: UserListItem[]
@@ -100,16 +102,25 @@ export function UserTable({ data, pagination, onSelectionChange }: UserTableProp
 
   const columns = [
     checkboxColumn,
-    columnHelper.accessor((row) => ({ email: row.email, name: row.name }), {
+    columnHelper.accessor((row) => ({ email: row.email, name: row.name, id: row.id }), {
     id: 'user',
     header: 'User',
     size: 300,
     cell: (info) => {
-      const { email, name } = info.getValue()
+      const { email, name, id } = info.getValue()
       return (
-        <div className="flex flex-col">
-          <span className="font-medium text-gray-900">{email}</span>
-          {name && <span className="text-sm text-gray-500">{name}</span>}
+        <div className="flex flex-col min-w-0">
+          <span className="font-medium text-gray-900 text-sm px-1">{email}</span>
+          {/* Stop propagation so inline edit click doesn't trigger row navigation */}
+          <div onClick={(e) => e.stopPropagation()}>
+            <InlineEditField
+              value={name ?? ''}
+              queryKey={['users']}
+              onSave={(v) => apiClient.patch(`/users/${id}`, { name: v })}
+              placeholder="No name"
+              className="text-xs w-full text-gray-500"
+            />
+          </div>
         </div>
       )
     },
@@ -272,8 +283,11 @@ export function UserTable({ data, pagination, onSelectionChange }: UserTableProp
   })
 
   function handleRowClick(userId: string, event: React.MouseEvent) {
-    // Don't navigate if clicking on actions dropdown
-    if ((event.target as HTMLElement).closest('[data-actions]')) {
+    // Don't navigate if clicking on actions dropdown or inline edit area
+    if (
+      (event.target as HTMLElement).closest('[data-actions]') ||
+      (event.target as HTMLElement).closest('[data-inline-edit]')
+    ) {
       return
     }
     router.push(`/users/${userId}`)
