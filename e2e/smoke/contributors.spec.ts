@@ -11,7 +11,7 @@ test.describe('Contributors', () => {
   test('contributors table shows data rows', async ({ page }) => {
     await page.goto('/contributors')
     await page.waitForLoadState('networkidle')
-    await expect(page.getByRole('row')).toHaveCount({ min: 2 })
+    expect(await page.getByRole('row').count()).toBeGreaterThanOrEqual(2)
   })
 
   test('clicking contributor row navigates to detail page', async ({ page }) => {

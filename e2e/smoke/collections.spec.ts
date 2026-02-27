@@ -11,6 +11,6 @@ test.describe('Collections', () => {
   test('collections table shows data rows', async ({ page }) => {
     await page.goto('/collections')
     await page.waitForLoadState('networkidle')
-    await expect(page.getByRole('row')).toHaveCount({ min: 2 })
+    expect(await page.getByRole('row').count()).toBeGreaterThanOrEqual(2)
   })
 })

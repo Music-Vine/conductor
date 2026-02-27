@@ -14,7 +14,7 @@ test.describe('Users', () => {
     await page.goto('/users')
     await page.waitForLoadState('networkidle')
     const rows = page.getByRole('row')
-    await expect(rows).toHaveCount({ min: 2 }) // header + at least 1 data row
+    expect(await rows.count()).toBeGreaterThanOrEqual(2) // header + at least 1 data row
   })
 
   test('status filter works', async ({ page }) => {
@@ -25,7 +25,7 @@ test.describe('Users', () => {
     if (await statusSelect.isVisible()) {
       await statusSelect.selectOption('active')
       await page.waitForLoadState('networkidle')
-      await expect(page.getByRole('row')).toHaveCount({ min: 2 })
+      expect(await page.getByRole('row').count()).toBeGreaterThanOrEqual(2)
     }
   })
 
