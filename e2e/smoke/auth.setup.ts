@@ -28,7 +28,8 @@ setup('authenticate', async ({ page }) => {
   await debugLink.click()
 
   // Wait for the magic link callback to complete and redirect to dashboard
-  await page.waitForURL(/dashboard/, { timeout: 15_000 })
+  // The dashboard lives at the root path '/', not '/dashboard'
+  await page.waitForURL('/', { timeout: 15_000 })
   await expect(page.getByRole('heading', { level: 1 })).toBeVisible()
 
   // Save authenticated session for all smoke tests
