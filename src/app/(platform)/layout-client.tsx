@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import * as Tooltip from '@radix-ui/react-tooltip'
 import { JotaiProvider, ThemeProvider, QueryProvider } from '@/providers'
 import { Sidebar, Header } from '@/components/layout'
 import { CommandPalette } from '@/components/command-palette/CommandPalette'
@@ -32,6 +33,7 @@ export function PlatformLayoutClient({
     <JotaiProvider>
       <QueryProvider>
         <ThemeProvider>
+          <Tooltip.Provider delayDuration={300}>
           <ShortcutProvider>
             <div className="flex h-screen bg-gray-50 dark:bg-gray-950">
               <Sidebar userId={userId} />
@@ -52,6 +54,7 @@ export function PlatformLayoutClient({
             />
             <ShortcutCheatSheet />
           </ShortcutProvider>
+          </Tooltip.Provider>
         </ThemeProvider>
       </QueryProvider>
     </JotaiProvider>
