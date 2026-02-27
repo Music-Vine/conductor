@@ -5,6 +5,7 @@ import { useRouter, usePathname, useSearchParams } from 'next/navigation'
 import { Input, Button } from '@music-vine/cadence/ui'
 import type { SystemActivityEntry, ActivityEntityType } from '@/types'
 import { ActivityTable } from './ActivityTable'
+import { ExportActivityButton } from './ExportActivityButton'
 
 interface PaginationInfo {
   page: number
@@ -246,6 +247,11 @@ export function ActivityFeedClient({
             </button>
           </div>
         )}
+      </div>
+
+      {/* Export */}
+      <div className="flex justify-end">
+        <ExportActivityButton activity={entries} />
       </div>
 
       {/* Results count */}
