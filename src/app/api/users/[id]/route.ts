@@ -1,5 +1,6 @@
-import { NextResponse } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 import type { UserDetail, UserStatus, SubscriptionTier, Platform, OAuthConnection } from '@/types'
+import { proxyToBackend } from '@/lib/api/proxy'
 
 /**
  * Generate detailed mock user data based on ID.
@@ -113,17 +114,14 @@ function generateMockUserDetail(id: string): UserDetail {
  * Those fields require dedicated endpoints with additional verification steps.
  */
 export async function PATCH(
-  request: Request,
+  request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
-  // Simulate network latency
-  await new Promise(resolve => setTimeout(resolve, 100 + Math.random() * 100))
-
   const { id } = await params
 
-  let updates: Partial<Omit<UserDetail, 'id' | 'email' | 'status'>>
+  let body: Partial<Omit<UserDetail, 'id' | 'email' | 'status'>>
   try {
-    updates = await request.json()
+    body = await request.json()
   } catch {
     return NextResponse.json(
       { error: 'Invalid request body' },
@@ -131,11 +129,21 @@ export async function PATCH(
     )
   }
 
+  const result = await proxyToBackend(request, `/admin/users/${id}`, { method: 'PATCH', body })
+  if (result !== null) {
+    if (result instanceof NextResponse) return result
+    // TODO: adapt response shape when real backend format is known
+    return NextResponse.json(result.data)
+  }
+
+  // Simulate network latency
+  await new Promise(resolve => setTimeout(resolve, 100 + Math.random() * 100))
+
   try {
     const existing = generateMockUserDetail(id)
 
     // Strip security-sensitive fields — email and status require dedicated endpoints
-    const { email: _email, status: _status, ...safeUpdates } = updates as Record<string, unknown>
+    const { email: _email, status: _status, ...safeUpdates } = body as Record<string, unknown>
 
     const updated: UserDetail = {
       ...existing,
@@ -163,13 +171,20 @@ export async function PATCH(
  * GET /api/users/[id] - Get detailed user information
  */
 export async function GET(
-  request: Request,
+  request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
+  const { id } = await params
+
+  const result = await proxyToBackend(request, `/admin/users/${id}`)
+  if (result !== null) {
+    if (result instanceof NextResponse) return result
+    // TODO: adapt response shape when real backend format is known
+    return NextResponse.json(result.data)
+  }
+
   // Simulate network latency
   await new Promise(resolve => setTimeout(resolve, 100))
-
-  const { id } = await params
 
   try {
     const userDetail = generateMockUserDetail(id)

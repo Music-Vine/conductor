@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import type { License, PaginatedResponse, LicenseType } from '@/types'
+import { proxyToBackend } from '@/lib/api/proxy'
 
 /**
  * Generate mock licenses for a user.
@@ -54,7 +55,6 @@ function generateMockLicenses(userId: string): License[] {
       // Expiry date 1-2 years from grant date
       const grantTimestamp = new Date(grantedAt).getTime()
       const oneYear = 365 * 24 * 60 * 60 * 1000
-      const twoYears = 2 * oneYear
       expiresAt = new Date(
         grantTimestamp + oneYear + (seed * 345678) % oneYear
       ).toISOString()
@@ -86,10 +86,18 @@ export async function GET(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
+  const { id: userId } = await params
+
+  const result = await proxyToBackend(request, `/admin/users/${userId}/licenses`)
+  if (result !== null) {
+    if (result instanceof NextResponse) return result
+    // TODO: adapt response shape when real backend format is known
+    return NextResponse.json(result.data)
+  }
+
   // Simulate network latency
   await new Promise((resolve) => setTimeout(resolve, 100))
 
-  const { id: userId } = await params
   const searchParams = request.nextUrl.searchParams
   const page = Math.max(1, parseInt(searchParams.get('page') || '1', 10))
   const limit = Math.min(100, Math.max(1, parseInt(searchParams.get('limit') || '20', 10)))

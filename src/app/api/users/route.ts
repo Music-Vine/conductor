@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import type { PaginatedResponse, UserListItem, UserStatus, SubscriptionTier, Platform } from '@/types'
+import { proxyToBackend } from '@/lib/api/proxy'
 
 /**
  * Generate mock user data.
@@ -63,6 +64,13 @@ function generateMockUsers(): UserListItem[] {
  * GET /api/users - List users with filtering and pagination
  */
 export async function GET(request: NextRequest) {
+  const result = await proxyToBackend(request, '/admin/users')
+  if (result !== null) {
+    if (result instanceof NextResponse) return result
+    // TODO: adapt response shape when real backend format is known
+    return NextResponse.json(result.data)
+  }
+
   // Simulate network latency
   await new Promise(resolve => setTimeout(resolve, 200))
 
