@@ -1,4 +1,5 @@
-import { NextRequest } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
+import { proxyToBackend } from '@/lib/api/proxy'
 import {
   formatSSEData,
   createSSEHeaders,
@@ -35,10 +36,20 @@ interface BulkAssetRequest {
 }
 
 /**
- * POST /api/assets/bulk - Execute bulk operations on assets with SSE progress
+ * POST /api/assets/bulk - Execute bulk operations on assets with SSE progress.
+ * Conditionally proxies to real backend when NEXT_PUBLIC_USE_REAL_API=true.
  */
 export async function POST(request: NextRequest) {
-  const { action, assetIds, payload }: BulkAssetRequest = await request.json()
+  const body = await request.json()
+
+  const result = await proxyToBackend(request, '/admin/assets/bulk', { method: 'POST', body })
+  if (result !== null) {
+    if (result instanceof NextResponse) return result
+    // TODO: SSE stream forwarding for bulk operations when real backend SSE format is known
+    return NextResponse.json(result.data)
+  }
+
+  const { action, assetIds, payload }: BulkAssetRequest = body
   const operationId = generateOperationId()
   const startTime = Date.now()
 

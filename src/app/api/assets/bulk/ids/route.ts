@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { proxyToBackend } from '@/lib/api/proxy'
 import type { AssetType, MusicWorkflowState, SimpleWorkflowState, Platform } from '@/types'
 
 /**
@@ -40,9 +41,16 @@ function generateAssetIds(
 }
 
 /**
- * GET /api/assets/bulk/ids - Get all asset IDs matching current filters for Select All
+ * GET /api/assets/bulk/ids - Get all asset IDs matching current filters for Select All.
+ * Conditionally proxies to real backend when NEXT_PUBLIC_USE_REAL_API=true.
  */
 export async function GET(request: NextRequest) {
+  const result = await proxyToBackend(request, '/admin/assets/bulk/ids')
+  if (result !== null) {
+    if (result instanceof NextResponse) return result
+    return NextResponse.json(result.data)
+  }
+
   // Simulate network latency
   await new Promise(resolve => setTimeout(resolve, 100 + Math.random() * 100))
 
