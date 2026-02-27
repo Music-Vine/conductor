@@ -18,7 +18,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [ ] **Phase 4: Catalog Management** - Asset ingestion, metadata editing, approval workflows
 - [x] **Phase 5: Bulk Operations** - Async job queue with progress tracking for large-scale operations
 - [ ] **Phase 6: Payee & Contributor Management** - Financial relationships and payout management
-- [ ] **Phase 7: Enhanced UX & Power Features** - Activity feed, inline editing, export capabilities
+- [x] **Phase 7: Enhanced UX & Power Features** - Activity feed, inline editing, export capabilities
 - [ ] **Phase 8: Legacy System Migration** - Data migration scripts, parallel operation cutover, system sunset
 
 ## Phase Details
@@ -188,14 +188,14 @@ Plans:
 **Plans**: 8 plans in 3 waves
 
 Plans:
-- [ ] 07-01-PLAN.md — Activity types, API route, and client functions
-- [ ] 07-02-PLAN.md — InlineEditField component and PATCH routes
-- [ ] 07-03-PLAN.md — Contextual help tooltips (provider, component, placement)
-- [ ] 07-04-PLAN.md — "Export All" upgrade for existing export buttons
-- [ ] 07-05-PLAN.md — Activity dashboard widget and full Activity page
-- [ ] 07-06-PLAN.md — Inline editing integration (detail pages and table rows)
-- [ ] 07-07-PLAN.md — Collections table and CSV exports for collections and activity
-- [ ] 07-08-PLAN.md — Human verification checkpoint
+- [x] 07-01-PLAN.md — Activity types, API route, and client functions
+- [x] 07-02-PLAN.md — InlineEditField component and PATCH routes
+- [x] 07-03-PLAN.md — Contextual help tooltips (provider, component, placement)
+- [x] 07-04-PLAN.md — "Export All" upgrade for existing export buttons
+- [x] 07-05-PLAN.md — Activity dashboard widget and full Activity page
+- [x] 07-06-PLAN.md — Inline editing integration (detail pages and table rows)
+- [x] 07-07-PLAN.md — Collections table and CSV exports for collections and activity
+- [x] 07-08-PLAN.md — Human verification checkpoint
 
 ### Phase 8: Legacy System Migration
 **Goal**: All staff have migrated from legacy PHP admins to Conductor with data consistency validated
@@ -225,5 +225,5 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8
 | 4. Catalog Management | 15/15 | Complete | 2026-02-11 |
 | 5. Bulk Operations | 8/8 | Complete | 2026-02-23 |
 | 6. Payee & Contributor Management | 8/8 | Complete | 2026-02-27 |
-| 7. Enhanced UX & Power Features | 0/8 | Not started | - |
+| 7. Enhanced UX & Power Features | 8/8 | Complete | 2026-02-27 |
 | 8. Legacy System Migration | 0/0 | Not started | - |
