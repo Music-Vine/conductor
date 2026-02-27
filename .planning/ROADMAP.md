@@ -19,7 +19,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 5: Bulk Operations** - Async job queue with progress tracking for large-scale operations
 - [ ] **Phase 6: Payee & Contributor Management** - Financial relationships and payout management
 - [x] **Phase 7: Enhanced UX & Power Features** - Activity feed, inline editing, export capabilities
-- [ ] **Phase 8: Legacy System Migration** - Data migration scripts, parallel operation cutover, system sunset
+- [ ] **Phase 8: Legacy System Migration** - BFF proxy integration, smoke tests, decommission runbooks
 
 ## Phase Details
 
@@ -198,19 +198,27 @@ Plans:
 - [x] 07-08-PLAN.md — Human verification checkpoint
 
 ### Phase 8: Legacy System Migration
-**Goal**: All staff have migrated from legacy PHP admins to Conductor with data consistency validated
+**Goal**: All route handlers support conditional BFF proxying to real backend, with smoke tests and decommission documentation ready for cutover
 **Depends on**: Phase 7
 **Requirements**: (None - operational milestone)
 **Success Criteria** (what must be TRUE):
-  1. Data migration scripts have run successfully with validation checks passing
+  1. All route handlers conditionally proxy to real backend when NEXT_PUBLIC_USE_REAL_API=true
   2. All staff workflows from legacy systems work in Conductor
-  3. Legacy PHP admins (Music Vine, Uppbeat, Secondary Uppbeat) are decommissioned
-  4. Retool admin is no longer needed and subscription cancelled
-  5. Data consistency monitoring shows no divergence between systems
-**Plans**: TBD
+  3. Legacy PHP admins (Music Vine, Uppbeat, Secondary Uppbeat) have decommission runbooks
+  4. Retool admin has decommission runbook with subscription cancellation step
+  5. Smoke tests validate every major screen loads real data without errors
+**Plans**: 9 plans in 4 waves
 
 Plans:
-- [ ] 08-01: TBD
+- [ ] 08-01-PLAN.md — Proxy infrastructure (shared helper, env vars, middleware-to-proxy codemod)
+- [ ] 08-02-PLAN.md — Users domain proxy integration (10 routes)
+- [ ] 08-03-PLAN.md — Assets core proxy integration (list, detail, workflow, actions)
+- [ ] 08-04-PLAN.md — Assets upload and bulk proxy integration (presigned, multipart, bulk)
+- [ ] 08-05-PLAN.md — Contributors and payees proxy integration (7 routes)
+- [ ] 08-06-PLAN.md — Collections and cross-cutting proxy integration (collections, activity, search, audit, financials)
+- [ ] 08-07-PLAN.md — Feature parity audit and decommission runbooks
+- [ ] 08-08-PLAN.md — Playwright smoke tests setup and writing
+- [ ] 08-09-PLAN.md — Human verification checkpoint
 
 ## Progress
 
@@ -226,4 +234,4 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8
 | 5. Bulk Operations | 8/8 | Complete | 2026-02-23 |
 | 6. Payee & Contributor Management | 8/8 | Complete | 2026-02-27 |
 | 7. Enhanced UX & Power Features | 8/8 | Complete | 2026-02-27 |
-| 8. Legacy System Migration | 0/0 | Not started | - |
+| 8. Legacy System Migration | 0/9 | Not started | - |
