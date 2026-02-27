@@ -15,21 +15,22 @@ setup('authenticate', async ({ page }) => {
   await page.goto('/login')
   await expect(page).toHaveURL(/login/)
 
-  // Fill email for magic link
-  await page.getByLabel(/email/i).fill('admin@musicvine.com')
+  // Use #email selector directly — Cadence Input renders with the id prop but
+  // getByLabel() may not resolve the association correctly with the wrapper component
+  await page.locator('#email').fill('admin@musicvine.com')
   await page.getByRole('button', { name: /send magic link/i }).click()
 
-  // In dev mode, the magic link URL is printed to console
-  // For automated testing, we look for the dev-mode auto-redirect or the link in the page
-  // Wait up to 10 seconds for auth to complete or magic link page to appear
-  try {
-    await page.waitForURL(/dashboard/, { timeout: 10_000 })
-  } catch {
-    // If we're on a "check your email" page, this is expected in non-dev mode
-    // In dev mode, check the console for the magic link URL
-    console.log('Auth may require manual magic link click in non-dev mode')
-  }
+  // After submit, the login form shows a success state with a dev-only debug link.
+  // In development mode, the "Click here to sign in" link appears on the page.
+  // Click it to complete the magic link flow without needing a real email.
+  const debugLink = page.getByRole('link', { name: /click here to sign in/i })
+  await expect(debugLink).toBeVisible({ timeout: 10_000 })
+  await debugLink.click()
 
-  // Save authentication state (even if partial - smoke tests will handle auth failures gracefully)
+  // Wait for the magic link callback to complete and redirect to dashboard
+  await page.waitForURL(/dashboard/, { timeout: 15_000 })
+  await expect(page.getByRole('heading', { level: 1 })).toBeVisible()
+
+  // Save authenticated session for all smoke tests
   await page.context().storageState({ path: authFile })
 })
