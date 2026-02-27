@@ -1,6 +1,7 @@
 import { jsonToCSV } from 'react-papaparse'
-import type { UserListItem, ContributorListItem, PayeeListItem } from '@/types'
+import type { UserListItem, ContributorListItem, PayeeListItem, CollectionListItem } from '@/types'
 import type { AssetListItem } from '@/types/asset'
+import type { SystemActivityEntry } from '@/types/activity'
 
 /**
  * Financial export row shape returned by /api/financials/export.
@@ -163,6 +164,46 @@ export function exportFinancialDataToCSV(relationships: FinancialExportRow[]) {
   ]
 
   exportToCSV(relationships as unknown as Record<string, unknown>[], filename, columns as { key: string; header: string }[])
+}
+
+/**
+ * Export collection list to CSV.
+ * Generates a timestamped CSV file with formatted column headers.
+ */
+export function exportCollectionsToCSV(collections: CollectionListItem[]) {
+  const timestamp = new Date().toISOString().replace(/[:.]/g, '-').slice(0, 19)
+  const filename = `collections-${timestamp}.csv`
+
+  const columns: { key: keyof CollectionListItem; header: string }[] = [
+    { key: 'id', header: 'Collection ID' },
+    { key: 'title', header: 'Title' },
+    { key: 'platform', header: 'Platform' },
+    { key: 'assetCount', header: 'Asset Count' },
+    { key: 'createdAt', header: 'Created' },
+  ]
+
+  exportToCSV(collections as unknown as Record<string, unknown>[], filename, columns as { key: string; header: string }[])
+}
+
+/**
+ * Export activity feed to CSV.
+ * Generates a timestamped CSV file with formatted column headers.
+ */
+export function exportActivityToCSV(activity: SystemActivityEntry[]) {
+  const timestamp = new Date().toISOString().replace(/[:.]/g, '-').slice(0, 19)
+  const filename = `activity-${timestamp}.csv`
+
+  const columns: { key: keyof SystemActivityEntry; header: string }[] = [
+    { key: 'createdAt', header: 'Timestamp' },
+    { key: 'actorName', header: 'Actor' },
+    { key: 'action', header: 'Action' },
+    { key: 'entityType', header: 'Entity Type' },
+    { key: 'entityName', header: 'Entity' },
+    { key: 'entityId', header: 'Entity ID' },
+    { key: 'details', header: 'Details' },
+  ]
+
+  exportToCSV(activity as unknown as Record<string, unknown>[], filename, columns as { key: string; header: string }[])
 }
 
 /**
