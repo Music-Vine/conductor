@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import type { Platform, SubscriptionTier } from '@/types'
+import { proxyToBackend } from '@/lib/api/proxy'
 
 /**
  * Generate minimal user data for refund checks
@@ -43,10 +44,18 @@ function getMockUserData(id: string): {
  * For now: Mock implementation that returns success response.
  */
 export async function POST(
-  _request: NextRequest,
+  request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
   const { id: userId } = await params
+  const body = await request.json().catch(() => ({}))
+
+  const result = await proxyToBackend(request, `/admin/users/${userId}/refund`, { method: 'POST', body })
+  if (result !== null) {
+    if (result instanceof NextResponse) return result
+    // TODO: adapt response shape when real backend format is known
+    return NextResponse.json(result.data)
+  }
 
   // Find user
   const user = getMockUserData(userId)

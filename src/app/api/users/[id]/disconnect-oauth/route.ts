@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { proxyToBackend } from '@/lib/api/proxy'
 
 type Params = Promise<{ id: string }>
 
@@ -29,6 +30,13 @@ export async function POST(
     // Mock validation: Check if user exists (any non-empty id is valid)
     if (!userId) {
       return NextResponse.json({ error: 'User not found' }, { status: 404 })
+    }
+
+    const result = await proxyToBackend(request, `/admin/users/${userId}/disconnect-oauth`, { method: 'POST', body })
+    if (result !== null) {
+      if (result instanceof NextResponse) return result
+      // TODO: adapt response shape when real backend format is known
+      return NextResponse.json(result.data)
     }
 
     // Simulate processing delay

@@ -1,4 +1,4 @@
-import { NextRequest } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 import {
   formatSSEData,
   createSSEHeaders,
@@ -7,6 +7,7 @@ import {
 } from '@/lib/bulk-operations/sse'
 import type { ProgressEvent, ErrorEvent, CompleteEvent } from '@/lib/bulk-operations/sse'
 import { createBulkAuditEntry } from '@/lib/bulk-operations/audit'
+import { proxyToBackend } from '@/lib/api/proxy'
 
 /**
  * Bulk actions available for users
@@ -25,7 +26,16 @@ interface BulkUserRequest {
  * POST /api/users/bulk - Execute bulk operations on users with SSE progress
  */
 export async function POST(request: NextRequest) {
-  const { action, userIds, payload }: BulkUserRequest = await request.json()
+  const body: BulkUserRequest = await request.json()
+  const { action, userIds, payload } = body
+
+  const result = await proxyToBackend(request, '/admin/users/bulk', { method: 'POST', body })
+  if (result !== null) {
+    if (result instanceof NextResponse) return result
+    // TODO: SSE stream forwarding for bulk operations when real backend SSE format is known
+    return NextResponse.json(result.data)
+  }
+
   const operationId = generateOperationId()
   const startTime = Date.now()
 

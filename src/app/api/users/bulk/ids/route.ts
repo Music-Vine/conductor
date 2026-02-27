@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import type { UserStatus, SubscriptionTier } from '@/types'
+import { proxyToBackend } from '@/lib/api/proxy'
 
 /**
  * Seeded random number generator for consistent ID generation
@@ -42,6 +43,13 @@ function generateUserIds(
  * GET /api/users/bulk/ids - Get all user IDs matching current filters for Select All
  */
 export async function GET(request: NextRequest) {
+  const result = await proxyToBackend(request, '/admin/users/bulk/ids')
+  if (result !== null) {
+    if (result instanceof NextResponse) return result
+    // TODO: adapt response shape when real backend format is known
+    return NextResponse.json(result.data)
+  }
+
   // Simulate network latency
   await new Promise(resolve => setTimeout(resolve, 100 + Math.random() * 100))
 

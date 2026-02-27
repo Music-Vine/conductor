@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { proxyToBackend } from '@/lib/api/proxy'
 
 /**
  * POST /api/users/[id]/unsuspend
@@ -11,6 +12,14 @@ export async function POST(
   { params }: { params: Promise<{ id: string }> }
 ) {
   const { id: userId } = await params
+  const body = await request.json().catch(() => ({}))
+
+  const result = await proxyToBackend(request, `/admin/users/${userId}/unsuspend`, { method: 'POST', body })
+  if (result !== null) {
+    if (result instanceof NextResponse) return result
+    // TODO: adapt response shape when real backend format is known
+    return NextResponse.json(result.data)
+  }
 
   // Add artificial latency
   await new Promise((resolve) => setTimeout(resolve, 300))
