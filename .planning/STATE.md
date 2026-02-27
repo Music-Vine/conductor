@@ -10,11 +10,11 @@ See: .planning/PROJECT.md (updated 2026-02-03)
 ## Current Position
 
 Phase: 7 of 8 (Enhanced UX & Power Features)
-Plan: 4 of 8 in current phase
-Status: In progress — Plan 07-04 complete
-Last activity: 2026-02-27 — Completed 07-04-PLAN.md (Dual CSV Export Options)
+Plan: 5 of 8 in current phase
+Status: In progress — Plan 07-05 complete
+Last activity: 2026-02-27 — Completed 07-05-PLAN.md (Activity Dashboard Widget and Full Activity Page)
 
-Progress: [████████████████████████░] 99% (70 of 76 plans completed across all phases)
+Progress: [████████████████████████░] 99% (71 of 76 plans completed across all phases)
 
 ## Performance Metrics
 
@@ -332,6 +332,9 @@ Recent decisions affecting current work:
 - STAGE_TOOLTIPS partial record pattern: tooltip text only for stages that need explanation - 07-03
 - HelpTooltip placed inline next to labels with flex gap-1.5 for alignment - 07-03
 - InlineEditField state machine: idle (click) -> editing (Enter/Escape) -> saving; blur is intentional no-op - 07-02
+- CollectionTable uses non-virtualized TanStack Table (getCoreRowModel only) for small-dataset pages - 07-07
+- ActivityPageHeader wraps ExportActivityButton as forward-compatible integration point for ActivityFeedClient (07-05) - 07-07
+- exportActivityToCSV column order: Timestamp, Actor, Action, Entity Type, Entity, Entity ID, Details - 07-07
 - Cadence Input accepts ref prop (React 19 style), enabling auto-focus and select-all on edit start - 07-02
 - email and status blocked in user PATCH — require dedicated suspend/unsuspend and email-change endpoints - 07-02
 - PATCH routes return { data: updatedEntity } matching asset PATCH pattern for consistency - 07-02
@@ -346,7 +349,7 @@ None. Pre-existing TypeScript errors in asset pages were resolved during Phase 5
 
 ## Session Continuity
 
-Last session: 2026-02-27T08:47:06Z
-Stopped at: Completed 07-04-PLAN.md (Dual CSV Export Options)
+Last session: 2026-02-27T08:52:55Z
+Stopped at: Completed 07-07-PLAN.md (Collections Table and Activity CSV Export)
 Resume file: None
-Phase status: Phase 7 in progress — 4 of 8 plans complete
+Phase status: Phase 7 in progress — 7 of 8 plans complete
