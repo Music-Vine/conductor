@@ -319,6 +319,9 @@ Recent decisions affecting current work:
 - ExportContributorsButton includes both contributor CSV and financial data export side by side - 06-07
 - Search type union extended with 'contributor' across SearchResult, SearchableItem, SearchData interfaces - 06-07
 - EntityIcons/entityLabels maps in SearchResults.tsx extended with contributor group-of-people icon - 06-07
+- Dual export button pattern: 'Export filtered' uses data prop, 'Export all' fetches GET /entity?limit=10000 - 07-04
+- Contributors 'Export all' exports contributors CSV only (financial data has its own dedicated button) - 07-04
+- isExportingAll state disables button and shows 'Exporting...' label to prevent double-submit - 07-04
 - SystemActivityEntry covers all 4 entity types in a single unified type (no discriminated union) - 07-01
 - 200 deterministic entries with fixed BASE_EPOCH so mock data never drifts between cold starts - 07-01
 - Entity type distribution weighted: asset 60%, user 20%, contributor 10%, payee 10% - 07-01
@@ -343,7 +346,7 @@ None. Pre-existing TypeScript errors in asset pages were resolved during Phase 5
 
 ## Session Continuity
 
-Last session: 2026-02-27T08:52:00Z
-Stopped at: Completed 07-03-PLAN.md (Contextual Help Tooltips)
+Last session: 2026-02-27T08:47:06Z
+Stopped at: Completed 07-04-PLAN.md (Dual CSV Export Options)
 Resume file: None
-Phase status: Phase 7 in progress — 3 of 8 plans complete
+Phase status: Phase 7 in progress — 4 of 8 plans complete
