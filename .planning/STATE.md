@@ -10,11 +10,11 @@ See: .planning/PROJECT.md (updated 2026-02-03)
 ## Current Position
 
 Phase: 8 of 8 (Legacy System Migration)
-Plan: 1 of 9 in current phase
-Status: In progress — Phase 8 started
-Last activity: 2026-02-27 — Completed 08-01-PLAN.md (proxy infrastructure)
+Plan: 7 of 9 in current phase
+Status: In progress — Phase 8 plan 7 complete
+Last activity: 2026-02-27 — Completed 08-07-PLAN.md (feature parity audit + decommission runbooks)
 
-Progress: [█████████████████████████░░░░░░░░░] 89% (81 of 90 plans completed)
+Progress: [██████████████████████████░░░░░░░░] 82% (82 of 100 plans completed across all phases)
 
 ## Performance Metrics
 
@@ -346,6 +346,10 @@ Recent decisions affecting current work:
 - Table inline edit uses stopPropagation on wrapper div to prevent row navigation while clicking to edit - 07-06
 - List-level queryKey (['users'], ['assets']) used for table inline edits; entity-level queryKey for detail pages - 07-06
 - Asset title column passes id in row accessor composite for access inside cell renderer closure - 07-06
+- Decommission order: Jordan's Admin (Low) -> Retool (Low) -> Music Vine PHP (High) -> Uppbeat PHP (High) - 08-07
+- Feature parity audit Gaps Identified table acts as decommission gate — any gap blocks proceeding - 08-07
+- Retool decommission includes explicit subscription cancellation step to eliminate recurring SaaS cost - 08-07
+- High-risk runbooks require 10-day notice and extended monitoring; Uppbeat PHP uses 7-day monitoring due to 3M+ user scale - 08-07
 - proxyToBackend returns null in mock mode so callers fall through to existing mock data without structural changes - 08-01
 - proxyToBackend return type { data: unknown } | NextResponse | null — caller adapts shape, not proxy - 08-01
 - NEXT_PUBLIC_USE_REAL_API=false default ensures mock mode unless explicitly enabled - 08-01
@@ -362,6 +366,6 @@ None. Pre-existing TypeScript errors in asset pages were resolved during Phase 5
 ## Session Continuity
 
 Last session: 2026-02-27
-Stopped at: Completed 08-01-PLAN.md (proxy infrastructure — proxyToBackend helper, env vars, middleware renamed)
+Stopped at: Completed 08-07-PLAN.md (feature parity audit checklist + 4 decommission runbooks)
 Resume file: None
-Phase status: Phase 8 in progress — 1 of 9 plans complete
+Phase status: Phase 8 in progress — 7 of 9 plans complete (08-01 and 08-07 have SUMMARY files)
