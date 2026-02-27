@@ -10,11 +10,11 @@ See: .planning/PROJECT.md (updated 2026-02-03)
 ## Current Position
 
 Phase: 7 of 8 (Enhanced UX & Power Features)
-Plan: 2 of 8 in current phase
-Status: In progress — Plan 07-02 complete
-Last activity: 2026-02-27 — Completed 07-02-PLAN.md (InlineEditField Component and PATCH Routes)
+Plan: 3 of 8 in current phase
+Status: In progress — Plan 07-03 complete
+Last activity: 2026-02-27 — Completed 07-03-PLAN.md (Contextual Help Tooltips)
 
-Progress: [████████████████████████░] 98% (68 of 76 plans completed across all phases)
+Progress: [████████████████████████░] 99% (69 of 76 plans completed across all phases)
 
 ## Performance Metrics
 
@@ -324,6 +324,14 @@ Recent decisions affecting current work:
 - Entity type distribution weighted: asset 60%, user 20%, contributor 10%, payee 10% - 07-01
 - getRecentActivity defaults to limit=10 for dashboard widget use case - 07-01
 - /api/activity added to middleware PUBLIC_PATHS for frontend development without auth - 07-01
+- HelpTooltip uses @radix-ui/react-tooltip directly (no Cadence Tooltip component exists) - 07-03
+- TooltipProvider at platform layout level (delayDuration=300) covers all pages - 07-03
+- STAGE_TOOLTIPS partial record pattern: tooltip text only for stages that need explanation - 07-03
+- HelpTooltip placed inline next to labels with flex gap-1.5 for alignment - 07-03
+- InlineEditField state machine: idle (click) -> editing (Enter/Escape) -> saving; blur is intentional no-op - 07-02
+- Cadence Input accepts ref prop (React 19 style), enabling auto-focus and select-all on edit start - 07-02
+- email and status blocked in user PATCH — require dedicated suspend/unsuspend and email-change endpoints - 07-02
+- PATCH routes return { data: updatedEntity } matching asset PATCH pattern for consistency - 07-02
 
 ### Pending Todos
 
@@ -335,7 +343,7 @@ None. Pre-existing TypeScript errors in asset pages were resolved during Phase 5
 
 ## Session Continuity
 
-Last session: 2026-02-27T08:46:05Z
-Stopped at: Completed 07-01-PLAN.md (Activity Feed API Foundation)
+Last session: 2026-02-27T08:46:27Z
+Stopped at: Completed 07-02-PLAN.md (InlineEditField Component and PATCH Routes)
 Resume file: None
-Phase status: Phase 7 in progress — 1 of 8 plans complete
+Phase status: Phase 7 in progress — 2 of 8 plans complete
