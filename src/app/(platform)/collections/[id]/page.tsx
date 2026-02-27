@@ -4,6 +4,7 @@ import { Button } from '@music-vine/cadence'
 import { getCollection } from '@/lib/api/collections'
 import { getAsset } from '@/lib/api/assets'
 import type { Asset } from '@/types/asset'
+import { RemoveAssetButton } from './RemoveAssetButton'
 
 interface CollectionDetailPageProps {
   params: Promise<{ id: string }>
@@ -109,15 +110,7 @@ export default async function CollectionDetailPage({ params }: CollectionDetailP
                     <AssetTypeBadge type={asset.type} />
                   </div>
                 </div>
-                <button
-                  className="text-sm text-red-600 hover:text-red-800 ml-2"
-                  onClick={async () => {
-                    // Remove from collection - this would need client component
-                    console.log('Remove asset', asset.id)
-                  }}
-                >
-                  Remove
-                </button>
+                <RemoveAssetButton assetId={asset.id} />
               </div>
             </div>
           ))}
