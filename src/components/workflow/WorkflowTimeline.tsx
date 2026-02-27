@@ -2,6 +2,18 @@
 
 import type { WorkflowHistoryItem, MusicWorkflowState, SimpleWorkflowState } from '@/types/workflow'
 import { getStateLabel, MUSIC_WORKFLOW_STATES, SIMPLE_WORKFLOW_STATES, isRejectedState } from '@/lib/workflow/states'
+import { HelpTooltip } from '@/components/HelpTooltip'
+
+/**
+ * Contextual tooltip text for each workflow stage.
+ * Only stages that benefit from explanation are included.
+ */
+const STAGE_TOOLTIPS: Partial<Record<MusicWorkflowState | SimpleWorkflowState, string>> = {
+  initial_review: 'First pass review checking audio quality, metadata completeness, and content policy compliance.',
+  quality_check: 'Technical quality verification including audio levels, format compliance, and encoding standards.',
+  platform_assignment: 'Determines which platforms (Music Vine, Uppbeat, or both) will carry this asset.',
+  final_approval: 'Last review before publication. Approved assets become available to end users.',
+}
 
 interface TimelineStage {
   state: string
@@ -67,13 +79,18 @@ export function WorkflowTimeline({ currentState, isMusic, history }: WorkflowTim
 
           {/* Content */}
           <div>
-            <h3 className={`font-medium ${
+            <h3 className={`flex items-center gap-1.5 font-medium ${
               stage.status === 'current' ? 'text-blue-900' :
               stage.status === 'rejected' ? 'text-red-900' :
               stage.status === 'completed' ? 'text-gray-900' :
               'text-gray-500'
             }`}>
               {stage.label}
+              {STAGE_TOOLTIPS[stage.state as MusicWorkflowState | SimpleWorkflowState] && (
+                <HelpTooltip
+                  text={STAGE_TOOLTIPS[stage.state as MusicWorkflowState | SimpleWorkflowState]!}
+                />
+              )}
             </h3>
 
             {stage.historyItem && (

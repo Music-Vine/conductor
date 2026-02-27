@@ -15,6 +15,7 @@ import { EmptyState } from '@/components/empty-states/EmptyState'
 import { fetchPayees } from '@/lib/api/payees'
 import { saveContributorPayees } from '@/lib/api/contributors'
 import { PayeeAssignmentForm } from './PayeeAssignmentForm'
+import { HelpTooltip } from '@/components/HelpTooltip'
 import { useRouter } from 'next/navigation'
 
 interface PayeesTabProps {
@@ -250,8 +251,9 @@ export function PayeesTab({ contributorId, payees: initialPayees }: PayeesTabPro
       <div className="rounded-lg border border-gray-200 bg-gray-50 p-4">
         <div className="flex items-center justify-between">
           <div>
-            <p className="text-sm font-medium text-gray-600">
+            <p className="flex items-center gap-1.5 text-sm font-medium text-gray-600">
               Total Payout Rate
+              <HelpTooltip text="Total rates across all payees must equal exactly 100%. Each payee's rate represents their share of the contributor's earnings." />
             </p>
             <p className={`mt-1 text-2xl font-bold ${rateColorClass}`}>
               {totalRate}%
