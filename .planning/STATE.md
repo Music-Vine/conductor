@@ -10,11 +10,11 @@ See: .planning/PROJECT.md (updated 2026-02-03)
 ## Current Position
 
 Phase: 8 of 8 (Legacy System Migration)
-Plan: 0 of 0 in current phase
-Status: Phase 7 complete — Phase 8 not yet started
-Last activity: 2026-02-27 — Completed Phase 7 (all 8 plans verified, 2 bug fixes applied)
+Plan: 1 of 9 in current phase
+Status: In progress — Phase 8 started
+Last activity: 2026-02-27 — Completed 08-01-PLAN.md (proxy infrastructure)
 
-Progress: [█████████████████████████] 100% (80 of 80 plans completed across phases 1-7)
+Progress: [█████████████████████████░░░░░░░░░] 89% (81 of 90 plans completed)
 
 ## Performance Metrics
 
@@ -346,6 +346,10 @@ Recent decisions affecting current work:
 - Table inline edit uses stopPropagation on wrapper div to prevent row navigation while clicking to edit - 07-06
 - List-level queryKey (['users'], ['assets']) used for table inline edits; entity-level queryKey for detail pages - 07-06
 - Asset title column passes id in row accessor composite for access inside cell renderer closure - 07-06
+- proxyToBackend returns null in mock mode so callers fall through to existing mock data without structural changes - 08-01
+- proxyToBackend return type { data: unknown } | NextResponse | null — caller adapts shape, not proxy - 08-01
+- NEXT_PUBLIC_USE_REAL_API=false default ensures mock mode unless explicitly enabled - 08-01
+- src/middleware.ts renamed to src/proxy.ts per Next.js 16 convention - 08-01
 
 ### Pending Todos
 
@@ -358,6 +362,6 @@ None. Pre-existing TypeScript errors in asset pages were resolved during Phase 5
 ## Session Continuity
 
 Last session: 2026-02-27
-Stopped at: Completed Phase 7 (Enhanced UX & Power Features) — all 8 plans verified
+Stopped at: Completed 08-01-PLAN.md (proxy infrastructure — proxyToBackend helper, env vars, middleware renamed)
 Resume file: None
-Phase status: Phase 7 complete — ready to begin Phase 8 (Legacy System Migration)
+Phase status: Phase 8 in progress — 1 of 9 plans complete
