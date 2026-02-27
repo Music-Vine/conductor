@@ -1,6 +1,8 @@
 import { getCollections } from '@/lib/api/collections'
 import { Button } from '@music-vine/cadence'
 import Link from 'next/link'
+import { CollectionTable } from './components/CollectionTable'
+import { ExportCollectionsButton } from './components/ExportCollectionsButton'
 
 interface PageProps {
   searchParams: Promise<{ platform?: string; query?: string; page?: string }>
@@ -23,10 +25,13 @@ export default async function CollectionsPage({ searchParams }: PageProps) {
             Organize assets into curated collections
           </p>
         </div>
-        <Button variant="bold">Create Collection</Button>
+        <div className="flex items-center gap-3">
+          <ExportCollectionsButton collections={collections.data} />
+          <Button variant="bold">Create Collection</Button>
+        </div>
       </div>
 
-      {/* Collection grid */}
+      {/* Collections table */}
       {collections.data.length === 0 ? (
         <div className="bg-gray-50 rounded-lg p-12 text-center">
           <p className="text-gray-600">No collections found.</p>
@@ -35,28 +40,7 @@ export default async function CollectionsPage({ searchParams }: PageProps) {
           </Button>
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {collections.data.map((collection) => (
-            <Link
-              key={collection.id}
-              href={`/collections/${collection.id}`}
-              className="block bg-white rounded-lg border border-gray-200 p-4 hover:border-gray-300 transition-colors"
-            >
-              <h3 className="font-medium text-gray-900">{collection.title}</h3>
-              <div className="mt-2 flex items-center gap-2 text-sm text-gray-500">
-                <span>{collection.assetCount} assets</span>
-                <span>•</span>
-                <span className="capitalize">
-                  {collection.platform === 'both'
-                    ? 'All Platforms'
-                    : collection.platform === 'music-vine'
-                    ? 'Music Vine'
-                    : 'Uppbeat'}
-                </span>
-              </div>
-            </Link>
-          ))}
-        </div>
+        <CollectionTable collections={collections.data} />
       )}
 
       {/* Pagination */}
