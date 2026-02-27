@@ -10,11 +10,11 @@ See: .planning/PROJECT.md (updated 2026-02-03)
 ## Current Position
 
 Phase: 8 of 8 (Legacy System Migration)
-Plan: 6 of 9 in current phase
-Status: In progress — Phase 8 plan 06 complete
-Last activity: 2026-02-27 — Completed 08-06-PLAN.md (collection + cross-cutting routes proxy)
+Plan: 8 of 9 in current phase
+Status: In progress — Phase 8 plan 08 complete
+Last activity: 2026-02-27 — Completed 08-08-PLAN.md (Playwright smoke tests)
 
-Progress: [██████████████████████████░░░░░░░░] 87% (87 of 100 plans completed across all phases)
+Progress: [███████████████████████████░░░░░░░] 89% (89 of 100 plans completed across all phases)
 
 ## Performance Metrics
 
@@ -368,6 +368,10 @@ Recent decisions affecting current work:
 - Body pre-read pattern for POST/PATCH collection routes: parse request.json() before proxyToBackend so body is available in both proxy and mock paths - 08-06
 - Activity, search, audit, financial export proxy routes include TODO comments for backend response shape adaptation - 08-06
 - Financial export notes two backend integration scenarios: raw JSON (convert to CSV) vs CSV direct (pipe with Content-Type header) - 08-06
+- Playwright storageState pattern: auth.setup.ts runs first, saves session to e2e/.auth/staff-user.json which all smoke tests reuse - 08-08
+- webServer config conditional on CI env: local dev reuses existing server, CI starts fresh - 08-08
+- Smoke tests are read-only validation only (no destructive operations) — pre-cutover health check gate - 08-08
+- e2e/.auth/ directory gitignored to prevent auth tokens from being committed - 08-08
 
 ### Pending Todos
 
@@ -380,6 +384,6 @@ None. Pre-existing TypeScript errors in asset pages were resolved during Phase 5
 ## Session Continuity
 
 Last session: 2026-02-27
-Stopped at: Completed 08-06-PLAN.md (collection + cross-cutting routes proxy — 100% proxy coverage)
+Stopped at: Completed 08-08-PLAN.md (Playwright smoke tests for all major screens)
 Resume file: None
-Phase status: Phase 8 in progress — 08-01 through 08-07 complete (SUMMARY files exist for all); 08-08 and 08-09 remaining
+Phase status: Phase 8 in progress — 08-01 through 08-08 complete (SUMMARY files exist for all); 08-09 remaining
