@@ -11,12 +11,12 @@ setup('authenticate', async ({ page }) => {
     fs.mkdirSync(authDir, { recursive: true })
   }
 
-  // Navigate to login
+  // Navigate to login and confirm the page actually loaded (not a 404 or redirect)
   await page.goto('/login')
-  await expect(page).toHaveURL(/login/)
+  await expect(page.locator('#email')).toBeVisible({ timeout: 15_000 })
 
-  // Use #email selector directly — Cadence Input renders with the id prop but
-  // getByLabel() may not resolve the association correctly with the wrapper component
+  // #email targets the Cadence Input directly by id — getByLabel() can fail when
+  // a design-system wrapper breaks the native label↔input association
   await page.locator('#email').fill('admin@musicvine.com')
   await page.getByRole('button', { name: /send magic link/i }).click()
 
