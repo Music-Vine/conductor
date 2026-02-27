@@ -16,6 +16,7 @@ const PUBLIC_PATHS = [
   '/api/contributors', // Mock contributor management API for frontend development
   '/api/payees', // Mock payee management API for frontend development
   '/api/financials', // Mock financial export API for frontend development
+  '/api/activity', // Mock system-wide activity feed API for frontend development
 ]
 
 function isPublicPath(pathname: string): boolean {
