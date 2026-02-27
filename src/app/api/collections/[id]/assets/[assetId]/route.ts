@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import type { Collection } from '@/types/collection'
+import { proxyToBackend } from '@/lib/api/proxy'
 
 // Generate mock collection for testing
 function generateMockCollection(id: string): Collection | null {
@@ -43,6 +44,14 @@ export async function DELETE(
   { params }: { params: Promise<{ id: string; assetId: string }> }
 ) {
   const { id, assetId } = await params
+
+  const result = await proxyToBackend(request, `/admin/collections/${id}/assets/${assetId}`, {
+    method: 'DELETE',
+  })
+  if (result !== null) {
+    if (result instanceof NextResponse) return result
+    return NextResponse.json(result.data)
+  }
 
   // Simulate network latency
   await new Promise(resolve => setTimeout(resolve, 80))

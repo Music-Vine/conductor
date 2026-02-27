@@ -3,10 +3,6 @@ import type { Collection } from '@/types/collection'
 import type { Platform } from '@/types/platform'
 import { proxyToBackend } from '@/lib/api/proxy'
 
-// Import mock collections from parent route
-// In a real implementation, this would query a database
-const mockCollections: Collection[] = []
-
 // Generate mock collection for testing
 function generateMockCollection(id: string): Collection | null {
   const collectionIndex = parseInt(id.replace('collection-', ''))
@@ -92,7 +88,11 @@ export async function PATCH(
   // Simulate network latency
   await new Promise(resolve => setTimeout(resolve, 80))
 
-  const { title, description, platform } = body as { title?: string; description?: string; platform?: Collection['platform'] }
+  const { title, description, platform } = body as {
+    title?: string
+    description?: string
+    platform?: Collection['platform']
+  }
 
   const collection = generateMockCollection(id)
 
