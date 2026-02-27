@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import type { PayeeListItem, PayeeStatus, PaymentMethod, PaginatedResponse } from '@/types'
+import { proxyToBackend } from '@/lib/api/proxy'
 
 const PAYEE_NAMES = [
   'Main Publishing LLC',
@@ -64,6 +65,12 @@ function generateMockPayees(): PayeeListItem[] {
  * GET /api/payees - List payees with search, status, paymentMethod filtering and pagination.
  */
 export async function GET(request: NextRequest) {
+  const result = await proxyToBackend(request, '/admin/payees')
+  if (result !== null) {
+    if (result instanceof NextResponse) return result
+    return NextResponse.json(result.data)
+  }
+
   // Simulate network latency
   await new Promise(resolve => setTimeout(resolve, 150))
 
@@ -121,9 +128,6 @@ export async function GET(request: NextRequest) {
  * POST /api/payees - Create a new payee.
  */
 export async function POST(request: NextRequest) {
-  // Simulate network latency
-  await new Promise(resolve => setTimeout(resolve, 200))
-
   let body: Record<string, unknown>
   try {
     body = await request.json()
@@ -133,6 +137,18 @@ export async function POST(request: NextRequest) {
       { status: 400 }
     )
   }
+
+  const result = await proxyToBackend(request, '/admin/payees', {
+    method: 'POST',
+    body,
+  })
+  if (result !== null) {
+    if (result instanceof NextResponse) return result
+    return NextResponse.json(result.data)
+  }
+
+  // Simulate network latency
+  await new Promise(resolve => setTimeout(resolve, 200))
 
   // Validate required fields
   if (!body.name || !body.email || !body.paymentMethod) {

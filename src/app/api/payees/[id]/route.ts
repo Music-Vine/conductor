@@ -1,5 +1,6 @@
-import { NextResponse } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 import type { Payee, PayeeStatus, PaymentMethod } from '@/types'
+import { proxyToBackend } from '@/lib/api/proxy'
 
 const PAYEE_NAMES = [
   'Main Publishing LLC',
@@ -92,13 +93,20 @@ function generateMockPayeeDetail(idNum: number): Payee {
  * GET /api/payees/[id] - Get full payee detail.
  */
 export async function GET(
-  _request: Request,
+  request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
+  const { id } = await params
+
+  const result = await proxyToBackend(request, `/admin/payees/${id}`)
+  if (result !== null) {
+    if (result instanceof NextResponse) return result
+    return NextResponse.json(result.data)
+  }
+
   // Simulate network latency
   await new Promise(resolve => setTimeout(resolve, 100))
 
-  const { id } = await params
   const idNum = parseInt(id.replace('payee-', ''), 10)
 
   if (isNaN(idNum) || idNum < 1 || idNum > 10) {
@@ -116,21 +124,10 @@ export async function GET(
  * PATCH /api/payees/[id] - Partially update payee details.
  */
 export async function PATCH(
-  request: Request,
+  request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
-  // Simulate network latency
-  await new Promise(resolve => setTimeout(resolve, 100 + Math.random() * 100))
-
   const { id } = await params
-  const idNum = parseInt(id.replace('payee-', ''), 10)
-
-  if (isNaN(idNum) || idNum < 1 || idNum > 10) {
-    return NextResponse.json(
-      { error: 'Payee not found' },
-      { status: 404 }
-    )
-  }
 
   let updates: Partial<Payee>
   try {
@@ -139,6 +136,27 @@ export async function PATCH(
     return NextResponse.json(
       { error: 'Invalid request body' },
       { status: 400 }
+    )
+  }
+
+  const result = await proxyToBackend(request, `/admin/payees/${id}`, {
+    method: 'PATCH',
+    body: updates,
+  })
+  if (result !== null) {
+    if (result instanceof NextResponse) return result
+    return NextResponse.json(result.data)
+  }
+
+  // Simulate network latency
+  await new Promise(resolve => setTimeout(resolve, 100 + Math.random() * 100))
+
+  const idNum = parseInt(id.replace('payee-', ''), 10)
+
+  if (isNaN(idNum) || idNum < 1 || idNum > 10) {
+    return NextResponse.json(
+      { error: 'Payee not found' },
+      { status: 404 }
     )
   }
 
@@ -159,7 +177,7 @@ export async function PATCH(
  * PUT /api/payees/[id] - Update payee details.
  */
 export async function PUT(
-  request: Request,
+  request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
   // Simulate network latency

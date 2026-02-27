@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { proxyToBackend } from '@/lib/api/proxy'
 
 const CONTRIBUTOR_NAMES = [
   'Alex Thompson', 'Sarah Johnson', 'Michael Chen', 'Emma Wilson',
@@ -67,13 +68,20 @@ function generatePayeeContributors(payeeIdNum: number): PayeeContributorEntry[] 
  * GET /api/payees/[id]/contributors - Get contributors associated with a payee (reverse lookup).
  */
 export async function GET(
-  _request: NextRequest,
+  request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
+  const { id } = await params
+
+  const result = await proxyToBackend(request, `/admin/payees/${id}/contributors`)
+  if (result !== null) {
+    if (result instanceof NextResponse) return result
+    return NextResponse.json(result.data)
+  }
+
   // Simulate network latency
   await new Promise(resolve => setTimeout(resolve, 100))
 
-  const { id } = await params
   const idNum = parseInt(id.replace('payee-', ''), 10)
 
   if (isNaN(idNum) || idNum < 1 || idNum > 10) {
