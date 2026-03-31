@@ -17,6 +17,28 @@ function getSecretKey(): Uint8Array {
 }
 
 /**
+ * Signs a session payload and returns the JWT token string and expiry.
+ * Use this when you need to set the cookie manually on a response object (e.g. Route Handlers).
+ */
+export async function signSession(
+  payload: Omit<SessionPayload, 'expiresAt' | 'rememberMe'>,
+  rememberMe = false
+): Promise<{ token: string; expiresAt: number; cookieName: string }> {
+  const duration = rememberMe ? REMEMBER_ME_DURATION_MS : SESSION_DURATION_MS
+  const expiresAt = Date.now() + duration
+
+  const sessionPayload: SessionPayload = { ...payload, expiresAt, rememberMe }
+
+  const token = await new SignJWT(sessionPayload as unknown as JWTPayload)
+    .setProtectedHeader({ alg: 'HS256' })
+    .setIssuedAt()
+    .setExpirationTime(new Date(expiresAt))
+    .sign(getSecretKey())
+
+  return { token, expiresAt, cookieName: SESSION_COOKIE_NAME }
+}
+
+/**
  * Creates a new session and stores it in an HttpOnly cookie.
  * @param payload - Session data (userId, email, name, platform)
  * @param rememberMe - If true, extends session to 30 days
@@ -25,23 +47,10 @@ export async function createSession(
   payload: Omit<SessionPayload, 'expiresAt' | 'rememberMe'>,
   rememberMe = false
 ): Promise<void> {
-  const duration = rememberMe ? REMEMBER_ME_DURATION_MS : SESSION_DURATION_MS
-  const expiresAt = Date.now() + duration
-
-  const sessionPayload: SessionPayload = {
-    ...payload,
-    expiresAt,
-    rememberMe,
-  }
-
-  const token = await new SignJWT(sessionPayload as unknown as JWTPayload)
-    .setProtectedHeader({ alg: 'HS256' })
-    .setIssuedAt()
-    .setExpirationTime(new Date(expiresAt))
-    .sign(getSecretKey())
+  const { token, expiresAt, cookieName } = await signSession(payload, rememberMe)
 
   const cookieStore = await cookies()
-  cookieStore.set(SESSION_COOKIE_NAME, token, {
+  cookieStore.set(cookieName, token, {
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
     sameSite: 'lax',
@@ -106,6 +115,8 @@ export async function updateSession(): Promise<void> {
       email: session.email,
       name: session.name,
       platform: session.platform,
+      refreshToken: session.refreshToken,
+      tokenExpiresAt: session.tokenExpiresAt,
     },
     false
   )
@@ -137,5 +148,7 @@ export async function getSessionPayload(): Promise<SessionPayload | null> {
     platform: session.platform,
     expiresAt: session.expiresAt,
     rememberMe: session.rememberMe,
+    refreshToken: session.refreshToken,
+    tokenExpiresAt: session.tokenExpiresAt,
   }
 }

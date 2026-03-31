@@ -7,6 +7,8 @@ export interface SessionPayload {
   platform: Platform
   expiresAt: number
   rememberMe: boolean
+  refreshToken: string
+  tokenExpiresAt: number
 }
 
 export interface Session extends SessionPayload {

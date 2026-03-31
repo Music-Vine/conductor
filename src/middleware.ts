@@ -9,7 +9,8 @@ const SESSION_COOKIE_NAME = 'conductor_session'
 const PUBLIC_PATHS = [
   '/login',
   '/magic-link',
-  '/api/auth',
+  '/api/auth', // covers /api/auth/logout and /api/auth/callback
+  '/api/health', // k8s liveness/readiness probe
   '/api/users', // Mock user management API for frontend development
   '/api/assets', // Mock asset management API for frontend development
   '/api/collections', // Mock collections management API for frontend development
@@ -111,6 +112,8 @@ export async function middleware(request: NextRequest) {
       const newPayload: SessionPayload = {
         ...session,
         expiresAt: newExpiresAt,
+        refreshToken: session.refreshToken,
+        tokenExpiresAt: session.tokenExpiresAt,
       }
 
       const token = await new SignJWT(newPayload as unknown as Record<string, unknown>)
